@@ -25,7 +25,7 @@ unit-test-dotnet:
       do
       if echo $path | grep 'bin';
       then
-      'coverlet $path --target "dotnet" --targetargs "test --no-build" --format opencover --output "${file##*/}.coverage.opencover.xml"'
+      'coverlet $path --target "dotnet" --targetargs "test --no-build" --format opencover --output "${path##*/}.coverage.opencover.xml"'
       fi
       done
   artifacts:
