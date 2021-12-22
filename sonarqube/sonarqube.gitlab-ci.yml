@@ -30,10 +30,24 @@ sonarqube-check:
       else
       echo "$PROJECT_NAME";
       fi
+    - if [ "$SONAR_PROJECT_NAME" == "" ];
+      then
+      export SONAR_PROJECT_NAME=$PROJECT_NAME;
+      else
+      echo "$SONAR_PROJECT_NAME";
+      fi
   script:
     - npm set registry http://npm.lumigame.com
     - npm install -g typescript
-    - sonar-scanner -X -Dsonar.sourceEncoding=UTF-8 -Dsonar.qualitygate.wait=true -Dsonar.projectKey=$PROJECT_NAME -Dsonar.projectVersion="${CI_COMMIT_REF_NAME} ($CI_COMMIT_SHORT_SHA) [${CI_JOB_ID}]" -Dproject.settings=./sonarqube.analysis.properties -Dsonar.sources=.
+    - sonar-scanner 
+      -X 
+      -Dsonar.sourceEncoding=UTF-8 
+      -Dsonar.qualitygate.wait=true 
+      -Dsonar.projectKey=$PROJECT_NAME 
+      -Dsonar.projectName="$SONAR_PROJECT_NAME" 
+      -Dsonar.projectVersion="${CI_COMMIT_REF_NAME} ($CI_COMMIT_SHORT_SHA) [${CI_JOB_ID}]" 
+      -Dproject.settings=./sonarqube.analysis.properties 
+      -Dsonar.sources=.
   allow_failure: true
   rules:
     - <<: *if-deploy-local

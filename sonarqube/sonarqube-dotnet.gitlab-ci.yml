@@ -22,8 +22,14 @@ sonarqube-dotnet-check:
     - dotnet tool install --global dotnet-sonarscanner --version 5.4.0
     - export PATH="$PATH:/root/.dotnet/tools"
     - echo "===========Start Sonar Scanner============="
+    - if [ "$SONAR_PROJECT_NAME" == "" ];
+      then
+      export SONAR_PROJECT_NAME=$PROJECT_NAME;
+      else
+      echo "$SONAR_PROJECT_NAME";
+      fi
   script:
-    - dotnet sonarscanner begin /k:$PROJECT_NAME /v:"${CI_COMMIT_REF_NAME} ($CI_COMMIT_SHORT_SHA) [${CI_JOB_ID}]" /d:sonar.login=$SONAR_TOKEN /d:sonar.host.url=$SONAR_HOST_URL
+    - dotnet sonarscanner begin /k:$PROJECT_NAME /n:"$SONAR_PROJECT_NAME" /v:"${CI_COMMIT_REF_NAME} ($CI_COMMIT_SHORT_SHA) [${CI_JOB_ID}]" /d:sonar.login=$SONAR_TOKEN /d:sonar.host.url=$SONAR_HOST_URL
     - dotnet build $SOLUTION_NAME
     - dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN
   allow_failure: true
