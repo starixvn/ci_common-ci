@@ -21,6 +21,7 @@ sonarqube-dotnet-check:
   before_script:
     - dotnet tool install --global dotnet-sonarscanner --version 5.4.0
     - export PATH="$PATH:/root/.dotnet/tools"
+    - dotnet nuget add source http://nuget.nexdev.net/api/v2
     - echo "===========Start Sonar Scanner============="
     - if [ "$SONAR_PROJECT_NAME" == "" ];
       then
