@@ -23,7 +23,8 @@ scan-sonarqube-dotnet:
     name: registry.nexdev.net:5050/docker/dotnet/core/sdk:3.1-5-6-java8jre-beta
   before_script:
     - dotnet tool install --global dotnet-sonarscanner --version 5.4.0
-    - export PATH="$PATH:/root/.dotnet/tools"    
+    - export PATH="$PATH:/root/.dotnet/tools"
+    - dotnet nuget add source http://nuget.nexdev.net/api/v2
     - echo "===========Start Sonar Scanner============="
     - if [ "$SONAR_PROJECT_NAME" == "" ];
       then
