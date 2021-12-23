@@ -21,7 +21,7 @@ unit-test-dotnet:
   script:
     - dotnet build
     - dotnet test --test-adapter-path:. --logger:"trx" || true
-    - for path in $(find ./ -name '*Tests.dll');
+    - for path in $(find ./ -iname '*Tests.dll');
       do
       if echo $path | grep 'bin';
       then
