@@ -78,5 +78,5 @@ before_script:
     echo "$DOCKER_COMPOSE_FILE_NAME";
     fi
   - apk update && apk upgrade && apk add bash
-  - export REDMINE_IDS=$(/bin/bash docker/base/get-redmine-ids.sh);
+  - export REDMINE_IDS=$(/bin/bash .sh/get-redmine-ids.sh);
   - echo $REDMINE_IDS
