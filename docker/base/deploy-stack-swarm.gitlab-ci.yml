@@ -33,7 +33,7 @@
         export SP_FILE=$SP_FILE_NAME.${SP_ENV}.$SP_FILE_EXTENSION;
         if [ ! -z "$REDMINE_IDS" ]; then
           echo "===== CHANGE SP VERSION FOR $SP_FILE ... =====";
-          if curl -f -o sp-result.xml --data-urlencode 'SpFileContentBase64Encoding=$(base64 "$SP_FILE_PATH/$SP_FILE")' --data-urlencode "RedmineIds=$REDMINE_IDS" -H "Content-Type: application/x-www-form-urlencoded" -X POST $ROCKETOR_API_URL/Home/ChangeSpVersion; then
+          if curl -f -o sp-result.xml --data-urlencode 'SpFileContentBase64Encoding=$(base64 "$SP_FILE_PATH/$SP_FILE")' --data-urlencode "RedmineIds=$REDMINE_IDS" -X POST $ROCKETOR_API_URL/Home/ChangeSpVersion; then
             cp sp-result.xml "$SP_FILE_PATH/$SP_FILE";
           fi;
         fi;
