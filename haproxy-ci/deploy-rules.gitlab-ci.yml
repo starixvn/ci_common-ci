@@ -1,37 +1,52 @@
 workflow:
   rules:
 ###NEXCEL
-    - if: '$CI_COMMIT_TAG =~ /^deploy-local_test-*/ &&  $CI_PROJECT_ID == "1914"'
+    - if: '$CI_COMMIT_TAG =~ /^deploy-local_test/ &&  $CI_PROJECT_ID == "1914"'
       variables:
         DOCKERFILE_ENV: "local_test"
         ANSIBLE_JOB: "898"
 
-    - if: '$CI_COMMIT_TAG =~ /^deploy-local-*/ &&  $CI_PROJECT_ID == "1914"'
+    - if: '$CI_COMMIT_TAG =~ /^deploy-local/ &&  $CI_PROJECT_ID == "1914"'
       variables:
         DOCKERFILE_ENV: "local"
         ANSIBLE_JOB: "480"
 
-    - if: '$CI_COMMIT_TAG =~ /^deploy-uat-*/ &&  $CI_PROJECT_ID == "1914"'
+    - if: '$CI_COMMIT_TAG =~ /^deploy-uat/ &&  $CI_PROJECT_ID == "1914"'
       variables:
         DOCKERFILE_ENV: "uat"
         ANSIBLE_JOB: "494"
     
-    - if: '$CI_COMMIT_TAG =~ /^deploy-sit-*/ &&  $CI_PROJECT_ID == "1914"'
+    - if: '$CI_COMMIT_TAG =~ /^deploy-sit/ &&  $CI_PROJECT_ID == "1914"'
       variables:
         DOCKERFILE_ENV: "sit"
         ANSIBLE_JOB: "606"
+
+    - if: '$CI_COMMIT_TAG =~ /^deploy-prod/ &&  $CI_PROJECT_ID == "1914"'
+      variables:
+        DOCKERFILE_ENV: "prod"
+        ANSIBLE_JOB: "528"
+
+    - if: '$CI_COMMIT_TAG =~ /^deploy-prod-nex3/ &&  $CI_PROJECT_ID == "1914"'
+      variables:
+        DOCKERFILE_ENV: "prod-nex3"
+        ANSIBLE_JOB: "496"
 ###LUMI
-    - if: '$CI_COMMIT_TAG =~ /^deploy-local_test-*/ &&  $CI_PROJECT_ID == "619"'
+    - if: '$CI_COMMIT_TAG =~ /^deploy-local_test/ &&  $CI_PROJECT_ID == "619"'
       variables:
         DOCKERFILE_ENV: "local_test"
         ANSIBLE_JOB: "1018"
 
-    - if: '$CI_COMMIT_TAG =~ /^deploy-local-*/ &&  $CI_PROJECT_ID == "619"'
+    - if: '$CI_COMMIT_TAG =~ /^deploy-local/ &&  $CI_PROJECT_ID == "619"'
       variables:
         DOCKERFILE_ENV: "local"
         ANSIBLE_JOB: "474"
 
-    - if: '$CI_COMMIT_TAG =~ /^deploy-uat-*/ &&  $CI_PROJECT_ID == "619"'
+    - if: '$CI_COMMIT_TAG =~ /^deploy-uat/ &&  $CI_PROJECT_ID == "619"'
       variables:
         DOCKERFILE_ENV: "uat"
         ANSIBLE_JOB: "472"
+    
+    - if: '$CI_COMMIT_TAG =~ /^deploy-prod/ &&  $CI_PROJECT_ID == "619"'
+      variables:
+        DOCKERFILE_ENV: "prod"
+        ANSIBLE_JOB: "473"
