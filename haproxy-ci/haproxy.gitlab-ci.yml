@@ -7,7 +7,7 @@ include:
   - project: 'ci/common-ci'
     file: 'haproxy-ci/deploy-vars.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    file: 'haproxy-ci/deploy-rules.gitlab-ci.yml'
+    file: 'haproxy-ci/haproxy-rules.gitlab-ci.yml'
 
 ############
 
