@@ -1,7 +1,7 @@
 workflow:
   rules:
 ###NEXCEL
-    - if: '$CI_COMMIT_TAG == "deploy-local_test" &&  $CI_PROJECT_ID == "1914"'
+    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941") && $CI_COMMIT_TAG == "deploy-local_test"'
       variables:
         ENV: "local_test"
         ANSIBLE_JOB: "898"
@@ -11,47 +11,47 @@ workflow:
         ENV: "local"
         ANSIBLE_JOB: "480"
 
-    - if: '$CI_COMMIT_TAG == "deploy-uat" &&  $CI_PROJECT_ID == "1914"'
+    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941") && $CI_COMMIT_TAG == "deploy-uat"'
       variables:
         ENV: "uat"
         ANSIBLE_JOB: "494"
     
-    - if: '$CI_COMMIT_TAG == "deploy-sit" &&  $CI_PROJECT_ID == "1914"'
+    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941") && $CI_COMMIT_TAG == "deploy-sit"'
       variables:
         ENV: "sit"
         ANSIBLE_JOB: "606"
 
-    - if: '$CI_COMMIT_TAG == "deploy-prod" &&  $CI_PROJECT_ID == "1914"'
+    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941") && $CI_COMMIT_TAG == "deploy-prod"'
       variables:
         ENV: "prod"
         ANSIBLE_JOB: "528"
 
-    - if: '$CI_COMMIT_TAG == "deploy-prod-nex3" &&  $CI_PROJECT_ID == "1914"'
+    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941") && $CI_COMMIT_TAG == "deploy-prod-nex3"'
       variables:
         ENV: "prod-nex3"
         ANSIBLE_JOB: "496"
 ###LUMI
-    - if: '$CI_COMMIT_TAG == "deploy-local_test" &&  $CI_PROJECT_ID == "619"'
+    - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632") && $CI_COMMIT_TAG == "deploy-local_test"'
       variables:
         ENV: "local_test"
         ANSIBLE_JOB: "1018"
 
-    - if: '$CI_COMMIT_TAG == "deploy-local" &&  $CI_PROJECT_ID == "619"'
+    - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632") && $CI_COMMIT_TAG == "deploy-local"'
       variables:
         ENV: "local"
         ANSIBLE_JOB: "474"
 
-    - if: '$CI_COMMIT_TAG == "deploy-uat" &&  $CI_PROJECT_ID == "619"'
+    - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632") && $CI_COMMIT_TAG == "deploy-uat"'
       variables:
         ENV: "uat"
         ANSIBLE_JOB: "472"
     
-    - if: '$CI_COMMIT_TAG == "deploy-sit" &&  $CI_PROJECT_ID == "619"'
+    - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632") && $CI_COMMIT_TAG == "deploy-sit"'
       variables:
         ENV: "uat"
         ANSIBLE_JOB: "472"
     
-    - if: '$CI_COMMIT_TAG == "deploy-prod" &&  $CI_PROJECT_ID == "619"'
+    - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632") && $CI_COMMIT_TAG == "deploy-prod"'
       variables:
         ENV: "prod"
         ANSIBLE_JOB: "473"
