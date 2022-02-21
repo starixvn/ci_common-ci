@@ -16,17 +16,17 @@ workflow:
         ENV: "uat"
         ANSIBLE_JOB: "494"
     
-    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941") && $CI_COMMIT_TAG == "deploy-sit"'
+    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936") && $CI_COMMIT_TAG == "deploy-sit"'
       variables:
         ENV: "sit"
         ANSIBLE_JOB: "606"
 
-    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941") && $CI_COMMIT_TAG == "deploy-prod"'
+    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936") && $CI_COMMIT_TAG == "deploy-prod"'
       variables:
         ENV: "prod"
         ANSIBLE_JOB: "528"
 
-    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941") && $CI_COMMIT_TAG == "deploy-aws"'
+    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936") && $CI_COMMIT_TAG == "deploy-aws"'
       variables:
         ENV: "aws"
         ANSIBLE_JOB: "693"
