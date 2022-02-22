@@ -18,7 +18,6 @@ unit-test-js:
   before_script:
     - npm set registry http://npm.lumigame.com
     - yarn install
-    - npm run test
   script:
     - npm run test-coverage
   rules:
