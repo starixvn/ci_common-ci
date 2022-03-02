@@ -58,5 +58,6 @@ sonarqube-check:
       when: never
     - <<: *if-deploy-prod
       when: never
-    - when: always
+    - if: $CI_PIPELINE_SOURCE != 'merge_request_event'
+      when: always
 
