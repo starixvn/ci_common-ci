@@ -1,0 +1,11 @@
+stages: 
+  - test
+
+############
+############
+
+test:
+  stage: test
+  script:
+    - git diff --name-only HEAD HEAD~1
+    - echo "testing";
