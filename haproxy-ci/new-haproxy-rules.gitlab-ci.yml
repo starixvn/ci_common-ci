@@ -1,0 +1,10 @@
+workflow:
+  rules:
+###NEXCEL
+    - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941")'
+      variables:
+        ORG: "Nexcel"
+###LUMI
+    - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632")'
+      variables:
+        ORG: "Lumi"
