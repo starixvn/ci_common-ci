@@ -1,2 +1,26 @@
 before_script:
-  - docker login -u $docker_reg_user -p $docker_reg_pass $docker_reg_url
+  #- docker login -u $docker_reg_user -p $docker_reg_pass $docker_reg_url
+  - export DETECT_ENV_CHANGE=$(git diff --name-only HEAD HEAD~1)
+  - echo $DETECT_ENV_CHANGE
+  - export DEPLOY_ENV=$(echo $DETECT_ENV_CHANGE | cut -d'/' -f2)
+  - echo $DEPLOY_ENV;
+  - echo $ORG;
+  - if [ "$ORG" == "Nexcel" ];
+    then
+      if echo $DEPLOY_ENV | grep -q "local"; then export ANSIBLE_JOB=480;
+      elif echo $DEPLOY_ENV | grep -q "uat"; then export ANSIBLE_JOB=494;
+      elif echo $DEPLOY_ENV | grep -q "sit"; then export ANSIBLE_JOB=606;
+      elif echo $DEPLOY_ENV | grep -q "prod"; then export ANSIBLE_JOB=528;
+      elif echo $DEPLOY_ENV | grep -q "prod-nex3"; then export ANSIBLE_JOB=496;
+      elif echo $DEPLOY_ENV | grep -q "aws"; then export ANSIBLE_JOB=693;
+      elif echo $DEPLOY_ENV | grep -q "aws-nex3"; then export ANSIBLE_JOB=651;
+      fi;
+    elif [ "$ORG" == "Lumi" ];
+    then
+      if echo $DEPLOY_ENV | grep -q "local"; then export ANSIBLE_JOB=474;
+      elif echo $DEPLOY_ENV | grep -q "uat"; then export ANSIBLE_JOB=472;
+      elif echo $DEPLOY_ENV | grep -q "sit"; then export ANSIBLE_JOB=472;
+      elif echo $DEPLOY_ENV | grep -q "prod"; then export ANSIBLE_JOB=473;
+      elif echo $DEPLOY_ENV | grep -q "aws"; then export ANSIBLE_JOB=650;
+      fi;
+    fi;
