@@ -10,7 +10,7 @@ include:
   - project: 'ci/common-ci'
     file: 'haproxy-ci/before-script.gitlab-ci.yml'
 ############
-Compile cfg & test:
+test:
   stage: test
   script:
     - echo "Compile and testing haproxy cfg for $DEPLOY_ENV ..."
@@ -28,8 +28,10 @@ Compile cfg & test:
       when: never
     - when: always
 
-Trigger Ansible job & deploy:  
+deploy:  
   stage: deploy
+  needs:
+    - job: test
   script:
       - if [ "$ORG" == "Nexcel" ];
         then
