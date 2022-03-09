@@ -21,6 +21,7 @@ test:
       else
           echo "Fatal errors found in configuration.";
       fi;
+    - echo "$ORG - Done testing for $DEPLOY_ENV !";
   rules:
     - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
       when: never
