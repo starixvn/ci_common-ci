@@ -1,0 +1,9 @@
+variables:
+  haproxy_version: "2.4"
+  ansible_user: "ansible"
+  ansible_pass: "ansible"
+  haproxy_image_name: "registry.nexdev.net:5050/docker/haproxy/haproxy-debian"
+  image_config_path: "/usr/local/etc/haproxy"
+  docker_reg_user: "gitlab-ci"
+  docker_reg_pass: "Vv3AQX-aaSZ3M6PtvyD4"
+  docker_reg_url: "registry.nexdev.net:5050"
