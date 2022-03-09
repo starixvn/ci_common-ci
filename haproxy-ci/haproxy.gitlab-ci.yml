@@ -50,9 +50,10 @@ deploy:
           fi;
         fi;
 #if [ -z "$CI_COMMIT_TAG" ];
-      - if [$ANSIBLE_JOB == null];
-        then exit 1;
+      - if ["$ANSIBLE_JOB" == ""];
+        then
           echo "$ORG - Currently, env $DEPLOY_ENV is not available to deploy!";
+          exit 1;
         else
           echo $ANSIBLE_JOB;
           if curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://ansible.nexdev.net/api/v2/job_templates/$ANSIBLE_JOB/launch/"; then
