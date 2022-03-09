@@ -5,7 +5,8 @@ workflow:
       variables:
         ORG: "Nexcel"
     - if: '$DEPLOY_ENV == "uat"'
-      when: manual
+      variables:
+        MANUAL_DEPLOY_ENV: "uat"
 ###LUMI
     - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632")'
       variables:
