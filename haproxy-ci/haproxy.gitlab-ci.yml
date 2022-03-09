@@ -30,8 +30,6 @@ test:
 
 deploy:  
   stage: deploy
-  needs:
-    - job: test
   script:
       - if [ "$ORG" == "Nexcel" ];
         then
