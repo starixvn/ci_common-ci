@@ -25,8 +25,8 @@ test:
   rules:
     - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
       when: never
-    #- if: '$CI_COMMIT_BRANCH  == "main"'
-    #  when: never
+    - if: '$CI_COMMIT_BRANCH  == "main"'
+      when: never
     - when: always
 
 deploy:
@@ -65,7 +65,7 @@ deploy:
         fi;
   only:
     - main
-  needs: ["test"]
+  #needs: ["test"]
   #rules:
     #- if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
     #- if: '$CI_COMMIT_BRANCH  == "main"'
