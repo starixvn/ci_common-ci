@@ -49,7 +49,6 @@ deploy:
           elif echo $DEPLOY_ENV | grep -q "local"; then export ANSIBLE_JOB=474;
           elif echo $DEPLOY_ENV | grep -q "uat"; then export ANSIBLE_JOB=472;
           elif echo $DEPLOY_ENV | grep -q "sit"; then export ANSIBLE_JOB=472;
-          elif echo $DEPLOY_ENV | grep -q "prod"; then export ANSIBLE_JOB=650;
           elif echo $DEPLOY_ENV | grep -q "aws"; then export ANSIBLE_JOB=473;
           fi;
         fi;
