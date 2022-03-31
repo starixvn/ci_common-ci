@@ -20,6 +20,7 @@ test:
           docker image rm -f haproxy-check-config;
       else
           echo "Fatal errors found in configuration.";
+          docker image rm -f haproxy-check-config;
           exit 1;
       fi;
     - echo "$ORG - Done testing for $DEPLOY_ENV !";
