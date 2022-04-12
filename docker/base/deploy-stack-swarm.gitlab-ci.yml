@@ -20,7 +20,7 @@
     - if [ ! -z "$CONFIG_FILE_NAME" ];
       then
         echo "===== SYNC $CONFIG_FILE ... =====";
-        curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$CONFIG_DEST_FILE" -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN;
+        curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$CONFIG_DEST_FILE" -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN;
       fi
     - if [ ! -z "$SP_FILE_NAME" ];
       then
