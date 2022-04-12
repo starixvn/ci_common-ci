@@ -15,6 +15,7 @@
     - echo "Remote path --> $WORKING_PATH/$DEPLOY_ENV/docker-compose.yml"
     - echo "Server --> $SERVER_IP"
     - curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/docker-compose.yml" -F file=@"$DOCKER_COMPOSE_FILE_PATH/$DOCKER_COMPOSE_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN
+    - echo "curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath=$WORKING_PATH/$DEPLOY_ENV/docker-compose.yml -F file=@ $DOCKER_COMPOSE_FILE_PATH/$DOCKER_COMPOSE_FILE $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN"
     - echo $CONFIG_FILE_PATH/$CONFIG_FILE
     - ls -l $CONFIG_FILE_PATH
     - if [ ! -z "$CONFIG_FILE_NAME" ];
