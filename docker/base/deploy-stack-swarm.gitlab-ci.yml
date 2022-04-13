@@ -48,7 +48,7 @@
     - echo "===== REMOVING OLD CONFIGS ... =====";
     - if [ ! -z "$SP_FILE_NAME" ];
       then
-        curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config rm $(docker config ls | grep -e ${SERVICE_NAME}_${DEPLOY_ENV}_sp_config*) | awk '{ print $1}')" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
+        curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config rm $(docker config ls | grep -e ${SERVICE_NAME}_${DEPLOY_ENV}_sp_config* | awk '{ print $1}')" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
       fi
     - if [ ! -z "$CONFIG_FILE_NAME" ];
       then
