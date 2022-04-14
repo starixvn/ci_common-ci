@@ -12,6 +12,8 @@ include:
 ############
 test:
   stage: test
+  tags:
+    - docker
   script:
     - echo "Compile and testing haproxy cfg for $DEPLOY_ENV ..."
     - docker login -u $docker_reg_user -p $docker_reg_pass $docker_reg_url
@@ -33,6 +35,8 @@ test:
 
 deploy:
   stage: deploy
+  tags:
+    - docker
   script:
       - if [ "$ORG" == "Nexcel" ];
         then
