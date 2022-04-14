@@ -5,6 +5,6 @@ workflow:
       variables:
         ORG: "Nexcel"
 ###LUMI
-    - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632")'
+    - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632" || $CI_PROJECT_ID == "689")'
       variables:
         ORG: "Lumi"
