@@ -2,7 +2,7 @@
   stage: deploy
   script:
     - curl -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN
-    - curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="mkdir -p $WORKING_PATH/$DEPLOY_ENV/configs && chmod 755 -R $WORKING_PATH" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN
+    - curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="sudo chown vndeployer $WORKING_PATH && sudo mkdir -p $WORKING_PATH/$DEPLOY_ENV/configs && sudo chmod 755 -R $WORKING_PATH" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN
     - echo "===== TRANSFORM docker-compose.yml ... =====";
     - export DOCKER_COMPOSE_FILE=${DEPLOY_ENV}.$DOCKER_COMPOSE_FILE_NAME.yml;
     - echo $DOCKER_COMPOSE_FILE
