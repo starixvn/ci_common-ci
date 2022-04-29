@@ -1,0 +1,103 @@
+.scan_image:
+  stage: scan-image
+  script:
+    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
+    # Trivy Scan
+    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
+    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    # Fail on severe vulnerabilities
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+    #
+    - docker tag  $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:latest
+    - echo "done Scan!"
+  allow_failure: true
+  tags:
+    - docker
+###############################
+.scan:default:image:
+  stage: scan-image
+  script:
+    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION || true
+    # Trivy Scan
+    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
+    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    # Fail on severe vulnerabilities
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
+    - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+    - echo "done Scan!"
+  allow_failure: true
+  tags:
+    - docker
+
+.scan:default:image:noenv:
+  stage: scan-image
+  script:
+    - echo $DOCKER_FILE_PATH
+    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
+    # Trivy Scan
+    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
+    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    # Fail on severe vulnerabilities
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:latest
+  allow_failure: true
+  tags:
+    - docker
+
+.scan:default:image:noenv:multistage:
+  stage: scan-image
+  script:
+    - echo $DOCKER_FILE_PATH
+    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
+    # Trivy Scan
+    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
+    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    # Fail on severe vulnerabilities
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:latest
+  allow_failure: true
+  tags:
+    - docker
+
+.scan:default:image:multistage:
+  stage: scan-image
+  script:
+    - echo $DOCKER_FILE_PATH
+    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION || true
+    # Trivy Scan
+    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
+    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    # Fail on severe vulnerabilities
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
+    - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+  allow_failure: true
+  tags:
+    - docker
+
+###############################
+.scan_config:
+  stage: scan-config
+  script:
+    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    # Image report
+    - cat $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
+    - ./trivy config --exit-code 1 --severity HIGH,CRITICAL $DOCKER_FILE_PATH
+    - echo "done Scan Config!"
+  allow_failure: true
+  tags:
+    - docker
