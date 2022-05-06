@@ -94,9 +94,9 @@
   stage: scan-config
   script:
     - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
-    # Image report
+    # Image report HIGH,CRITICAL
     - cat $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-    - ./trivy config --exit-code 1 --severity HIGH,CRITICAL $DOCKER_FILE_PATH
+    - ./trivy config --exit-code 1 --severity CRITICAL $DOCKER_FILE_PATH
     - echo "done Scan Config!"
   allow_failure: true
   tags:
