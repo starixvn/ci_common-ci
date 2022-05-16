@@ -6,7 +6,7 @@ include:
     ref: rocketor
     file: 'docker/deploy.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: test
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
 
 .deploy:local:swarm:stack:
