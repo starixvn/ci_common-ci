@@ -23,7 +23,7 @@
         echo "===== SYNC $CONFIG_FILE ... =====";
         curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$CONFIG_DEST_FILE" -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN;
         if [ ! -z "$ROCKETOR_API_URL" ]; then
-          printf "\n===== IMPORT CONNECTION STRING FROM $CONFIG_FILE ... =====";
+          printf "\n===== IMPORT CONNECTION STRING FROM $CONFIG_FILE ... =====\n";
           curl --fail -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" -F "serviceName=${SERVICE_NAME}_${DEPLOY_ENV}" -X POST $ROCKETOR_API_URL/Home/ImportConnectionString;
         fi;
       fi
