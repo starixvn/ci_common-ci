@@ -1,28 +1,9 @@
 .build:default:windowsimage:
   stage: build
   before_script:
-    - $DEPLOY_ENV=$CI_ENVIRONMENT_NAME
-    - $CI_REGISTRY_IMAGE=$DOCKER_REG_URL/$DOCKER_IMAGE_PATH
-    - $CI_REGISTRY_IMAGE_VERSION=${CI_COMMIT_SHA:0:8}
-    - echo $CI_REGISTRY_IMAGE
-    - if (!$PROJECT_ROOT_PATH) {
-        echo "Root is here";
-      }else{
-        cd $PROJECT_ROOT_PATH;
-      }
+    - ./ps/before_build.ps1
   script:
-    - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - docker build
-      --pull
-      -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-      --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-      --cache-from $CI_REGISTRY_IMAGE:latest $DOCKER_FILE_PATH
-    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
-    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+    - ./ps/build_windows_image.ps1
   tags:
     - windows
 
@@ -30,33 +11,33 @@
   stage: build
   before_script:
     - $DEPLOY_ENV=$CI_ENVIRONMENT_NAME
-    - $CI_REGISTRY_IMAGE=$DOCKER_REG_URL/$DOCKER_IMAGE_PATH
+    - $CI_REGISTRY_IMAGE="$DOCKER_REG_URL/$DOCKER_IMAGE_PATH"
     - $CI_REGISTRY_IMAGE_VERSION=${CI_COMMIT_SHA:0:8}
     - echo $CI_REGISTRY_IMAGE
     - if (!$PROJECT_ROOT_PATH) {
         echo "Root is here";
-      }else{
-        cd $PROJECT_ROOT_PATH;
+      } else {
+          cd $PROJECT_ROOT_PATH;
       }
   script:
     - echo $DOCKER_FILE_PATH
     - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
-    - docker pull $CI_REGISTRY_IMAGE:builder || true
-    - docker build
-      --target builder
-      --cache-from $CI_REGISTRY_IMAGE:builder
-      -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-      --tag $CI_REGISTRY_IMAGE:builder .
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - docker build
-      --cache-from $CI_REGISTRY_IMAGE:builder
-      --cache-from $CI_REGISTRY_IMAGE:latest
-      -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-      --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION .
-    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
-    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:builder
-    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+    - docker pull "${CI_REGISTRY_IMAGE}:builder" | Out-Null
+    - docker build `
+        --target builder `
+        --cache-from "${CI_REGISTRY_IMAGE}:builder" `
+        -f "$DOCKER_FILE_PATH/$DOCKER_FILE_NAME" `
+        --tag "${CI_REGISTRY_IMAGE}:builder" .
+    - docker pull "${CI_REGISTRY_IMAGE}:latest" | Out-Null
+    - docker build `
+        --cache-from "${CI_REGISTRY_IMAGE}:builder" `
+        --cache-from "${CI_REGISTRY_IMAGE}:latest" `
+        -f "$DOCKER_FILE_PATH/$DOCKER_FILE_NAME" `
+        --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" .
+    - docker tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" "${CI_REGISTRY_IMAGE}:latest"
+    - docker tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
+    - docker push "${CI_REGISTRY_IMAGE}:latest"
+    - docker push "${CI_REGISTRY_IMAGE}:builder"
+    - docker push "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
   tags:
     - windows
