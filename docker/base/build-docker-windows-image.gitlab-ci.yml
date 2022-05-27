@@ -22,7 +22,7 @@
   script:
     - echo $DOCKER_FILE_PATH
     - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
-    - docker pull "${CI_REGISTRY_IMAGE}:builder" | Out-Null
+    - Start-Process -FilePath "docker" -ArgumentList "pull ${CI_REGISTRY_IMAGE}:builder" -NoNewWindow $false -ErrorAction Continue
     - docker build `
         --target builder `
         --cache-from "${CI_REGISTRY_IMAGE}:builder" `
