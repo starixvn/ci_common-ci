@@ -1,3 +1,8 @@
+variables:
+  TRIVY_VERSION: "0.22.0"
+  TRIVY_TOKEN: "H5nF5ywy262wt881ZWpq"
+  TRIVY_SERVER: "http://10.18.200.131:1115"
+
 include:
   - project: 'ci/common-ci'
     ref: rocketor
