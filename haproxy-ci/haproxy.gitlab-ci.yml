@@ -17,7 +17,7 @@ test:
   script:
     - echo "Compile and testing haproxy cfg for $DEPLOY_ENV ..."
     - docker login -u $docker_reg_user -p $docker_reg_pass $docker_reg_url
-    - docker build --build-arg ENV="$DEPLOY_ENV" -f dockerfiles/Dockerfile -t haproxy-check-config .
+    - docker build --no-cache --build-arg ENV="$DEPLOY_ENV" -f dockerfiles/Dockerfile -t haproxy-check-config .
     - if docker run --rm haproxy-check-config haproxy -c -V -f /etc/haproxy/haproxy.cfg; then
           docker image rm -f haproxy-check-config;
       else
