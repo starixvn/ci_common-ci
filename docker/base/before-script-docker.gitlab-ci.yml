@@ -72,3 +72,7 @@ before_script:
   - export TRIVY_SERVER_CHECK=$TRIVY_SERVER;
   - export TRIVY_VERSION_CHECK=$TRIVY_VERSION;
   - echo "$TRIVY_SERVER_CHECK - $TRIVY_VERSION_CHECK";
+  - if [ "$SEPARATOR_CHAR" == "" ]; then
+    export SEPARATOR_CHAR="/";
+    fi
+  - echo $SEPARATOR_CHAR
