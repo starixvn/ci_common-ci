@@ -4,6 +4,7 @@ before_script:
   #  - docker info
   - echo $STACK_NAME
   - export DEPLOY_ENV=$CI_ENVIRONMENT_NAME;
+  - echo $CI_ENVIRONMENT_NAME
   - eval $(ssh-agent -s)
   - mkdir -p ~/.ssh
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
