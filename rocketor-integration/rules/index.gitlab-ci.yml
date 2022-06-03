@@ -9,7 +9,7 @@
 
 .if-deploy-local3: &if-deploy-local3
   if: '$CI_COMMIT_TAG =~ /^deploy-local3-*/'
-
+#
 .if-deploy-nexprod: &if-deploy-nexprod
   if: '$CI_COMMIT_TAG =~ /^deploy-nexprod-*/'
 
@@ -21,7 +21,7 @@
 
 .if-deploy-nexprod3: &if-deploy-nexprod3
   if: '$CI_COMMIT_TAG =~ /^deploy-nexprod3-*/'
-
+#
 .if-deploy-sit: &if-deploy-sit
   if: '$CI_COMMIT_TAG =~ /^deploy-sit-*/'
 
@@ -80,6 +80,7 @@
       when: always
     - <<: *if-deploy-local3
       when: always
+#
     - <<: *if-deploy-nexprod
       when: always
     - <<: *if-deploy-nexprod1
@@ -88,6 +89,7 @@
       when: always
     - <<: *if-deploy-nexprod3
       when: always
+#
     - <<: *if-deploy-sit
       when: always
     - <<: *if-deploy-sit1
@@ -136,7 +138,31 @@
     - <<: *if-deploy-local3
       when: on_success
     - when: never
+#
+.deploy:nexprod:rules:
+  rules:
+    - <<: *if-deploy-nexprod
+      when: on_success
+    - when: never
 
+.deploy:nexprod1:rules:
+  rules:
+    - <<: *if-deploy-nexprod1
+      when: on_success
+    - when: never
+
+.deploy:nexprod2:rules:
+  rules:
+    - <<: *if-deploy-nexprod2
+      when: on_success
+    - when: never
+
+.deploy:nexprod3:rules:
+  rules:
+    - <<: *if-deploy-nexprod3
+      when: on_success
+    - when: never
+#
 .deploy:sit:rules:
   rules:
     - <<: *if-deploy-sit
