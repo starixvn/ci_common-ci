@@ -2,6 +2,7 @@
   stage: build
   before_script:
     - $DEPLOY_ENV=$CI_ENVIRONMENT_NAME
+    - echo $DEPLOY_ENV
     - $CI_REGISTRY_IMAGE="$DOCKER_REG_URL/$DOCKER_IMAGE_PATH"
     - $CI_REGISTRY_IMAGE_VERSION=$CI_COMMIT_SHA.SubString(0,8)
     - echo "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}"
@@ -15,8 +16,8 @@
     - echo "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
     - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
     - docker build --pull -f "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
-        --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}"
-        --build-arg DEPLOY_ENV=$DEPLOY_ENV .
+        --build-arg DEPLOY_ENV=${DEPLOY_ENV}
+        --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" .
     - docker tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
     - docker push "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
   tags:
