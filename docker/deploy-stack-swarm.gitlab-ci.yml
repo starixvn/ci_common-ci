@@ -31,7 +31,7 @@ include:
 #
 .deploy:nexprod:swarm:stack:
   extends:
-    - .deploy:local
+    - .deploy:nexprod
     - .base_deploy_stack_swarm
 
 .deploy:nexprod1:swarm:stack:
