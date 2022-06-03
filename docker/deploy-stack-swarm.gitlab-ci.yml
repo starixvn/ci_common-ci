@@ -28,7 +28,27 @@ include:
   extends:
     - .deploy:local3
     - .base_deploy_stack_swarm
+#
+.deploy:nexprod:swarm:stack:
+  extends:
+    - .deploy:local
+    - .base_deploy_stack_swarm
 
+.deploy:nexprod1:swarm:stack:
+  extends:
+    - .deploy:nexprod1
+    - .base_deploy_stack_swarm
+
+.deploy:nexprod2:swarm:stack:
+  extends:
+    - .deploy:nexprod2
+    - .base_deploy_stack_swarm
+
+.deploy:nexprod3:swarm:stack:
+  extends:
+    - .deploy:nexprod3
+    - .base_deploy_stack_swarm
+#
 .deploy:sit:swarm:stack:
   extends:
     - .deploy:sit
