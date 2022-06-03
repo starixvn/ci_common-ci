@@ -22,7 +22,27 @@ include:
   extends:
     - .deploy:local3:rules
     - .env:local3
+#
+.deploy:nexprod:
+  extends:
+    - .deploy:nexprod:rules
+    - .env:nexprod
 
+.deploy:nexprod1:
+  extends:
+    - .deploy:nexprod1:rules
+    - .env:nexprod1
+
+.deploy:nexprod2:
+  extends:
+    - .deploy:nexprod2:rules
+    - .env:nexprod2
+
+.deploy:nexprod3:
+  extends:
+    - .deploy:nexprod3:rules
+    - .env:nexprod3
+#
 .deploy:sit:
   extends:
     - .deploy:sit:rules
