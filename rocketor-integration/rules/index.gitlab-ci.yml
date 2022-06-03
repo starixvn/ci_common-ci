@@ -80,16 +80,16 @@
       when: always
     - <<: *if-deploy-local3
       when: always
-#
-#    - <<: *if-deploy-nexprod
-#      when: always
-#    - <<: *if-deploy-nexprod1
-#      when: always
-#    - <<: *if-deploy-nexprod2
-#      when: always
-#    - <<: *if-deploy-nexprod3
-#      when: always
-#
+
+    - <<: *if-deploy-nexprod
+      when: always
+    - <<: *if-deploy-nexprod1
+      when: always
+    - <<: *if-deploy-nexprod2
+      when: always
+    - <<: *if-deploy-nexprod3
+      when: always
+
     - <<: *if-deploy-sit
       when: always
     - <<: *if-deploy-sit1
