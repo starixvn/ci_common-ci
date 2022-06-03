@@ -68,7 +68,6 @@
       when: always
     - <<: *if-deploy-local3
       when: always
-
     - <<: *if-deploy-sit
       when: always
     - <<: *if-deploy-sit1
