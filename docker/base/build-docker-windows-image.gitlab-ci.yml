@@ -3,6 +3,7 @@
   before_script:
     - $DEPLOY_ENV=$CI_ENVIRONMENT_NAME
     - echo $DEPLOY_ENV
+    - $ROCKETOR_API="$ROCKETOR_API_URL/Home/ChangeSpVersion"
     - $CI_REGISTRY_IMAGE="$DOCKER_REG_URL/$DOCKER_IMAGE_PATH"
     - $CI_REGISTRY_IMAGE_VERSION=$CI_COMMIT_SHA.SubString(0,8)
     - echo "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}"
@@ -11,12 +12,20 @@
       } else {
           cd $PROJECT_ROOT_PATH;
       }
+    - if ($CI_COMMIT_TAG -match '^deploy-.+-(local|sit|uat|prod|aws)[123]?-[a-z0-9]{8}(-([0-9\,]+))*' ){
+        $REDMINE_IDS = $Matches.3;
+      }else{
+        $REDMINE_IDS = ''
+      };
+      echo $REDMINE_IDS;
   script:
     - ls .
     - echo "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
     - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
     - docker build --pull -f "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
         --build-arg DEPLOY_ENV=${DEPLOY_ENV}
+        --build-arg ROCKETOR_API=${ROCKETOR_API}
+        --build-arg REDMINE_IDS=${REDMINE_IDS}
         --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" .
     - docker tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
     - docker push "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
@@ -27,6 +36,8 @@
   stage: build
   before_script:
     - $DEPLOY_ENV=$CI_ENVIRONMENT_NAME
+    - echo $DEPLOY_ENV
+    - $ROCKETOR_API="$ROCKETOR_API_URL/Home/ChangeSpVersion"
     - $CI_REGISTRY_IMAGE="$DOCKER_REG_URL/$DOCKER_IMAGE_PATH"
     - $CI_REGISTRY_IMAGE_VERSION=$CI_COMMIT_SHA.SubString(0,8)
     - echo "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}"
@@ -35,6 +46,12 @@
       } else {
           cd $PROJECT_ROOT_PATH;
       }
+    - if ($CI_COMMIT_TAG -match '^deploy-.+-(local|sit|uat|prod|aws)[123]?-[a-z0-9]{8}(-([0-9\,]+))*' ){
+        $REDMINE_IDS = $Matches.3;
+      }else{
+        $REDMINE_IDS = ''
+      };
+      echo $REDMINE_IDS;
   script:
     - ls .
     - echo "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
@@ -44,13 +61,17 @@
         --target builder
         --cache-from "${CI_REGISTRY_IMAGE}:builder"
         -f "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
-        --tag "${CI_REGISTRY_IMAGE}:builder"
-        --build-arg DEPLOY_ENV=$DEPLOY_ENV .
+        --build-arg DEPLOY_ENV=${DEPLOY_ENV}
+        --build-arg ROCKETOR_API=${ROCKETOR_API}
+        --build-arg REDMINE_IDS=${REDMINE_IDS}
+        --tag "${CI_REGISTRY_IMAGE}:builder" .
     - docker build
         --cache-from "${CI_REGISTRY_IMAGE}:builder"
         -f "$DOCKER_FILE_PATH/$DOCKER_FILE_NAME"
-        --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}"
-        --build-arg DEPLOY_ENV=$DEPLOY_ENV .
+        --build-arg DEPLOY_ENV=${DEPLOY_ENV}
+        --build-arg ROCKETOR_API=${ROCKETOR_API}
+        --build-arg REDMINE_IDS=${REDMINE_IDS}
+        --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" .
     - docker tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
     - docker push "${CI_REGISTRY_IMAGE}:builder"
     - docker push "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
