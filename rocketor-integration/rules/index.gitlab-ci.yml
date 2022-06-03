@@ -138,7 +138,7 @@
     - <<: *if-deploy-local3
       when: on_success
     - when: never
-#
+
 .deploy:nexprod:rules:
   rules:
     - <<: *if-deploy-nexprod
@@ -162,7 +162,7 @@
     - <<: *if-deploy-nexprod3
       when: on_success
     - when: never
-#
+
 .deploy:sit:rules:
   rules:
     - <<: *if-deploy-sit
