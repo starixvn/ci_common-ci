@@ -1,6 +1,6 @@
 include:
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: nex-prod
     file: 'common/env.gitlab-ci.yml'
 
 .deploy:local:
