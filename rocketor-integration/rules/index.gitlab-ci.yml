@@ -118,6 +118,12 @@
       when: on_success
     - when: never
 
+.deploy:nexprod:rules:
+  rules:
+    - <<: *if-deploy-nexprod
+      when: on_success
+    - when: never
+
 .deploy:sit:rules:
   rules:
     - <<: *if-deploy-sit
