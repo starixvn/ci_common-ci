@@ -7,4 +7,4 @@ variables:
   NEXPROD_SWARM_LEADER_LOCAL_SSH_PORT: 22
   NEXPROD_SWARM_LEADER_LOCAL_SSH_USER: vndeployer
   NEXPROD_SWARM_NETWORK_LOCAL: swarm_nexcel_local
-  DEPLOYMENT_API_LOCAL: https://deploymentapi.nexdev.net
+  DEPLOYMENT_API_LOCAL: https://deployapi.nexdev.net
