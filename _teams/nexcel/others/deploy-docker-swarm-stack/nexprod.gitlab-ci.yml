@@ -1,0 +1,31 @@
+.deploy:nexprod:base:swarm:stack:
+  extends:
+    - .deploy:nexprod:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_NEXPROD
+    SERVER_USER: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_PORT
+
+.deploy:nexprod1:base:swarm:stack:
+  extends:
+    - .deploy:nexprod1:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_NEXPROD
+    SERVER_USER: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_PORT
+
+.deploy:nexprod2:base:swarm:stack:
+  extends:
+    - .deploy:nexprod2:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_NEXPROD
+    SERVER_USER: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_PORT
+
+.deploy:nexprod3:base:swarm:stack:
+  extends:
+    - .deploy:nexprod3:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_NEXPROD
+    SERVER_USER: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_PORT
