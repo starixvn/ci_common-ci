@@ -3,7 +3,7 @@ include:
     ref: nex-prod
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: nex-prod
     file: 'docker/deploy.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: nex-prod
