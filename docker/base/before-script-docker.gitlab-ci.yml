@@ -3,8 +3,6 @@ image: registry.nexdev.net:5050/docker/docker-engine/docker:20.10.7-bash
 before_script:
   #  - docker info
   - echo $STACK_NAME
-  - export DEPLOY_ENV=$CI_ENVIRONMENT_NAME;
-  - echo "env $DEPLOY_ENV"
   - eval $(ssh-agent -s)
   - mkdir -p ~/.ssh
   - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
@@ -12,9 +10,7 @@ before_script:
   - echo -e "${SSH_PRIVATE_KEY_1}\n${SSH_PRIVATE_KEY_2}\n${SSH_PRIVATE_KEY_3}" | ssh-add -
   - export COMMIT_MESSAGE=$(git log -1 --pretty=%B)
   - export CI_REGISTRY_IMAGE=$DOCKER_REG_URL/$DOCKER_IMAGE_PATH
-  - export DOCKER_IMAGE_PATH_LOCAL=$DOCKER_IMAGE_PATH_LOCAL
-  - echo $DOCKER_IMAGE_PATH_LOCAL
-  - export CI_REGISTRY_LOCAL_IMAGE=$DOCKER_REG_LOCAL_URL/$DOCKER_IMAGE_PATH_LOCAL
+  - export CI_REGISTRY_LOCAL_IMAGE="${DOCKER_REG_LOCAL_URL}/${DOCKER_IMAGE_PATH_LOCAL}"
   - export CI_REGISTRY_IMAGE_VERSION=${CI_COMMIT_SHA:0:8}
   - echo "$CI_REGISTRY_IMAGE - $CI_REGISTRY_LOCAL_IMAGE"
   - if [ "$CONFIG_FILE_EXTENSION" == "" ]; then
