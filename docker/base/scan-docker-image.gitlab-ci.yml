@@ -67,6 +67,7 @@
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:builder
   allow_failure: true
   tags:
     - docker
@@ -85,6 +86,7 @@
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
     - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
     - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+    - docker push $CI_REGISTRY_IMAGE:builder
   allow_failure: true
   tags:
     - docker
