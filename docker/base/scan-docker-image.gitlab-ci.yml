@@ -9,13 +9,6 @@
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-    #
-    - docker tag  $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-    #
-    - docker tag  $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_LOCAL_IMAGE:latest
-    - docker push $CI_REGISTRY_LOCAL_IMAGE:latest
-    - echo "done Scan!"
   allow_failure: true
   tags:
     - docker
@@ -33,10 +26,6 @@
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
     - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
     - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    #
-    - docker tag  $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_LOCAL_IMAGE:$DEPLOY_ENV-latest
-    - docker push $CI_REGISTRY_LOCAL_IMAGE:$DEPLOY_ENV-latest
-    - echo "done Scan!"
   allow_failure: true
   tags:
     - docker
@@ -55,9 +44,6 @@
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:latest
-    #
-    - docker tag  $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_LOCAL_IMAGE:latest
-    - docker push $CI_REGISTRY_LOCAL_IMAGE:latest
   allow_failure: true
   tags:
     - docker
@@ -74,11 +60,6 @@
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-    #
-    - docker tag  $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_LOCAL_IMAGE:latest
-    - docker push $CI_REGISTRY_LOCAL_IMAGE:latest
   allow_failure: true
   tags:
     - docker
@@ -95,13 +76,6 @@
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
-    - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    #
-    - docker tag  $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_LOCAL_IMAGE:$DEPLOY_ENV-latest
-    - docker push $CI_REGISTRY_LOCAL_IMAGE:latest
-    - docker push $CI_REGISTRY_LOCAL_IMAGE:builder
-  allow_failure: true
   tags:
     - docker
 
