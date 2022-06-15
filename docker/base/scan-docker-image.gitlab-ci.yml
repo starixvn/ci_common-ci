@@ -100,7 +100,7 @@
     - cat $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
     - ls -l 
     #- ./trivy config --exit-code 1 --severity HIGH,CRITICAL $DOCKER_FILE_PATH
-    - ./trivy config --exit-code 1 --severity HIGH,CRITICAL
+    - ./trivy config --exit-code 1 --severity HIGH,CRITICAL /
     - echo "done Scan Config!"
   allow_failure: true
   tags:
