@@ -21,7 +21,7 @@
   script:
     - ls .
     - echo "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build --pull -f "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
         --build-arg DEPLOY_ENV=${DEPLOY_ENV}
         --build-arg ROCKETOR_API=${ROCKETOR_API}
@@ -55,7 +55,7 @@
   script:
     - ls .
     - echo "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - Start-Process -FilePath "docker" -ArgumentList "pull ${CI_REGISTRY_IMAGE}:builder" -Wait
     - docker build
         --target builder
