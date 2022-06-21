@@ -14,7 +14,6 @@ before_script:
   - export CI_REGISTRY_IMAGE=$DOCKER_REG_URL/$DOCKER_IMAGE_PATH
   - export CI_REGISTRY_LOCAL_IMAGE=$DOCKER_REG_LOCAL_URL/$DOCKER_IMAGE_PATH_LOCAL
   - export CI_REGISTRY_IMAGE_VERSION=${CI_COMMIT_SHA:0:8}
-  - echo "$CI_REGISTRY_IMAGE - $CI_REGISTRY_LOCAL_IMAGE"
   - if [ "$CONFIG_FILE_EXTENSION" == "" ]; then
     export CONFIG_FILE=$CONFIG_FILE_NAME.${DEPLOY_ENV};
     export CONFIG_DEST_FILE=$CONFIG_FILE_NAME;
@@ -43,17 +42,24 @@ before_script:
   - echo $DOCKER_NETWORK_NAME
   - if echo "$DEPLOY_ENV" | grep -q "LOCAL"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_LOCAL;
+    export REGISTRY_IMAGE=$REGISTRY_LOCAL;
     elif echo "$DEPLOY_ENV" | grep -q "SIT"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_SIT;
+    export REGISTRY_IMAGE=$REGISTRY_SIT;
     elif echo "$DEPLOY_ENV" | grep -q "UAT"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_UAT;
+    export REGISTRY_IMAGE=$REGISTRY_UAT;
     elif echo "$DEPLOY_ENV" | grep -q "NEXPROD"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_NEXPROD;
+    export REGISTRY_IMAGE=$REGISTRY_NEXPROD;
     elif echo "$DEPLOY_ENV" | grep -q "PROD"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_PROD;
+    export REGISTRY_IMAGE=$REGISTRY_PROD;
     else
     export DEPLOYMENT_API=$DEPLOYMENT_API_AWS;
+    export REGISTRY_IMAGE=$REGISTRY_AWS;
     fi
+  - echo "$CI_REGISTRY_IMAGE - $REGISTRY_IMAGE"
   - echo $PROXY_SSH_COMMAND
   - if [ "$SERVICE_NAME" == "" ]; then
     echo "$DOCKER_SERVICE_NAME";
