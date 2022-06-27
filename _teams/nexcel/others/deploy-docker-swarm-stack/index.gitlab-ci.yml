@@ -8,7 +8,7 @@ include:
     ref: rocketor
     file: 'docker/deploy-stack-swarm.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: change-docker-build
     file: '_teams/nexcel/others/variables.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
