@@ -1,4 +1,5 @@
 variables:
+  image: hub.nexdev.net/base/docker:20.10.7-bash
   LOCAL_PROXY_SSH_PORT: 22
   LOCAL_PROXY_USER: vndeployer
   LOCAL_PROXY_SERVER: 10.18.200.131
