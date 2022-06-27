@@ -5,10 +5,10 @@ variables:
 
 include:
   - project: 'ci/common-ci'
-    ref: change-docker-build
+    ref: rocketor
     file: 'docker/deploy-stack-swarm.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: change-docker-build
+    ref: rocketor
     file: '_teams/nexcel/others/variables.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
