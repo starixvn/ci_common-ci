@@ -1,6 +1,6 @@
 include:
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: change-docker-build
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
