@@ -35,12 +35,12 @@ build_image:
   script:
     - echo $DOCKER_FILE_PATH
     - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
     - docker build
       --pull
       -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
       --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-      --cache-from $CI_REGISTRY_IMAGE:latest $DOCKER_FILE_PATH
+      --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $DOCKER_FILE_PATH
     - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
   tags:
     - docker
@@ -50,19 +50,20 @@ build_image:
   script:
     - echo $DOCKER_FILE_PATH
     - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
-    - docker pull $CI_REGISTRY_IMAGE:builder || true
+    - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder || true
     - docker build
       --target builder
-      --cache-from $CI_REGISTRY_IMAGE:builder
+      --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
       -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-      --tag $CI_REGISTRY_IMAGE:builder .
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
+      --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder .
+    - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
     - docker build
-      --cache-from $CI_REGISTRY_IMAGE:builder
-      --cache-from $CI_REGISTRY_IMAGE:latest
+      --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
+      --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
       -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
       --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION .
     - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+    - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
   tags:
     - docker
 
