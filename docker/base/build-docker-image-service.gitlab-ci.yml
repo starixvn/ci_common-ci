@@ -50,18 +50,18 @@ build_image:
   script:
     - echo $DOCKER_FILE_PATH
     - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder || true
     - docker build
       --target builder
       --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
       -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-      --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
-      --build-arg BUILDKIT_INLINE_CACHE=1 .
+      --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder .
+    - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
     - docker build
       --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
       --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
       -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-      --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-      --build-arg BUILDKIT_INLINE_CACHE=1 .
+      --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION .
     - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
   tags:
