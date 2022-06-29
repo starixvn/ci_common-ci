@@ -49,7 +49,6 @@ build_image:
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - export DOCKER_BUILDKIT=1
     - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
     - docker build
       --target builder
