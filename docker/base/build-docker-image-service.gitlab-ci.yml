@@ -1,6 +1,4 @@
 build_image:
-  extends:
-    - .build:image:rules
   stage: build
   script:
     - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
