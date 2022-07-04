@@ -3,7 +3,7 @@ include:
     ref: rocketor
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: dynamic_version
     file: 'docker/deploy.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
