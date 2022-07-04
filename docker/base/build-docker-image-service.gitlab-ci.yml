@@ -1,17 +1,3 @@
-build_image:
-  stage: build
-  script:
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
-    - docker build
-      --pull
-      -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-      --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-      --cache-from $CI_REGISTRY_IMAGE:latest $DOCKER_FILE_PATH
-    - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-  tags:
-    - docker
-
 .build:default:image:
   stage: build
   script:
