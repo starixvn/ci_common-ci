@@ -1,109 +1,40 @@
 include:
   - project: 'ci/common-ci'
     ref: dynamic_version
+    file: 'docker/base/before-script-docker.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    ref: dynamic_version
     file: 'common/env.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    ref: dynamic_version
+    file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
 
-.deploy:local:
+.deploy:local:swarm:stack:
   extends:
     - .env:local
+    - .base_deploy_stack_swarm
 
-.deploy:local1:
-  extends:
-    - .env:local1
-
-.deploy:local2:
-  extends:
-    - .env:local2
-
-.deploy:local3:
-  extends:
-    - .env:local3
-#
-.deploy:nexprod:
+.deploy:nexprod:swarm:stack:
   extends:
     - .env:nexprod
+    - .base_deploy_stack_swarm
 
-.deploy:nexprod1:
-  extends:
-    - .env:nexprod1
-
-.deploy:nexprod2:
-  extends:
-    - .env:nexprod2
-
-.deploy:nexprod3:
-  extends:
-    - .env:nexprod3
-#
-.deploy:sit:
+.deploy:sit:swarm:stack:
   extends:
     - .env:sit
+    - .base_deploy_stack_swarm
 
-.deploy:sit1:
-  extends:
-    - .env:sit1
-
-.deploy:sit2:
-  extends:
-    - .env:sit2
-
-.deploy:sit3:
-  extends:
-    - .env:sit3
-
-.deploy:uat:
+.deploy:uat:swarm:stack:
   extends:
     - .env:uat
+    - .base_deploy_stack_swarm
 
-.deploy:uat1:
-  extends:
-    - .env:uat1
-
-.deploy:uat2:
-  extends:
-    - .env:uat2
-
-.deploy:uat3:
-  extends:
-    - .env:uat3
-
-.deploy:prod:
+.deploy:prod:swarm:stack:
   extends:
     - .env:prod
+    - .base_deploy_stack_swarm
 
-.deploy:prod1:
-  extends:
-    - .env:prod1
-
-.deploy:prod2:
-  extends:
-    - .env:prod2
-
-.deploy:prod3:
-  extends:
-    - .env:prod3
-
-.deploy:prod:auto:
-  extends:
-    - .env:prod
-
-.deploy:aws:
+.deploy:aws:swarm:stack:
   extends:
     - .env:aws
-
-.deploy:aws1:
-  extends:
-    - .env:aws1
-
-.deploy:aws2:
-  extends:
-    - .env:aws2
-
-.deploy:aws3:
-  extends:
-    - .env:aws3
-
-.deploy:aws:auto:
-  extends:
-    - .env:aws
-
+    - .base_deploy_stack_swarm
