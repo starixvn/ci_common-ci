@@ -1,5 +1,5 @@
 variables:
-  haproxy_version: "2.4.16"
+  haproxy_version: "2.4-test"
   ansible_user: "ansible"
   ansible_pass: "ansible"
   docker_reg_user: "gitlab-ci"
