@@ -33,37 +33,37 @@ stages:
     - echo "deploy - $CI_ENVIRONMENT_NAME"
     - if [ "$ORG" == "Nexcel" ];
       then
-        if echo $DEPLOY_ENV | grep -q "local_test"; then export ANSIBLE_JOB=898;
-        elif echo $DEPLOY_ENV | grep -q "local"; then export ANSIBLE_JOB=480;
-        elif echo $DEPLOY_ENV | grep -q "nexprod"; then export ANSIBLE_JOB=1162;
-        elif echo $DEPLOY_ENV | grep -q "uat"; then export ANSIBLE_JOB=494;
-        elif echo $DEPLOY_ENV | grep -q "sit"; then export ANSIBLE_JOB=606;
-        elif echo $DEPLOY_ENV | grep -q "prod-nex3"; then export ANSIBLE_JOB=496;
-        elif echo $DEPLOY_ENV | grep -q "prod"; then export ANSIBLE_JOB=528;
-        elif echo $DEPLOY_ENV | grep -q "aws-nex3"; then export ANSIBLE_JOB=651;
-        elif echo $DEPLOY_ENV | grep -q "aws"; then export ANSIBLE_JOB=693;
+        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=898;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=480;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexprod"; then export ANSIBLE_JOB=1162;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=494;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=606;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod-nex3"; then export ANSIBLE_JOB=496;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=528;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws-nex3"; then export ANSIBLE_JOB=651;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=693;
         fi;
       elif [ "$ORG" == "Lumi" ];
       then
-        if echo $DEPLOY_ENV | grep -q "local_test"; then export ANSIBLE_JOB=1018;
-        elif echo $DEPLOY_ENV | grep -q "local"; then export ANSIBLE_JOB=474;
-        elif echo $DEPLOY_ENV | grep -q "uat"; then export ANSIBLE_JOB=472;
-        elif echo $DEPLOY_ENV | grep -q "sit"; then export ANSIBLE_JOB=472;
-        elif echo $DEPLOY_ENV | grep -q "prod"; then export ANSIBLE_JOB=473;
-        elif echo $DEPLOY_ENV | grep -q "aws"; then export ANSIBLE_JOB=650;
+        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1018;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=474;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=472;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=472;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=473;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=650;
         fi;
       fi;
     - if ["$ANSIBLE_JOB" == ""];
       then
-        echo "$ORG - Currently, env $DEPLOY_ENV is not available to deploy!";
+        echo "$ORG - Currently, env $CI_ENVIRONMENT_NAME is not available to deploy!";
         exit 1;
       else
         echo $ANSIBLE_JOB;
         if curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://ansible.nexdev.net/api/v2/job_templates/$ANSIBLE_JOB/launch/"; then
-            echo "$ORG - Deploying application to $DEPLOY_ENV ...";
+            echo "$ORG - Deploying application to $CI_ENVIRONMENT_NAME ...";
         fi;
         sleep 60;
-        echo "$ORG - Done Deployment to $DEPLOY_ENV !";
+        echo "$ORG - Done Deployment to $CI_ENVIRONMENT_NAME !";
       fi;
   tags:
     - docker
