@@ -23,7 +23,7 @@ include:
           docker image rm -f haproxy-check-config;
           exit 1;
       fi;
-    - echo "$ORG - Done testing for $ENV !";
+    - echo "$ORG - Done testing for $CI_ENVIRONMENT_NAME !";
   tags:
     - docker
 
