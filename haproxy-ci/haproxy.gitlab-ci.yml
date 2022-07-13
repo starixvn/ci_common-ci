@@ -15,6 +15,7 @@ include:
   stage: test
   script:
     - echo "test - $CI_ENVIRONMENT_NAME"
+    - docker login -u $docker_reg_user -p $docker_reg_pass $docker_reg_url
     - docker build --no-cache --build-arg ENV="$CI_ENVIRONMENT_NAME" -f dockerfiles/Dockerfile -t haproxy-check-config .
     - if docker run --rm haproxy-check-config haproxy -c -V -f /etc/haproxy/haproxy.cfg; then
           docker image rm -f haproxy-check-config;
