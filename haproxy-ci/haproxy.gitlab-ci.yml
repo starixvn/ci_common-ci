@@ -1,4 +1,5 @@
-stages: 
+image: $DOCKER_REG_LOCAL_URL/base/docker:20.10.7-bash
+stages:
   - test
   - deploy
 ############
@@ -7,17 +8,15 @@ include:
     file: 'haproxy-ci/deploy-vars.gitlab-ci.yml'
   - project: 'ci/common-ci'
     file: 'haproxy-ci/haproxy-rules.gitlab-ci.yml'
-  - project: 'ci/common-ci'
-    file: 'haproxy-ci/before-script.gitlab-ci.yml'
+  #- project: 'ci/common-ci'
+  #  file: 'haproxy-ci/before-script.gitlab-ci.yml'
 ############
-test:
+.test:default:image:
   stage: test
-  tags:
-    - docker
   script:
-    - echo "Compile and testing haproxy cfg for $DEPLOY_ENV ..."
+    - echo "test - $CI_ENVIRONMENT_NAME"
     - docker login -u $docker_reg_user -p $docker_reg_pass $docker_reg_url
-    - docker build --no-cache --build-arg ENV="$DEPLOY_ENV" -f dockerfiles/Dockerfile -t haproxy-check-config .
+    - docker build --no-cache --build-arg ENV="$CI_ENVIRONMENT_NAME" -f dockerfiles/Dockerfile -t haproxy-check-config .
     - if docker run --rm haproxy-check-config haproxy -c -V -f /etc/haproxy/haproxy.cfg; then
           docker image rm -f haproxy-check-config;
       else
@@ -25,57 +24,245 @@ test:
           docker image rm -f haproxy-check-config;
           exit 1;
       fi;
-    - echo "$ORG - Done testing for $DEPLOY_ENV !";
+    - echo "$ORG - Done testing for $CI_ENVIRONMENT_NAME !";
+  tags:
+    - docker
+
+.deploy:default:image:
+  stage: deploy
+  script:
+    - echo "deploy - $CI_ENVIRONMENT_NAME"
+    - if [ "$ORG" == "Nexcel" ];
+      then
+        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=898;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=480;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexprod"; then export ANSIBLE_JOB=1162;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=494;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=606;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod-nex3"; then export ANSIBLE_JOB=496;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=528;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws-nex3"; then export ANSIBLE_JOB=651;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=693;
+        fi;
+      elif [ "$ORG" == "Lumi" ];
+      then
+        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1018;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=474;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=472;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=472;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=473;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=650;
+        fi;
+      fi;
+    - if ["$ANSIBLE_JOB" == ""];
+      then
+        echo "$ORG - Currently, env $CI_ENVIRONMENT_NAME is not available to deploy!";
+        exit 1;
+      else
+        echo $ANSIBLE_JOB;
+        if curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://ansible.nexdev.net/api/v2/job_templates/$ANSIBLE_JOB/launch/"; then
+            echo "$ORG - Deploying application to $CI_ENVIRONMENT_NAME ...";
+        fi;
+        sleep 60;
+        echo "$ORG - Done Deployment to $CI_ENVIRONMENT_NAME !";
+      fi;
+  tags:
+    - docker
+###LOCAL - NEXPROD
+test:local:
+  extends: 
+    - .test:default:image
+  environment:
+    name: local
   rules:
     - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
       when: never
-    #- if: '$CI_COMMIT_BRANCH  == "main"'
-    #  when: never
-    - when: always
-
-deploy:
-  stage: deploy
-  tags:
-    - docker
-  script:
-      - if [ "$ORG" == "Nexcel" ];
-        then
-          if echo $DEPLOY_ENV | grep -q "local_test"; then export ANSIBLE_JOB=898;
-          elif echo $DEPLOY_ENV | grep -q "local"; then export ANSIBLE_JOB=480;
-          elif echo $DEPLOY_ENV | grep -q "nexprod"; then export ANSIBLE_JOB=1162;
-          elif echo $DEPLOY_ENV | grep -q "uat"; then export ANSIBLE_JOB=494;
-          elif echo $DEPLOY_ENV | grep -q "sit"; then export ANSIBLE_JOB=606;
-          elif echo $DEPLOY_ENV | grep -q "prod-nex3"; then export ANSIBLE_JOB=496;
-          elif echo $DEPLOY_ENV | grep -q "prod"; then export ANSIBLE_JOB=528;
-          elif echo $DEPLOY_ENV | grep -q "aws-nex3"; then export ANSIBLE_JOB=651;
-          elif echo $DEPLOY_ENV | grep -q "aws"; then export ANSIBLE_JOB=693;
-          fi;
-        elif [ "$ORG" == "Lumi" ];
-        then
-          if echo $DEPLOY_ENV | grep -q "local_test"; then export ANSIBLE_JOB=1018;
-          elif echo $DEPLOY_ENV | grep -q "local"; then export ANSIBLE_JOB=474;
-          elif echo $DEPLOY_ENV | grep -q "uat"; then export ANSIBLE_JOB=472;
-          elif echo $DEPLOY_ENV | grep -q "sit"; then export ANSIBLE_JOB=472;
-          elif echo $DEPLOY_ENV | grep -q "prod"; then export ANSIBLE_JOB=473;
-          elif echo $DEPLOY_ENV | grep -q "aws"; then export ANSIBLE_JOB=650;
-          fi;
-        fi;
-#if [ -z "$CI_COMMIT_TAG" ];
-      - if ["$ANSIBLE_JOB" == ""];
-        then
-          echo "$ORG - Currently, env $DEPLOY_ENV is not available to deploy!";
-          exit 1;
-        else
-          echo $ANSIBLE_JOB;
-          if curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://ansible.nexdev.net/api/v2/job_templates/$ANSIBLE_JOB/launch/"; then
-            echo "$ORG - Deploying application to $DEPLOY_ENV ...";
-          fi;
-          sleep 60;
-          echo "$ORG - Done Deployment to $DEPLOY_ENV !";
-        fi;
+    - changes:
+        - configs/local/*
+deploy:local:
+  needs: ['test:local']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: local
   only:
-    - main
-  #needs: ["test"]
-  #rules:
-    #- if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"'
-    #- if: '$CI_COMMIT_BRANCH  == "main"'
+    refs:
+      - main
+    changes:
+        - configs/local/*
+
+test:nexprod:
+  extends: 
+    - .test:default:image
+  environment:
+    name: nexprod
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/nexprod/*
+deploy:nexprod:
+  needs: ['test:nexprod']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: nexprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/nexprod/*
+###UAT-SIT
+test:uat:
+  extends: 
+    - .test:default:image
+  environment:
+    name: uat
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/uat/*
+deploy:uat:
+  needs: ['test:uat']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: uat
+  only:
+    refs:
+      - main
+    changes:
+        - configs/uat/*
+
+test:sit:
+  extends: 
+    - .test:default:image
+  environment:
+    name: sit
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/sit/*
+deploy:sit:
+  needs: ['test:sit']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: sit
+  only:
+    refs:
+      - main
+    changes:
+        - configs/sit/*
+###PROD-AWS
+test:prod:
+  extends: 
+    - .test:default:image
+  environment:
+    name: prod
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/prod/*
+deploy:prod:
+  needs: ['test:prod']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: prod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/prod/*
+
+test:aws:
+  extends: 
+    - .test:default:image
+  environment:
+    name: aws
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/aws/*
+deploy:aws:
+  needs: ['test:aws']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: aws
+  only:
+    refs:
+      - main
+    changes:
+        - configs/aws/*
+
+test:prod-nex3:
+  extends: 
+    - .test:default:image
+  environment:
+    name: prod-nex3
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/prod-nex3/*
+deploy:prod-nex3:
+  needs: ['test:prod-nex3']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: prod-nex3
+  only:
+    refs:
+      - main
+    changes:
+        - configs/prod-nex3/*
+
+test:aws-nex3:
+  extends: 
+    - .test:default:image
+  environment:
+    name: aws-nex3
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/aws-nex3/*
+deploy:aws-nex3:
+  needs: ['test:aws-nex3']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: aws-nex3
+  only:
+    refs:
+      - main
+    changes:
+        - configs/aws-nex3/*
+#### Testing
+test:local_test:
+  extends: 
+    - .test:default:image
+  environment:
+    name: local_test
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/local_test/*
+deploy:local_test:
+  needs: ['test:local_test']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: local_test
+  only:
+    refs:
+      - main
+    changes:
+        - configs/local_test/*
