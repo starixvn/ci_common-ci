@@ -138,7 +138,6 @@ test:sit:
   environment:
     name: sit
   rules:
-    rules:
     - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
       when: never
     - changes:
