@@ -24,12 +24,6 @@ include:
           exit 1;
       fi;
     - echo "$ORG - Done testing for $ENV !";
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    #- if: '$CI_COMMIT_BRANCH  == "main"'
-    #  when: never
-    - when: always
   tags:
     - docker
 
@@ -80,6 +74,8 @@ test:local:
   environment:
     name: local
   rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
     - changes:
         - configs/local/*
 deploy:local:
@@ -120,6 +116,8 @@ test:uat:
   environment:
     name: uat
   rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
     - changes:
         - configs/uat/*
 deploy:uat:
