@@ -11,7 +11,6 @@ stages:
   #- project: 'ci/common-ci'
   #  file: 'haproxy-ci/before-script.gitlab-ci.yml'
 ############
-###
 .test:default:image:
   stage: test
   script:
@@ -25,12 +24,6 @@ stages:
           exit 1;
       fi;
     - echo "$ORG - Done testing for $CI_ENVIRONMENT_NAME !";
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    #- if: '$CI_COMMIT_BRANCH  == "main"'
-    #  when: never
-    - when: always
   tags:
     - docker
 
@@ -66,12 +59,12 @@ stages:
         exit 1;
       else
         echo $ANSIBLE_JOB;
+        if curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://ansible.nexdev.net/api/v2/job_templates/$ANSIBLE_JOB/launch/"; then
+            echo "$ORG - Deploying application to $DEPLOY_ENV ...";
         fi;
         sleep 60;
         echo "$ORG - Done Deployment to $DEPLOY_ENV !";
       fi;
-  only:
-    - main
   tags:
     - docker
 ###LOCAL - NEXPROD
@@ -83,15 +76,16 @@ test:local:
   rules:
     - changes:
         - configs/local/*
-
 deploy:local:
   needs: ['test:local']
   extends: 
     - .deploy:default:image
   environment:
     name: local
-  rules:
-    - changes:
+  only:
+    refs:
+      - main
+    changes:
         - configs/local/*
 
 test:nexprod:
@@ -126,8 +120,10 @@ deploy:uat:
     - .deploy:default:image
   environment:
     name: uat
-  rules:
-    - changes:
+  only:
+    refs:
+      - main
+    changes:
         - configs/uat/*
 
 test:sit:
@@ -144,8 +140,10 @@ deploy:sit:
     - .deploy:default:image
   environment:
     name: sit
-  rules:
-    - changes:
+  only:
+    refs:
+      - main
+    changes:
         - configs/sit/*
 ###PROD-AWS
 test:prod:
@@ -162,8 +160,10 @@ deploy:prod:
     - .deploy:default:image
   environment:
     name: prod
-  rules:
-    - changes:
+  only:
+    refs:
+      - main
+    changes:
         - configs/prod/*
 
 test:aws:
@@ -180,8 +180,10 @@ deploy:aws:
     - .deploy:default:image
   environment:
     name: aws
-  rules:
-    - changes:
+  only:
+    refs:
+      - main
+    changes:
         - configs/aws/*
 
 test:prod-nex3:
@@ -198,8 +200,10 @@ deploy:prod-nex3:
     - .deploy:default:image
   environment:
     name: prod-nex3
-  rules:
-    - changes:
+  only:
+    refs:
+      - main
+    changes:
         - configs/prod-nex3/*
 
 test:aws-nex3:
@@ -216,8 +220,10 @@ deploy:aws-nex3:
     - .deploy:default:image
   environment:
     name: aws-nex3
-  rules:
-    - changes:
+  only:
+    refs:
+      - main
+    changes:
         - configs/aws-nex3/*
 #### Testing
 test:local_test:
@@ -234,6 +240,8 @@ deploy:local_test:
     - .deploy:default:image
   environment:
     name: local_test
-  rules:
-    - changes:
+  only:
+    refs:
+      - main
+    changes:
         - configs/local_test/*
