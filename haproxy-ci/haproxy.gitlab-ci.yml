@@ -1,4 +1,5 @@
-stages: 
+image: hub.nexdev.net/base/docker:20.10.7-bash
+stages:
   - test
   - deploy
 ############
@@ -83,6 +84,7 @@ test:local:
   rules:
     - changes:
         - configs/local/*
+
 deploy:local:
   needs: ['test:local']
   extends: 
