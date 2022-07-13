@@ -96,6 +96,8 @@ test:nexprod:
   environment:
     name: nexprod
   rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
     - changes:
         - configs/nexprod/*
 deploy:nexprod:
