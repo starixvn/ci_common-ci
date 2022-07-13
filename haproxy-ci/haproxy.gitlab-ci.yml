@@ -102,8 +102,10 @@ deploy:nexprod:
     - .deploy:default:image
   environment:
     name: nexprod
-  rules:
-    - changes:
+  only:
+    refs:
+      - main
+    changes:
         - configs/nexprod/*
 ###UAT-SIT
 test:uat:
