@@ -162,6 +162,8 @@ test:prod:
   environment:
     name: prod
   rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
     - changes:
         - configs/prod/*
 deploy:prod:
@@ -182,6 +184,8 @@ test:aws:
   environment:
     name: aws
   rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
     - changes:
         - configs/aws/*
 deploy:aws:
@@ -202,6 +206,8 @@ test:prod-nex3:
   environment:
     name: prod-nex3
   rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
     - changes:
         - configs/prod-nex3/*
 deploy:prod-nex3:
@@ -222,6 +228,8 @@ test:aws-nex3:
   environment:
     name: aws-nex3
   rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
     - changes:
         - configs/aws-nex3/*
 deploy:aws-nex3:
@@ -242,6 +250,8 @@ test:local_test:
   environment:
     name: local_test
   rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
     - changes:
         - configs/local_test/*
 deploy:local_test:
