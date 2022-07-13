@@ -38,7 +38,6 @@ stages:
   stage: deploy
   script:
     - echo "deploy - $CI_ENVIRONMENT_NAME"
-  script:
     - if [ "$ORG" == "Nexcel" ];
       then
         if echo $DEPLOY_ENV | grep -q "local_test"; then export ANSIBLE_JOB=898;
