@@ -1,0 +1,23 @@
+test:nexprod:
+  extends: 
+    - .test:default:image
+  environment:
+    name: nexprod
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/nexprod/*
+        - configs/nexprod/*/*
+deploy:nexprod:
+  needs: ['test:nexprod']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: nexprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/nexprod/*
+        - configs/nexprod/*/*
