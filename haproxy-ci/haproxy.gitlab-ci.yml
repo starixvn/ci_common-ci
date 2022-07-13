@@ -79,6 +79,7 @@ test:local:
       when: never
     - changes:
         - configs/local/*
+        - configs/local/*/*
 deploy:local:
   needs: ['test:local']
   extends: 
@@ -90,28 +91,8 @@ deploy:local:
       - main
     changes:
         - configs/local/*
+        - configs/local/*/*
 
-test:nexprod:
-  extends: 
-    - .test:default:image
-  environment:
-    name: nexprod
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/nexprod/*
-deploy:nexprod:
-  needs: ['test:nexprod']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: nexprod
-  only:
-    refs:
-      - main
-    changes:
-        - configs/nexprod/*
 ###UAT-SIT
 test:uat:
   extends: 
@@ -123,6 +104,7 @@ test:uat:
       when: never
     - changes:
         - configs/uat/*
+        - configs/uat/*/*
 deploy:uat:
   needs: ['test:uat']
   extends: 
@@ -134,6 +116,7 @@ deploy:uat:
       - main
     changes:
         - configs/uat/*
+        - configs/uat/*/*
 
 test:sit:
   extends: 
@@ -145,6 +128,7 @@ test:sit:
       when: never
     - changes:
         - configs/sit/*
+        - configs/sit/*/*
 deploy:sit:
   needs: ['test:sit']
   extends: 
@@ -156,6 +140,7 @@ deploy:sit:
       - main
     changes:
         - configs/sit/*
+        - configs/sit/*/*
 ###PROD-AWS
 test:prod:
   extends: 
@@ -167,6 +152,7 @@ test:prod:
       when: never
     - changes:
         - configs/prod/*
+        - configs/prod/*/*
 deploy:prod:
   needs: ['test:prod']
   extends: 
@@ -178,6 +164,7 @@ deploy:prod:
       - main
     changes:
         - configs/prod/*
+        - configs/prod/*/*
 
 test:aws:
   extends: 
@@ -189,6 +176,7 @@ test:aws:
       when: never
     - changes:
         - configs/aws/*
+        - configs/aws/*/*
 deploy:aws:
   needs: ['test:aws']
   extends: 
@@ -200,69 +188,4 @@ deploy:aws:
       - main
     changes:
         - configs/aws/*
-
-test:prod-nex3:
-  extends: 
-    - .test:default:image
-  environment:
-    name: prod-nex3
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/prod-nex3/*
-deploy:prod-nex3:
-  needs: ['test:prod-nex3']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: prod-nex3
-  only:
-    refs:
-      - main
-    changes:
-        - configs/prod-nex3/*
-
-test:aws-nex3:
-  extends: 
-    - .test:default:image
-  environment:
-    name: aws-nex3
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/aws-nex3/*
-deploy:aws-nex3:
-  needs: ['test:aws-nex3']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: aws-nex3
-  only:
-    refs:
-      - main
-    changes:
-        - configs/aws-nex3/*
-#### Testing
-test:local_test:
-  extends: 
-    - .test:default:image
-  environment:
-    name: local_test
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/local_test/*
-deploy:local_test:
-  needs: ['test:local_test']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: local_test
-  only:
-    refs:
-      - main
-    changes:
-        - configs/local_test/*
+        - configs/aws/*/*

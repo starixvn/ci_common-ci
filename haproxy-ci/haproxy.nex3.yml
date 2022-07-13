@@ -1,0 +1,47 @@
+test:prod-nex3:
+  extends: 
+    - .test:default:image
+  environment:
+    name: prod-nex3
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/prod-nex3/*
+        - configs/prod-nex3/*/*
+deploy:prod-nex3:
+  needs: ['test:prod-nex3']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: prod-nex3
+  only:
+    refs:
+      - main
+    changes:
+        - configs/prod-nex3/*
+        - configs/prod-nex3/*/*
+
+test:aws-nex3:
+  extends: 
+    - .test:default:image
+  environment:
+    name: aws-nex3
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/aws-nex3/*
+        - configs/aws-nex3/*/*
+deploy:aws-nex3:
+  needs: ['test:aws-nex3']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: aws-nex3
+  only:
+    refs:
+      - main
+    changes:
+        - configs/aws-nex3/*
+        - configs/aws-nex3/*/*
