@@ -12,12 +12,7 @@
       } else {
           cd $PROJECT_ROOT_PATH;
       }
-    - if ($CI_COMMIT_TAG -match '^deploy-.+-(local|sit|uat|prod|aws)[123]?-[a-z0-9]{8}(-([0-9\,]+))*' ){
-        $REDMINE_IDS = $Matches.3;
-      }else{
-        $REDMINE_IDS = ''
-      };
-      echo $REDMINE_IDS;
+    - echo $REDMINE_IDS;
   script:
     - ls .
     - echo "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
@@ -46,12 +41,7 @@
       } else {
           cd $PROJECT_ROOT_PATH;
       }
-    - if ($CI_COMMIT_TAG -match '^deploy-.+-(local|sit|uat|prod|aws)[123]?-[a-z0-9]{8}(-([0-9\,]+))*' ){
-        $REDMINE_IDS = $Matches.3;
-      }else{
-        $REDMINE_IDS = ''
-      };
-      echo $REDMINE_IDS;
+    - echo $REDMINE_IDS;
   script:
     - ls .
     - echo "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
