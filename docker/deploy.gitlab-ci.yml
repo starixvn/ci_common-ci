@@ -1,12 +1,12 @@
 include:
   - project: 'ci/common-ci'
-    ref: remove-unused-code
+    ref: rocketor
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
     file: 'common/env.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: remove-unused-code
+    ref: rocketor
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
 
 .deploy:local:swarm:stack:
