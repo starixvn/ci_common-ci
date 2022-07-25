@@ -1,0 +1,10 @@
+cleanup:
+  stage: cleanup
+  script:
+    - curl --request DELETE --header "PRIVATE-TOKEN:$CI_JOB_TOKEN" $GITLAB_API_URL/projects/$CI_PROJECT_ID/repository/tags/$CI_COMMIT_TAG
+  tags:
+    - docker    
+  allow_failure: true
+  rules:
+    - when: always
+

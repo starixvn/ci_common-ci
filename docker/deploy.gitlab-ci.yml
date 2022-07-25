@@ -8,6 +8,9 @@ include:
   - project: 'ci/common-ci'
     ref: rocketor
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    ref: cleanup
+    file: 'docker/base/cleanup.gitlab-ci.yml'
 
 .deploy:local:swarm:stack:
   extends:
