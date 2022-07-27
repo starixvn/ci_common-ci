@@ -46,10 +46,19 @@
     - echo "===== REMOVING OLD CONFIGS ... =====";
     - if [ ! -z "$SP_FILE_NAME" ];
       then
-        curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config rm $(docker config ls  --format {{.Name}} | grep -e ${SERVICE_NAME}_${DEPLOY_ENV}_sp_config*)" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
+        if curl --fail -o old_sp_configs.txt -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config ls  --format {{.Name}} | grep -e ${SERVICE_NAME}_${DEPLOY_ENV}_sp_config*" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
+        then 
+          old_sp_configs=$(awk '{printf "%s ", $0}' old_sp_configs.txt);          
+          curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config rm $old_sp_configs" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
+        fi;
       fi
     - if [ ! -z "$CONFIG_FILE_NAME" ];
-      then curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config rm $(docker config ls --format {{.Name}} | grep -e ${SERVICE_NAME}_${DEPLOY_ENV}_config*)" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
+      then 
+        if curl --fail -o old_configs.txt -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config ls --format {{.Name}} | grep -e ${SERVICE_NAME}_${DEPLOY_ENV}_config*" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
+        then
+          old_configs=$(awk '{printf "%s ", $0}' old_configs.txt);          
+          curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config rm $old_configs" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
+        fi;
       fi
     - echo "===== DEPLOYING SERVICE ... =====";
     - echo "curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command=cd $WORKING_PATH/$DEPLOY_ENV  && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth $STACK_NAME $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;"

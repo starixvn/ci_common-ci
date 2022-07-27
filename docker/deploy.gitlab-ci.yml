@@ -6,7 +6,7 @@ include:
     ref: rocketor
     file: 'common/env.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: remove-old-config
+    ref: rocketor
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
