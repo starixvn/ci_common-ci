@@ -5,10 +5,10 @@ variables:
 
 include:
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: azure-env
     file: 'docker/deploy.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: azure-env
     file: '_teams/nexcel/others/variables.gitlab-ci.yml'
 
 .deploy:local:base:swarm:stack:
