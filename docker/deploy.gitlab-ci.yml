@@ -41,3 +41,8 @@ include:
   extends:
     - .env:aws
     - .base_deploy_stack_swarm
+
+.deploy:azure:swarm:stack:
+  extends:
+    - .env:azure
+    - .base_deploy_stack_swarm
