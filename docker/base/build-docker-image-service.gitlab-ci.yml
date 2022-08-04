@@ -1,26 +1,9 @@
-build_image:
-  extends:
-    - .build:image:rules
-  stage: build
-  script:
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
-    - docker build
-      --pull
-      -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-      --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-      --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-      --cache-from $CI_REGISTRY_IMAGE:latest
-      --build-arg BUILDKIT_INLINE_CACHE=1 $DOCKER_FILE_PATH
-    - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-  tags:
-    - docker
-
 .build:default:image:
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
     - ls -a
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build
       --cache-from $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
       --cache-from $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
@@ -29,6 +12,8 @@ build_image:
       --build-arg BUILDKIT_INLINE_CACHE=1
       --build-arg DEPLOY_ENV=$DEPLOY_ENV .
     - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
+    - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
   tags:
     - docker
 
@@ -36,7 +21,7 @@ build_image:
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build
       --pull
       -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
@@ -45,6 +30,8 @@ build_image:
       --cache-from $CI_REGISTRY_IMAGE:latest
       --build-arg BUILDKIT_INLINE_CACHE=1 $DOCKER_FILE_PATH
     - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:latest
   tags:
     - docker
 
@@ -52,7 +39,7 @@ build_image:
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build
       --target builder
       --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
@@ -69,8 +56,11 @@ build_image:
       --tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
       --build-arg BUILDKIT_INLINE_CACHE=1 .
     - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
+    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:latest
     - docker push $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
     - docker push $CI_REGISTRY_IMAGE:builder
+    #
   tags:
     - docker
 
@@ -78,7 +68,7 @@ build_image:
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build
       --target builder
       --cache-from $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION-builder
@@ -96,6 +86,8 @@ build_image:
       --build-arg DEPLOY_ENV=$DEPLOY_ENV
       --build-arg BUILDKIT_INLINE_CACHE=1 .
     - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
+    - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
+    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
     - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION-builder
     - docker push $CI_REGISTRY_IMAGE:builder
   tags:

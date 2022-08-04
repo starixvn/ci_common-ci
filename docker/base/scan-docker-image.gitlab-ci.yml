@@ -9,10 +9,6 @@
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-    #
-    - docker tag  $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:latest
-    - echo "done Scan!"
   allow_failure: true
   tags:
     - docker
@@ -28,9 +24,6 @@
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
-    - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    - echo "done Scan!"
   allow_failure: true
   tags:
     - docker
@@ -46,9 +39,7 @@
     - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:latest
+    - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION    
   allow_failure: true
   tags:
     - docker
@@ -65,8 +56,6 @@
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
-    - docker tag $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:latest
-    - docker push $CI_REGISTRY_IMAGE:latest
   allow_failure: true
   tags:
     - docker
@@ -83,9 +72,6 @@
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
-    - docker tag $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-    - docker push $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
-  allow_failure: true
   tags:
     - docker
 
@@ -96,8 +82,9 @@
     - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
     # Image report HIGH,CRITICAL
     - cat $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
-    #- ./trivy config --exit-code 0 --severity HIGH $DOCKER_FILE_PATH
-    - ./trivy config --exit-code 1 --severity HIGH,CRITICAL $DOCKER_FILE_PATH
+    - ls -l 
+    #- ./trivy config --exit-code 1 --severity HIGH,CRITICAL $DOCKER_FILE_PATH
+    - ./trivy config --exit-code 1 --severity HIGH,CRITICAL /
     - echo "done Scan Config!"
   allow_failure: true
   tags:

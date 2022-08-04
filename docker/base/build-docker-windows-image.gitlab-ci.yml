@@ -1,10 +1,9 @@
-.build:default:windowsimage:
-  stage: build
+.build:default:windowsimage:before_script:
   before_script:
     - $DEPLOY_ENV=$CI_ENVIRONMENT_NAME
     - echo $DEPLOY_ENV
     - $ROCKETOR_API="$ROCKETOR_API_URL/Home/ChangeSpVersion"
-    - $CI_REGISTRY_IMAGE="$DOCKER_REG_URL/$DOCKER_IMAGE_PATH"
+    - $CI_REGISTRY_IMAGE="$DOCKER_REG_LOCAL_URL/$DOCKER_IMAGE_PATH_LOCAL"
     - $CI_REGISTRY_IMAGE_VERSION=$CI_COMMIT_SHA.SubString(0,8)
     - echo "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}"
     - if (!$PROJECT_ROOT_PATH) {
@@ -12,20 +11,24 @@
       } else {
           cd $PROJECT_ROOT_PATH;
       }
-    - if ($CI_COMMIT_TAG -match '^deploy-.+-(local|sit|uat|prod|aws)[123]?-[a-z0-9]{8}(-([0-9\,]+))*' ){
-        $REDMINE_IDS = $Matches.3;
-      }else{
-        $REDMINE_IDS = ''
-      };
-      echo $REDMINE_IDS;
+    - echo $REDMINE_IDS;
+    - if (!$TRANSFORM_CONFIG) {
+        $TRANSFORM_CONFIG=$DEPLOY_ENV;
+      }
+    - echo $TRANSFORM_CONFIG
+
+.build:default:windowsimage:
+  extends: .build:default:windowsimage:before_script
+  stage: build
   script:
     - ls .
     - echo "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build --pull -f "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
         --build-arg DEPLOY_ENV=${DEPLOY_ENV}
         --build-arg ROCKETOR_API=${ROCKETOR_API}
         --build-arg REDMINE_IDS=${REDMINE_IDS}
+        --build-arg TRANSFORM_CONFIG=${TRANSFORM_CONFIG}
         --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" .
     - docker tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
     - docker push "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
@@ -34,28 +37,11 @@
 
 .build:default:windowsimage:multistage:
   stage: build
-  before_script:
-    - $DEPLOY_ENV=$CI_ENVIRONMENT_NAME
-    - echo $DEPLOY_ENV
-    - $ROCKETOR_API="$ROCKETOR_API_URL/Home/ChangeSpVersion"
-    - $CI_REGISTRY_IMAGE="$DOCKER_REG_URL/$DOCKER_IMAGE_PATH"
-    - $CI_REGISTRY_IMAGE_VERSION=$CI_COMMIT_SHA.SubString(0,8)
-    - echo "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}"
-    - if (!$PROJECT_ROOT_PATH) {
-        echo "Root is here";
-      } else {
-          cd $PROJECT_ROOT_PATH;
-      }
-    - if ($CI_COMMIT_TAG -match '^deploy-.+-(local|sit|uat|prod|aws)[123]?-[a-z0-9]{8}(-([0-9\,]+))*' ){
-        $REDMINE_IDS = $Matches.3;
-      }else{
-        $REDMINE_IDS = ''
-      };
-      echo $REDMINE_IDS;
+  extends: .build:default:windowsimage:before_script
   script:
     - ls .
     - echo "$DOCKER_FILE_PATH\$DOCKER_FILE_NAME"
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - Start-Process -FilePath "docker" -ArgumentList "pull ${CI_REGISTRY_IMAGE}:builder" -Wait
     - docker build
         --target builder
@@ -64,6 +50,7 @@
         --build-arg DEPLOY_ENV=${DEPLOY_ENV}
         --build-arg ROCKETOR_API=${ROCKETOR_API}
         --build-arg REDMINE_IDS=${REDMINE_IDS}
+        --build-arg TRANSFORM_CONFIG=${TRANSFORM_CONFIG}
         --tag "${CI_REGISTRY_IMAGE}:builder" .
     - docker build
         --cache-from "${CI_REGISTRY_IMAGE}:builder"
@@ -71,6 +58,7 @@
         --build-arg DEPLOY_ENV=${DEPLOY_ENV}
         --build-arg ROCKETOR_API=${ROCKETOR_API}
         --build-arg REDMINE_IDS=${REDMINE_IDS}
+        --build-arg TRANSFORM_CONFIG=${TRANSFORM_CONFIG}
         --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" .
     - docker tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
     - docker push "${CI_REGISTRY_IMAGE}:builder"

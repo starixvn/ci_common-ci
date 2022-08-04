@@ -6,22 +6,69 @@ variables:
 include:
   - project: 'ci/common-ci'
     ref: rocketor
-    file: 'docker/deploy-stack-swarm.gitlab-ci.yml'
+    file: 'docker/deploy.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
     file: '_teams/nexcel/others/variables.gitlab-ci.yml'
-  - project: 'ci/common-ci'
-    ref: rocketor
-    file: '_teams/nexcel/others/deploy-docker-swarm-stack/local.gitlab-ci.yml'
-  - project: 'ci/common-ci'
-    ref: rocketor
-    file: '_teams/nexcel/others/deploy-docker-swarm-stack/sit.gitlab-ci.yml'
-  - project: 'ci/common-ci'
-    ref: rocketor
-    file: '_teams/nexcel/others/deploy-docker-swarm-stack/uat.gitlab-ci.yml'
-  - project: 'ci/common-ci'
-    ref: rocketor
-    file: '_teams/nexcel/others/deploy-docker-swarm-stack/prod.gitlab-ci.yml'
-  - project: 'ci/common-ci'
-    ref: rocketor
-    file: '_teams/nexcel/others/deploy-docker-swarm-stack/aws.gitlab-ci.yml'
+
+.deploy:local:base:swarm:stack:
+  extends:
+    - .deploy:local:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_LOCAL
+    SERVER_USER: $NEXCEL_SWARM_LEADER_LOCAL_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_LOCAL_SSH_PORT
+    SWARM_NODES: $NEXCEL_SWARM_CLUSTER_LOCAL
+
+.deploy:nexprod:base:swarm:stack:
+  extends:
+    - .deploy:nexprod:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_NEXPROD
+    SERVER_USER: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_PORT
+
+.deploy:sit:base:swarm:stack:
+  extends:
+    - .deploy:sit:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_SIT
+    SERVER_USER: $NEXCEL_SWARM_LEADER_SIT_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_SIT_SSH_PORT
+    SWARM_NODES: $NEXCEL_SWARM_CLUSTER_SIT
+
+.deploy:uat:base:swarm:stack:
+  extends:
+    - .deploy:uat:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_UAT
+    SERVER_USER: $NEXCEL_SWARM_LEADER_UAT_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_UAT_SSH_PORT
+    SWARM_NODES: $NEXCEL_SWARM_CLUSTER_UAT
+
+.deploy:prod:base:swarm:stack:
+  extends:
+    - .deploy:prod:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_PROD
+    SERVER_USER: $NEXCEL_SWARM_LEADER_PROD_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_PROD_SSH_PORT
+    SWARM_NODES: $NEXCEL_SWARM_CLUSTER_PROD
+
+.deploy:aws:base:swarm:stack:
+  extends:
+    - .deploy:aws:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_AWS
+    SERVER_USER: $NEXCEL_SWARM_LEADER_AWS_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_AWS_SSH_PORT
+    SWARM_NODES: $NEXCEL_SWARM_CLUSTER_AWS
+
+.deploy:azure:base:swarm:stack:
+  extends:
+    - .deploy:azure:swarm:stack
+  variables:
+    SERVER_IP: $NEXCEL_SWARM_LEADER_AZURE
+    SERVER_USER: $NEXCEL_SWARM_LEADER_AZURE_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_AZURE_SSH_PORT
+    SWARM_NODES: $NEXCEL_SWARM_CLUSTER_AZURE
