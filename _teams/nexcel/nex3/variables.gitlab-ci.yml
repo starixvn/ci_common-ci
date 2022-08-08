@@ -15,6 +15,7 @@ variables:
   NEX3_SWARM_LEADER_LOCAL_SSH_USER: vndeployer
   NEX3_SWARM_NETWORK_LOCAL: swarm_nexcel_local
   DEPLOYMENT_API_LOCAL: https://deploymentapi.nexdev.net
+  REGISTRY_LOCAL: hub.lumigame.com
 
   NEX3_SWARM_CLUSTER_SIT: 10.2.190.79 10.40.40.135 10.2.190.68
   NEX3_SWARM_LEADER_SIT: 10.2.190.41 #10.2.189.41
@@ -22,6 +23,7 @@ variables:
   NEX3_SWARM_LEADER_SIT_SSH_USER: vndeployer
   NEX3_SWARM_NETWORK_SIT: swarm_nexcel_uat
   DEPLOYMENT_API_SIT: https://stdeployapi.starixplay.com
+  REGISTRY_SIT: lumhub.starixplay.com
 
   NEX3_SWARM_CLUSTER_UAT: 10.2.190.79 10.40.40.135 10.2.190.68
   NEX3_SWARM_LEADER_UAT: 10.2.190.41
@@ -29,6 +31,7 @@ variables:
   NEX3_SWARM_LEADER_UAT_SSH_USER: vndeployer
   NEX3_SWARM_NETWORK_UAT: swarm_nexcel_uat
   DEPLOYMENT_API_UAT: https://stdeployapi2.starixplay.com
+  REGISTRY_UAT: lumhub.starixplay.com
 
   NEX3_SWARM_CLUSTER_PROD: 10.2.189.66 10.2.189.67
   NEX3_SWARM_LEADER_PROD: 10.2.189.40
@@ -36,6 +39,7 @@ variables:
   NEX3_SWARM_LEADER_PROD_SSH_USER: vndeployer
   NEX3_SWARM_NETWORK_PROD: swarm_nexcel_prod
   DEPLOYMENT_API_PROD: https://stdeployapi.starixplay.com
+  REGISTRY_PROD: lumhub.starixplay.com
 
   NEX3_SWARM_CLUSTER_AWS: 10.2.189.6 10.2.189.7
   NEX3_SWARM_LEADER_AWS: 10.2.189.6
@@ -43,3 +47,4 @@ variables:
   NEX3_SWARM_LEADER_AWS_SSH_USER: vndeployer
   NEX3_SWARM_NETWORK_AWS: swarm_nexcel_aws
   DEPLOYMENT_API_AWS: https://deployment-api.sportsfun.app
+  REGISTRY_AWS: hub.lumigame.com
