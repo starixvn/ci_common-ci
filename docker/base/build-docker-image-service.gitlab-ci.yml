@@ -3,7 +3,6 @@
   script:
     - echo $DOCKER_FILE_PATH
     - ls -a
-    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build
       --cache-from $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
       --cache-from $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest
@@ -21,7 +20,6 @@
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build
       --pull
       -f $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
@@ -39,7 +37,6 @@
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build
       --target builder
       --cache-from $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION-builder
@@ -68,7 +65,6 @@
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker build
       --target builder
       --cache-from $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION-builder

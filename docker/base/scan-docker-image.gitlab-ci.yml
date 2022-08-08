@@ -1,7 +1,6 @@
 .scan_image:
   stage: scan-image
   script:
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
     - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
     - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
@@ -16,7 +15,6 @@
 .scan:default:image:
   stage: scan-image
   script:
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
     - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
     - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
@@ -32,7 +30,6 @@
   stage: scan-image
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
     - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
     - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
@@ -48,7 +45,6 @@
   stage: scan-image
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
     - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
     - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
@@ -63,8 +59,7 @@
 .scan:default:image:multistage:
   stage: scan-image
   script:
-    - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - echo $DOCKER_FILE_PATH 
     - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
     - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
