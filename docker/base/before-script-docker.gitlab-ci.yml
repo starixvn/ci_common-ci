@@ -88,3 +88,4 @@ before_script:
   - echo "$TRIVY_SERVER - $TRIVY_VERSION";
   - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL;
   - export DOCKER_BUILDKIT=1;
+  - echo $DOMAINS;

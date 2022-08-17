@@ -13,6 +13,7 @@
     - cp compose_repo/$DOCKER_COMPOSE_REPO_PATH/$DOCKER_COMPOSE_FILE $DOCKER_COMPOSE_FILE_PATH
     - sed -i "s/@CONFIG_VERSION/$(date +%s)/g" $DOCKER_COMPOSE_FILE_PATH/$DOCKER_COMPOSE_FILE
     - sed -i "s/@DEPLOY_VERSION/$DEPLOY_VERSION/g" $DOCKER_COMPOSE_FILE_PATH/$DOCKER_COMPOSE_FILE
+    - sed -i "s/@DOMAINS/$DOMAINS/g" $DOCKER_COMPOSE_FILE_PATH/$DOCKER_COMPOSE_FILE
     - echo "===== SYNC docker-compose.yml ... ====="
     - echo "Remote path --> $WORKING_PATH/$DEPLOY_ENV/docker-compose.yml"
     - echo "Server --> $SERVER_IP"
