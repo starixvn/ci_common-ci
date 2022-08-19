@@ -15,7 +15,7 @@
         $TRANSFORM_CONFIG=$DEPLOY_ENV;
       }
     - echo $TRANSFORM_CONFIG
-    - echo "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}-${TRANSFORM_CONFIG}"
+    - echo "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-${CI_REGISTRY_IMAGE_VERSION}"
 
 .build:default:windowsimage:
   extends: .build:default:windowsimage:before_script
@@ -29,8 +29,8 @@
         --build-arg ROCKETOR_API=${ROCKETOR_API}
         --build-arg REDMINE_IDS=${REDMINE_IDS}
         --build-arg TRANSFORM_CONFIG=${TRANSFORM_CONFIG}
-        --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}-${TRANSFORM_CONFIG}" .
-    - docker tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}-${TRANSFORM_CONFIG}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
+        --tag "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-${CI_REGISTRY_IMAGE_VERSION}" .
+    - docker tag "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-${CI_REGISTRY_IMAGE_VERSION}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
     - docker push "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
   tags:
     - windows
@@ -59,8 +59,8 @@
         --build-arg ROCKETOR_API=${ROCKETOR_API}
         --build-arg REDMINE_IDS=${REDMINE_IDS}
         --build-arg TRANSFORM_CONFIG=${TRANSFORM_CONFIG}
-        --tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}-${TRANSFORM_CONFIG}" .
-    - docker tag "${CI_REGISTRY_IMAGE}:${CI_REGISTRY_IMAGE_VERSION}-${TRANSFORM_CONFIG}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
+        --tag "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-${CI_REGISTRY_IMAGE_VERSION}" .
+    - docker tag "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-${CI_REGISTRY_IMAGE_VERSION}" "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
     - docker push "${CI_REGISTRY_IMAGE}:builder"
     - docker push "${CI_REGISTRY_IMAGE}:${DEPLOY_ENV}-latest"
   tags:
