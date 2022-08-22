@@ -84,6 +84,11 @@ before_script:
     else
     echo "$DOCKER_COMPOSE_FILE_NAME";
     fi
+  - if [ "$DOCKER_COMPOSE_REPO_BRANCH" == "" ]; then
+    export DOCKER_COMPOSE_REPO_BRANCH="master";
+    else
+    echo "$DOCKER_COMPOSE_REPO_BRANCH";
+    fi
   - echo $REDMINE_IDS
   - echo "$TRIVY_SERVER - $TRIVY_VERSION";
   - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL;
