@@ -1,6 +1,6 @@
 include:
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: v
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: gc
@@ -9,7 +9,7 @@ include:
     ref: gc
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: gc
     file: 'docker/base/cleanup.gitlab-ci.yml'
 
 .deploy:local:swarm:stack:
