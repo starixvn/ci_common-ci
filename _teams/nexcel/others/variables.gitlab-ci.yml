@@ -54,6 +54,13 @@ variables:
   NEXCEL_SWARM_LEADER_AZURE: 10.0.0.4
   NEXCEL_SWARM_LEADER_AZURE_SSH_PORT: 22
   NEXCEL_SWARM_LEADER_AZURE_SSH_USER: vndeployer
-  NEXCEL_SWARM_NETWORK_AZURE: swarm_nexcel_aws
+  NEXCEL_SWARM_NETWORK_AZURE: swarm_nexcel_azure
   DEPLOYMENT_API_AZURE: https://deployment-c.nexdev.net
   REGISTRY_AZURE: hub.nexdev.net
+
+  NEXCEL_SWARM_LEADER_GC: 10.148.0.3
+  NEXCEL_SWARM_LEADER_GC_SSH_PORT: 22
+  NEXCEL_SWARM_LEADER_GC_SSH_USER: vndeployer
+  NEXCEL_SWARM_NETWORK_GC: swarm_nexcel_gc
+  DEPLOYMENT_API_GC: http://deployment.starixnet.com
+  REGISTRY_GC: hub.nexdev.net
