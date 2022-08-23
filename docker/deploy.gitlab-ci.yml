@@ -3,10 +3,10 @@ include:
     ref: rocketor
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: gc
     file: 'common/env.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: gc
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
@@ -45,4 +45,9 @@ include:
 .deploy:azure:swarm:stack:
   extends:
     - .env:azure
+    - .base_deploy_stack_swarm
+
+.deploy:gc:swarm:stack:
+  extends:
+    - .env:gc
     - .base_deploy_stack_swarm
