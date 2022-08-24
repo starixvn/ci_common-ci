@@ -46,3 +46,8 @@ include:
   extends:
     - .env:azure
     - .base_deploy_stack_swarm
+
+.deploy:gc:swarm:stack:
+  extends:
+    - .env:gc
+    - .base_deploy_stack_swarm

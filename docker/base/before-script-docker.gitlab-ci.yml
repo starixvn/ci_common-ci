@@ -63,6 +63,9 @@ before_script:
     elif echo "$DEPLOY_ENV" | grep -q "AZURE"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_AZURE;
     export REGISTRY_IMAGE=$REGISTRY_AZURE;
+    elif echo "$DEPLOY_ENV" | grep -q "GC"; then
+    export DEPLOYMENT_API=$DEPLOYMENT_API_GC;
+    export REGISTRY_IMAGE=$REGISTRY_GC;
     else
     export DEPLOYMENT_API=$DEPLOYMENT_API_AWS;
     export REGISTRY_IMAGE=$REGISTRY_AWS;
