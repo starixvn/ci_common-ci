@@ -37,14 +37,14 @@ include:
     - .env:prod
     - .base_deploy_stack_swarm
 
-.deploy:prod_fps:swarm:stack:
+.deploy:fpsprod:swarm:stack:
   extends:
-    - .env:prod_fps
+    - .env:fpsprod
     - .base_deploy_stack_swarm
 
-.deploy:prod_alpha:swarm:stack:
+.deploy:alphaprod:swarm:stack:
   extends:
-    - .env:prod_alpha
+    - .env:alphaprod
     - .base_deploy_stack_swarm
 
 .deploy:aws:swarm:stack:
