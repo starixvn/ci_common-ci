@@ -44,6 +44,20 @@ variables:
   DEPLOYMENT_API_PROD: https://stdeployapi.starixplay.com
   REGISTRY_PROD: nexhub.starixplay.com
 
+  NEXCEL_SWARM_LEADER_FPSPROD: 10.2.23.140
+  NEXCEL_SWARM_LEADER_FPSPROD_SSH_PORT: 22
+  NEXCEL_SWARM_LEADER_FPSPROD_SSH_USER: vndeployer
+  NEXCEL_SWARM_NETWORK_FPSPROD: swarm_nexcel_fpsprod
+  DEPLOYMENT_API_FPSPROD: https://stdeployapi2.starixplay.com
+  REGISTRY_FPSPROD: nexhub.starixplay.com
+
+  NEXCEL_SWARM_LEADER_ALPHAPROD: 10.2.27.140
+  NEXCEL_SWARM_LEADER_ALPHAPROD_SSH_PORT: 22
+  NEXCEL_SWARM_LEADER_ALPHAPROD_SSH_USER: vndeployer
+  NEXCEL_SWARM_NETWORK_ALPHAPROD: swarm_nexcel_alphaprod
+  DEPLOYMENT_API_ALPHAPROD: https://stdeployapi.starixplay.com
+  REGISTRY_ALPHAPROD: nexhub.starixplay.com
+
   NEXCEL_SWARM_LEADER_AWS: 10.2.27.23
   NEXCEL_SWARM_LEADER_AWS_SSH_PORT: 22
   NEXCEL_SWARM_LEADER_AWS_SSH_USER: vndeployer
@@ -51,12 +65,12 @@ variables:
   DEPLOYMENT_API_AWS: https://deployment-api.sportsfun.app
   REGISTRY_AWS: nexhub.starixplay.com
 
-  NEXCEL_SWARM_LEADER_AZURE: 10.0.0.4
-  NEXCEL_SWARM_LEADER_AZURE_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_AZURE_SSH_USER: vndeployer
-  NEXCEL_SWARM_NETWORK_AZURE: swarm_nexcel_azure
-  DEPLOYMENT_API_AZURE: https://deployment-c.nexdev.net
-  REGISTRY_AZURE: hub.nexdev.net
+  NEXCEL_SWARM_LEADER_AWS2: 10.0.0.4
+  NEXCEL_SWARM_LEADER_AWS2_SSH_PORT: 22
+  NEXCEL_SWARM_LEADER_AWS2_SSH_USER: vndeployer
+  NEXCEL_SWARM_NETWORK_AWS2: swarm_nexcel_aws2
+  DEPLOYMENT_API_AWS2: https://deployment-c.nexdev.net
+  REGISTRY_AWS2: hub.nexdev.net
 
   NEXCEL_SWARM_LEADER_GC: 10.148.0.3
   NEXCEL_SWARM_LEADER_GC_SSH_PORT: 22
