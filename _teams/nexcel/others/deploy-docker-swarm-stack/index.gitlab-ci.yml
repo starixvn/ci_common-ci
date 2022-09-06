@@ -82,14 +82,14 @@ include:
     SERVER_PORT: $NEXCEL_SWARM_LEADER_AWS_SSH_PORT
     SWARM_NODES: $NEXCEL_SWARM_CLUSTER_AWS
 
-.deploy:aws2:base:swarm:stack:
+.deploy:nexaws:base:swarm:stack:
   extends:
-    - .deploy:aws2:swarm:stack
+    - .deploy:nexaws:swarm:stack
   variables:
-    SERVER_IP: $NEXCEL_SWARM_LEADER_AWS2
-    SERVER_USER: $NEXCEL_SWARM_LEADER_AWS2_SSH_USER
-    SERVER_PORT: $NEXCEL_SWARM_LEADER_AWS2_SSH_PORT
-    SWARM_NODES: $NEXCEL_SWARM_CLUSTER_AWS2
+    SERVER_IP: $NEXCEL_SWARM_LEADER_NEXAWS
+    SERVER_USER: $NEXCEL_SWARM_LEADER_NEXAWS_SSH_USER
+    SERVER_PORT: $NEXCEL_SWARM_LEADER_NEXAWS_SSH_PORT
+    SWARM_NODES: $NEXCEL_SWARM_CLUSTER_NEXAWS
 
 .deploy:gc:base:swarm:stack:
   extends:
