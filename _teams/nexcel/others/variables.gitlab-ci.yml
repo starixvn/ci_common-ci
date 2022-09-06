@@ -65,7 +65,7 @@ variables:
   DEPLOYMENT_API_AWS: https://deployment-api.sportsfun.app
   REGISTRY_AWS: nexhub.starixplay.com
 
-  NEXCEL_SWARM_LEADER_NEXAWS: 10.0.0.4
+  NEXCEL_SWARM_LEADER_NEXAWS: 10.200.10.10
   NEXCEL_SWARM_LEADER_NEXAWS_SSH_PORT: 22
   NEXCEL_SWARM_LEADER_NEXAWS_SSH_USER: vndeployer
   NEXCEL_SWARM_NETWORK_NEXAWS: swarm_nexcel_nexaws
