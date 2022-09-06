@@ -52,9 +52,9 @@ include:
     - .env:aws
     - .base_deploy_stack_swarm
 
-.deploy:aws2:swarm:stack:
+.deploy:nexaws:swarm:stack:
   extends:
-    - .env:aws2
+    - .env:nexaws
     - .base_deploy_stack_swarm
 
 .deploy:gc:swarm:stack:

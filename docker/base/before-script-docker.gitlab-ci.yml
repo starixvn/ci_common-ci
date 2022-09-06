@@ -60,9 +60,9 @@ before_script:
     elif echo "$DEPLOY_ENV" | grep -q "PROD"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_PROD;
     export REGISTRY_IMAGE=$REGISTRY_PROD;
-    elif echo "$DEPLOY_ENV" | grep -q "AZURE"; then
-    export DEPLOYMENT_API=$DEPLOYMENT_API_AZURE;
-    export REGISTRY_IMAGE=$REGISTRY_AZURE;
+    elif echo "$DEPLOY_ENV" | grep -q "NEXAWS"; then
+    export DEPLOYMENT_API=$DEPLOYMENT_API_NEXAWS;
+    export REGISTRY_IMAGE=$REGISTRY_NEXAWS;
     elif echo "$DEPLOY_ENV" | grep -q "GC"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_GC;
     export REGISTRY_IMAGE=$REGISTRY_GC;
