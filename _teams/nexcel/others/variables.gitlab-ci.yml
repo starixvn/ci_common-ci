@@ -72,7 +72,7 @@ variables:
   DEPLOYMENT_API_NEXAWS: https://deployment-c.nexdev.net
   REGISTRY_NEXAWS: hub.nexdev.net
 
-  NEXCEL_SWARM_LEADER_GC: 10.148.0.3
+  NEXCEL_SWARM_LEADER_GC: 10.10.10.3
   NEXCEL_SWARM_LEADER_GC_SSH_PORT: 22
   NEXCEL_SWARM_LEADER_GC_SSH_USER: vndeployer
   NEXCEL_SWARM_NETWORK_GC: swarm_nexcel_gc
