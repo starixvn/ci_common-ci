@@ -18,7 +18,7 @@ integration-tests:
     - npm run integration-test
 
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $ENABLE_NODEJS_INTEGRATION_TEST == "true"'
     - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS'
       when: never
     - if: '$CI_COMMIT_BRANCH && $ENABLE_NODEJS_INTEGRATION_TEST == "true"'
