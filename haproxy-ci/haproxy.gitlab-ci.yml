@@ -40,7 +40,7 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=494;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=606;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "prod-nex3"; then export ANSIBLE_JOB=496;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "alphaprod"; then export ANSIBLE_JOB=65393;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "alphaprod"; then export ANSIBLE_JOB=1433;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "gc"; then export ANSIBLE_JOB=1410;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "nexaws"; then export ANSIBLE_JOB=1365;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "fpsprod"; then export ANSIBLE_JOB=1421;
