@@ -1,0 +1,23 @@
+test:nexaws:
+  extends: 
+    - .test:default:image
+  environment:
+    name: nexaws
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/nexaws/*
+        - configs/nexaws/*/*
+deploy:nexaws:
+  needs: ['test:nexaws']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: nexaws
+  only:
+    refs:
+      - main
+    changes:
+        - configs/nexaws/*
+        - configs/nexaws/*/*

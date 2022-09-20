@@ -1,0 +1,23 @@
+test:alphaprod:
+  extends: 
+    - .test:default:image
+  environment:
+    name: alphaprod
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/alphaprod/*
+        - configs/alphaprod/*/*
+deploy:alphaprod:
+  needs: ['test:alphaprod']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: alphaprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/alphaprod/*
+        - configs/alphaprod/*/*

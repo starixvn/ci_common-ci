@@ -1,0 +1,23 @@
+test:gc:
+  extends: 
+    - .test:default:image
+  environment:
+    name: gc
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/gc/*
+        - configs/gc/*/*
+deploy:gc:
+  needs: ['test:gc']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: gc
+  only:
+    refs:
+      - main
+    changes:
+        - configs/gc/*
+        - configs/gc/*/*
