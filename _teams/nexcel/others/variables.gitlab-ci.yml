@@ -76,5 +76,5 @@ variables:
   NEXCEL_SWARM_LEADER_GC_SSH_PORT: 22
   NEXCEL_SWARM_LEADER_GC_SSH_USER: vndeployer
   NEXCEL_SWARM_NETWORK_GC: swarm_nexcel_gc
-  DEPLOYMENT_API_GC: http://deployment.sabavn.com
+  DEPLOYMENT_API_GC: http://35.213.145.66:22222
   REGISTRY_GC: hub.nexdev.net
