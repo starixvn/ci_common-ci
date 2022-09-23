@@ -8,7 +8,7 @@ include:
     ref: DecreaseIncludes
     file: 'docker/deploy.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: DecreaseIncludes
     file: '_teams/nexcel/others/variables.gitlab-ci.yml'
 
 .deploy:local:base:swarm:stack:

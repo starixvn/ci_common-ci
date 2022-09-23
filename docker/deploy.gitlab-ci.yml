@@ -1,9 +1,9 @@
 include:
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: DecreaseIncludes
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: DecreaseIncludes
     file: 'common/env.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: DecreaseIncludes
