@@ -70,13 +70,24 @@
   - echo "===== DEPLOYING SERVICE ... =====";    
   - curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="cd $WORKING_PATH/$DEPLOY_ENV  && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth $STACK_NAME" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;   
 
-.base_deploy_stack_swarm:
+.base_deploy_stack_swarm_nexcel:
   stage: deploy
   script:
     - *prepare-folder
     - *transform-and-sync-docker-compose
     - *sync-config
     - *change-version-and-sync-sp
+    - *remove-old-swarm-configs
+    - *deploy-swarm-service
+  tags:
+    - docker
+
+.base_deploy_stack_swarm_luminet:
+  stage: deploy
+  script:
+    - *prepare-folder
+    - *transform-and-sync-docker-compose
+    - *sync-config
     - *remove-old-swarm-configs
     - *deploy-swarm-service
   tags:

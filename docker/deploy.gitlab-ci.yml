@@ -12,49 +12,49 @@ include:
 .deploy:local:swarm:stack:
   extends:
     - .env:local
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
 
 .deploy:nexprod:swarm:stack:
   extends:
     - .env:nexprod
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
 
 .deploy:sit:swarm:stack:
   extends:
     - .env:sit
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
 
 .deploy:uat:swarm:stack:
   extends:
     - .env:uat
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
 
 .deploy:prod:swarm:stack:
   extends:
     - .env:prod
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
 
 .deploy:fpsprod:swarm:stack:
   extends:
     - .env:fpsprod
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
 
 .deploy:alphaprod:swarm:stack:
   extends:
     - .env:alphaprod
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
 
 .deploy:aws:swarm:stack:
   extends:
     - .env:aws
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
 
 .deploy:nexaws:swarm:stack:
   extends:
     - .env:nexaws
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
 
 .deploy:gc:swarm:stack:
   extends:
     - .env:gc
-    - .base_deploy_stack_swarm
+    - .base_deploy_stack_swarm_luminet
