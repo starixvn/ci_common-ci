@@ -6,14 +6,21 @@ variables:
 include:
   - project: 'ci/common-ci'
     ref: rocketor
-    file: 'docker/deploy.gitlab-ci.yml'
+    file: 'common/env.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    ref: rocketor
+    file: 'docker/base/before-script-docker.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    ref: rocketor
+    file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
     file: '_teams/nexcel/nex3/variables.gitlab-ci.yml'
 
 .deploy:local:base:swarm:stack:
   extends:
-    - .deploy:local:swarm:stack
+    - .env:local
+    - .base_deploy_stack_swarm_luminet
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_LOCAL
     SERVER_USER: $NEX3_SWARM_LEADER_LOCAL_SSH_USER
@@ -22,7 +29,8 @@ include:
 
 .deploy:sit:base:swarm:stack:
   extends:
-    - .deploy:sit:swarm:stack
+    - .env:sit
+    - .base_deploy_stack_swarm_luminet
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_SIT
     SERVER_USER: $NEX3_SWARM_LEADER_SIT_SSH_USER
@@ -31,7 +39,8 @@ include:
 
 .deploy:uat:base:swarm:stack:
   extends:
-    - .deploy:uat:swarm:stack
+    - .env:uat
+    - .base_deploy_stack_swarm_luminet
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_UAT
     SERVER_USER: $NEX3_SWARM_LEADER_UAT_SSH_USER
@@ -40,7 +49,8 @@ include:
 
 .deploy:prod:base:swarm:stack:
   extends:
-    - .deploy:prod:swarm:stack
+    - .env:prod
+    - .base_deploy_stack_swarm_luminet
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_PROD
     SERVER_USER: $NEX3_SWARM_LEADER_PROD_SSH_USER
@@ -49,7 +59,8 @@ include:
 
 .deploy:aws:base:swarm:stack:
   extends:
-    - .deploy:aws:swarm:stack
+    - .env:aws
+    - .base_deploy_stack_swarm_luminet
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_AWS
     SERVER_USER: $NEX3_SWARM_LEADER_AWS_SSH_USER
