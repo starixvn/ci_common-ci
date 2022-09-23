@@ -25,11 +25,14 @@
   - if [ ! -z "$CONFIG_FILE_NAME" ];
     then
       echo "===== SYNC $CONFIG_FILE ... =====";
-      curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$CONFIG_DEST_FILE" -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN;
-      if [[ ! -z "$ROCKETOR_API_URL" && $DEPLOY_ENV =~ ^(SIT|UAT|PROD) ]]; then
+      curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$CONFIG_DEST_FILE" -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN;      
+    fi
+
+.import-connection-string: &import-connection-string
+  - if [[ ! -z "$CONFIG_FILE_NAME" && $DEPLOY_ENV =~ ^(SIT|UAT|PROD|ALPHAPROD|FPSPROD) ]];
+    then
         printf "\n===== IMPORT CONNECTION STRING FROM $CONFIG_FILE ... =====\n";
         curl --fail -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" -F "serviceName=${SERVICE_NAME}_${DEPLOY_ENV}" -X POST $ROCKETOR_API_URL/Home/ImportConnectionString;
-      fi;
     fi
 
 .change-version-and-sync-sp: &change-version-and-sync-sp
@@ -76,6 +79,7 @@
     - *prepare-folder
     - *transform-and-sync-docker-compose
     - *sync-config
+    - *import-connection-string
     - *change-version-and-sync-sp
     - *remove-old-swarm-configs
     - *deploy-swarm-service
