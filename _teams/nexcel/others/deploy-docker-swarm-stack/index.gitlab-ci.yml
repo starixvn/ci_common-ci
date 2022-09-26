@@ -12,7 +12,7 @@ include:
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: DecreaseIncludes
-    file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
+    file: 'docker/deploy-nexcel.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: DecreaseIncludes
     file: '_teams/nexcel/others/variables.gitlab-ci.yml'

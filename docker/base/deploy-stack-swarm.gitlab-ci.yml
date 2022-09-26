@@ -28,28 +28,6 @@
       curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$CONFIG_DEST_FILE" -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN;      
     fi
 
-.import-connection-string: &import-connection-string
-  - if [[ ! -z "$CONFIG_FILE_NAME" && $DEPLOY_ENV =~ ^(SIT|UAT|PROD|ALPHAPROD|FPSPROD) ]];
-    then
-        printf "\n===== IMPORT CONNECTION STRING FROM $CONFIG_FILE ... =====\n";
-        curl --fail -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" -F "serviceName=${SERVICE_NAME}_${DEPLOY_ENV}" -X POST $ROCKETOR_API_URL/Home/ImportConnectionString;
-    fi
-
-.change-version-and-sync-sp: &change-version-and-sync-sp
-  - if [ ! -z "$SP_FILE_NAME" ];
-    then
-      export SP_FILE=$SP_FILE_NAME.${TRANSFORM_CONFIG}.$SP_FILE_EXTENSION;
-      if [ ! -z "$REDMINE_IDS" ]; then
-        echo "===== CHANGE SP VERSION FOR $SP_FILE ... =====";
-        if curl --fail -o sp-result.xml -F file=@"$SP_FILE_PATH/$SP_FILE" -F "redmineIds=$REDMINE_IDS" -X POST $ROCKETOR_API_URL/Home/ChangeSpVersion; then
-          cp sp-result.xml "$SP_FILE_PATH/$SP_FILE";
-          echo "It's done";
-        fi;
-      fi;
-      echo "===== SYNC $SP_FILE ... =====";
-      curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$SP_FILE_NAME.$SP_FILE_EXTENSION" -F file=@"$SP_FILE_PATH/$SP_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN;
-    fi
-
 .remove-old-swarm-configs: &remove-old-swarm-configs
   - echo "===== REMOVING OLD CONFIGS ... =====";
   - if [ ! -z "$SP_FILE_NAME" ];
@@ -72,30 +50,6 @@
 .deploy-swarm-service: &deploy-swarm-service
   - echo "===== DEPLOYING SERVICE ... =====";    
   - curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="cd $WORKING_PATH/$DEPLOY_ENV  && docker stack deploy --compose-file=docker-compose.yml --with-registry-auth $STACK_NAME" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;   
-
-.base_deploy_stack_swarm_nexcel:
-  stage: deploy
-  script:
-    - *prepare-folder
-    - *transform-and-sync-docker-compose
-    - *sync-config
-    - *import-connection-string
-    - *change-version-and-sync-sp
-    - *remove-old-swarm-configs
-    - *deploy-swarm-service
-  tags:
-    - docker
-
-.base_deploy_stack_swarm_luminet:
-  stage: deploy
-  script:
-    - *prepare-folder
-    - *transform-and-sync-docker-compose
-    - *sync-config
-    - *remove-old-swarm-configs
-    - *deploy-swarm-service
-  tags:
-    - docker
 
 cleanup:
   stage: .post

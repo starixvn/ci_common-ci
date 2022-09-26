@@ -1,0 +1,15 @@
+include:
+  - project: 'ci/common-ci'
+    ref: DecreaseIncludes
+    file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
+
+.base_deploy_stack_swarm_luminet:
+  stage: deploy
+  script:
+    - *prepare-folder
+    - *transform-and-sync-docker-compose
+    - *sync-config
+    - *remove-old-swarm-configs
+    - *deploy-swarm-service
+  tags:
+    - docker

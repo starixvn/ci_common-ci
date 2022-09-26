@@ -12,7 +12,7 @@ include:
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
-    file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
+    file: 'docker/deploy-luminet.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: rocketor
     file: '_teams/nexcel/nex3/variables.gitlab-ci.yml'
