@@ -38,13 +38,13 @@ include:
 .base_deploy_stack_swarm_nexcel:
   stage: deploy
   script:
-    - *prepare-folder
-    - *transform-and-sync-docker-compose
-    - *sync-config
+    - !reference [.prepare-folder, script]
+    - !reference [.transform-and-sync-docker-compose, script]
+    - !reference [.sync-config, script]
     - *import-connection-string
     - *change-version-and-sync-sp
-    - *remove-old-swarm-configs
+    - !reference [.remove-old-swarm-configs, script]
     - *remove-old-swarm-sp-configs
-    - *deploy-swarm-service
+    - !reference [.deploy-swarm-service, script]
   tags:
     - docker

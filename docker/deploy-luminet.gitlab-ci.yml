@@ -6,10 +6,10 @@ include:
 .base_deploy_stack_swarm_luminet:
   stage: deploy
   script:
-    - *prepare-folder
-    - *transform-and-sync-docker-compose
-    - *sync-config
-    - *remove-old-swarm-configs
-    - *deploy-swarm-service
+    - !reference [.prepare-folder, script]
+    - !reference [.transform-and-sync-docker-compose, script]
+    - !reference [.sync-config, script]
+    - !reference [.remove-old-swarm-configs, script]
+    - !reference [.deploy-swarm-service, script]
   tags:
     - docker
