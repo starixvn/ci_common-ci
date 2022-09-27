@@ -1,6 +1,6 @@
 include:
   - project: 'ci/common-ci'
-    ref: DecreaseIncludes
+    ref: rocketor
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
 
 .import-connection-string: &import-connection-string

@@ -1,6 +1,6 @@
 include:
   - project: 'ci/common-ci'
-    ref: DecreaseIncludes
+    ref: rocketor
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
 
 .base_deploy_stack_swarm:
