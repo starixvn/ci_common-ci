@@ -3,7 +3,7 @@ include:
     ref: DecreaseIncludes
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
 
-.base_deploy_stack_swarm_luminet:
+.base_deploy_stack_swarm:
   stage: deploy
   script:
     - !reference [.prepare-folder, script]

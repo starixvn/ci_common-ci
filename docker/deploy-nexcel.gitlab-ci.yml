@@ -35,7 +35,7 @@ include:
       fi;
     fi
 
-.base_deploy_stack_swarm_nexcel:
+.base_deploy_stack_swarm:
   stage: deploy
   script:
     - !reference [.prepare-folder, script]

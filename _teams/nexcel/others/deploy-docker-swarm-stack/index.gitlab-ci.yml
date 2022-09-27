@@ -20,7 +20,7 @@ include:
 .deploy:local:base:swarm:stack:
   extends:
     - .env:local
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_LOCAL
     SERVER_USER: $NEXCEL_SWARM_LEADER_LOCAL_SSH_USER
@@ -30,7 +30,7 @@ include:
 .deploy:nexprod:base:swarm:stack:
   extends:
     - .env:nexprod
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_NEXPROD
     SERVER_USER: $NEXCEL_SWARM_LEADER_NEXPROD_SSH_USER
@@ -39,7 +39,7 @@ include:
 .deploy:sit:base:swarm:stack:
   extends:
     - .env:sit
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_SIT
     SERVER_USER: $NEXCEL_SWARM_LEADER_SIT_SSH_USER
@@ -49,7 +49,7 @@ include:
 .deploy:uat:base:swarm:stack:
   extends:
     - .env:uat
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_UAT
     SERVER_USER: $NEXCEL_SWARM_LEADER_UAT_SSH_USER
@@ -59,7 +59,7 @@ include:
 .deploy:prod:base:swarm:stack:
   extends:
     - .env:prod
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_PROD
     SERVER_USER: $NEXCEL_SWARM_LEADER_PROD_SSH_USER
@@ -69,7 +69,7 @@ include:
 .deploy:fpsprod:base:swarm:stack:
   extends:
     - .env:fpsprod
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_FPSPROD
     SERVER_USER: $NEXCEL_SWARM_LEADER_FPSPROD_SSH_USER
@@ -79,7 +79,7 @@ include:
 .deploy:alphaprod:base:swarm:stack:
   extends:
     - .env:alphaprod
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_ALPHAPROD
     SERVER_USER: $NEXCEL_SWARM_LEADER_ALPHAPROD_SSH_USER
@@ -89,7 +89,7 @@ include:
 .deploy:aws:base:swarm:stack:
   extends:
     - .env:aws
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_AWS
     SERVER_USER: $NEXCEL_SWARM_LEADER_AWS_SSH_USER
@@ -99,7 +99,7 @@ include:
 .deploy:nexaws:base:swarm:stack:
   extends:
     - .env:nexaws
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_NEXAWS
     SERVER_USER: $NEXCEL_SWARM_LEADER_NEXAWS_SSH_USER
@@ -109,7 +109,7 @@ include:
 .deploy:gc:base:swarm:stack:
   extends:
     - .env:gc
-    - .base_deploy_stack_swarm_nexcel
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEXCEL_SWARM_LEADER_GC
     SERVER_USER: $NEXCEL_SWARM_LEADER_GC_SSH_USER

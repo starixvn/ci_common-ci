@@ -20,7 +20,7 @@ include:
 .deploy:local:base:swarm:stack:
   extends:
     - .env:local
-    - .base_deploy_stack_swarm_luminet
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_LOCAL
     SERVER_USER: $NEX3_SWARM_LEADER_LOCAL_SSH_USER
@@ -30,7 +30,7 @@ include:
 .deploy:sit:base:swarm:stack:
   extends:
     - .env:sit
-    - .base_deploy_stack_swarm_luminet
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_SIT
     SERVER_USER: $NEX3_SWARM_LEADER_SIT_SSH_USER
@@ -40,7 +40,7 @@ include:
 .deploy:uat:base:swarm:stack:
   extends:
     - .env:uat
-    - .base_deploy_stack_swarm_luminet
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_UAT
     SERVER_USER: $NEX3_SWARM_LEADER_UAT_SSH_USER
@@ -50,7 +50,7 @@ include:
 .deploy:prod:base:swarm:stack:
   extends:
     - .env:prod
-    - .base_deploy_stack_swarm_luminet
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_PROD
     SERVER_USER: $NEX3_SWARM_LEADER_PROD_SSH_USER
@@ -60,7 +60,7 @@ include:
 .deploy:aws:base:swarm:stack:
   extends:
     - .env:aws
-    - .base_deploy_stack_swarm_luminet
+    - .base_deploy_stack_swarm
   variables:
     SERVER_IP: $NEX3_SWARM_LEADER_AWS
     SERVER_USER: $NEX3_SWARM_LEADER_AWS_SSH_USER
