@@ -11,6 +11,7 @@ include:
     fi
 
 .change-version-and-sync-sp: &change-version-and-sync-sp
+  - echo $SP_FILE_TRANSFORM;
   - if [ ! -z "$SP_FILE_NAME" ];
     then
       if [ "$SP_FILE_TRANSFORM" == "true" ]; then
