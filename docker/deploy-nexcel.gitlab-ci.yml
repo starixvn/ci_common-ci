@@ -13,7 +13,11 @@ include:
 .change-version-and-sync-sp: &change-version-and-sync-sp
   - if [ ! -z "$SP_FILE_NAME" ];
     then
-      export SP_FILE=$SP_FILE_NAME.${TRANSFORM_CONFIG}.$SP_FILE_EXTENSION;
+      if [ "$SP_FILE_TRANSFORM" == "true" ]; then
+        export SP_FILE=$SP_FILE_NAME.${TRANSFORM_CONFIG}.$SP_FILE_EXTENSION;
+      else
+        export SP_FILE=$SP_FILE_NAME.$SP_FILE_EXTENSION;
+      fi;
       if [ ! -z "$REDMINE_IDS" ]; then
         echo "===== CHANGE SP VERSION FOR $SP_FILE ... =====";
         if curl --fail -o sp-result.xml -F file=@"$SP_FILE_PATH/$SP_FILE" -F "redmineIds=$REDMINE_IDS" -X POST $ROCKETOR_API_URL/Home/ChangeSpVersion; then
