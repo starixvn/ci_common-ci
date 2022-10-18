@@ -18,9 +18,9 @@ unit-test-js:
   before_script:
     - npm set registry http://npm.lumigame.com
     - yarn global add jest
-    - yarn install
+    - cd "$SRC_PATH" && yarn install
   script:
-    - npm run test-coverage
+    - cd "$SRC_PATH" && npm run test-coverage
   rules:
     - <<: *if-deploy-local
       when: never
