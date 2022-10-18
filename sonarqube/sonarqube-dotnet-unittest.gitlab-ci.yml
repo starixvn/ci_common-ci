@@ -41,6 +41,7 @@ scan-sonarqube-dotnet:
       /d:sonar.qualitygate.wait=true
       /d:sonar.cs.opencover.reportsPaths=**/*.coverage.opencover.xml
       /d:sonar.cs.vstest.reportsPaths=**/*.trx
+    - echo $SOLUTION_NAME
     - dotnet build $SOLUTION_NAME
     - dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN
   allow_failure: true

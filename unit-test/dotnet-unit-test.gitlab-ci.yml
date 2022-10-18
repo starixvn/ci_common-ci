@@ -20,7 +20,8 @@ unit-test-dotnet:
     - export PATH="$PATH:/root/.dotnet/tools"
     - dotnet nuget add source http://nuget.nexdev.net/api/v2
   script:
-    - dotnet build
+    - echo $SOLUTION_NAME
+    - dotnet build $SOLUTION_NAME
     - dotnet test --test-adapter-path:. --logger:"trx" || true
     - for path in $(find ./ -iname '*Tests.dll');
       do
