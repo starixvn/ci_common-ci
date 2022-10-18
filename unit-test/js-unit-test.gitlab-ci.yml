@@ -17,6 +17,7 @@ unit-test-js:
     - docker
   before_script:
     - npm set registry http://npm.lumigame.com
+    - yarn global add jest
     - yarn install
   script:
     - npm run test-coverage
@@ -38,7 +39,7 @@ unit-test-js:
   artifacts:
     when: always
     paths:
-      - ./coverage
+      - ./**/lcov.info
       - ./reports
     expire_in: 1 day
 
