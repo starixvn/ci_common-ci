@@ -63,11 +63,29 @@ include:
         exit 1;
       else
         echo $ANSIBLE_JOB;
-        if curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://ansible.nexdev.net/api/v2/job_templates/$ANSIBLE_JOB/launch/"; then
-            echo "$ORG - Deploying application to $CI_ENVIRONMENT_NAME ...";
-        fi;
-        sleep 60;
-        echo "$ORG - Done Deployment to $CI_ENVIRONMENT_NAME !";
+        echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deploying application...";
+        RUNJOBID=$(curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://ansible.nexdev.net/api/v2/job_templates/$ANSIBLE_JOB/launch/" | jq .job);
+        echo "Job link https://ansible.nexdev.net/#/jobs/playbook/$RUNJOBID";
+        for i in {1..60}; do
+          JOB_STATUS=$(curl -k -s --user $ansible_user:$ansible_pass "https://ansible.nexdev.net/api/v2/jobs/$RUNJOBID/" | jq .status);
+          echo "Ansible Job Status is $JOB_STATUS";
+          if [[ $JOB_STATUS == '"successful"' ]]; then
+            IS_DONE=true;
+            echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is DONE!";
+            break;
+          elif [[ $JOB_STATUS == '"failed"' || $JOB_STATUS == '"canceled"' ]]; then
+            IS_DONE=true;
+            echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is FAILED!!!";
+            exit 1;
+            break;
+          fi;
+          echo "waiting 10s...";
+          sleep 10;
+        done;
+      fi;
+    - if [ "$IS_DONE" != "true" ]; then
+        echo "Timeout of 10 minutes was reached.";
+        exit 1;
       fi;
   tags:
     - docker
