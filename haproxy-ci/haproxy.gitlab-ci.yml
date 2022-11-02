@@ -24,7 +24,7 @@ include:
           docker image rm -f haproxy-check-config;
           exit 1;
       fi;
-    - echo "$ORG - Done testing for $CI_ENVIRONMENT_NAME !";
+    - echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Testing is DONE!";
   tags:
     - docker
 
@@ -57,13 +57,13 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=650;
         fi;
       fi;
-    - if ["$ANSIBLE_JOB" == ""];
+    - if [ "$ANSIBLE_JOB" == "" ];
       then
         echo "$ORG - Currently, env $CI_ENVIRONMENT_NAME is not available to deploy!";
         exit 1;
       else
         echo $ANSIBLE_JOB;
-        echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deploying application...";
+        echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deploying HAProxy configs...";
         RUNJOBID=$(curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://ansible.nexdev.net/api/v2/job_templates/$ANSIBLE_JOB/launch/" | jq .job);
         echo "Job link https://ansible.nexdev.net/#/jobs/playbook/$RUNJOBID";
         for i in {1..60}; do
@@ -82,10 +82,10 @@ include:
           echo "waiting 10s...";
           sleep 10;
         done;
-      fi;
-    - if [ "$IS_DONE" != "true" ]; then
-        echo "Timeout of 10 minutes was reached.";
-        exit 1;
+        if [ "$IS_DONE" != "true" ]; then
+          echo "Timeout of 10 minutes was reached.";
+          exit 1;
+        fi;
       fi;
   tags:
     - docker
