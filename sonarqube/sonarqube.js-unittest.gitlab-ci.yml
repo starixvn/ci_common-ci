@@ -53,7 +53,7 @@ sonarqube-check:
       -Dsonar.projectName="$SONAR_PROJECT_NAME"
       -Dsonar.projectVersion="${CI_COMMIT_REF_NAME} ($CI_COMMIT_SHORT_SHA) [${CI_JOB_ID}]"
       -Dproject.settings=./sonarqube.analysis.properties
-      -Dsonar.javascript.lcov.reportPaths=./**/lcov.info
+      -Dsonar.javascript.lcov.reportPaths=**/lcov.info
       -Dsonar.testExecutionReportPaths=./reports/test-reporter.xml
       -Dsonar.sources=${SRC_PATH}
       -Dsonar.tests=${TEST_PATH}
