@@ -1,6 +1,6 @@
 include:
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: verify-deploy
     file: 'docker/base/deploy-stack-swarm.gitlab-ci.yml'
 
 .import-connection-string: &import-connection-string
@@ -27,17 +27,13 @@ include:
         fi;
       fi;
       echo "===== SYNC $SP_FILE ... =====";
-      curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$SP_FILE_NAME.$SP_FILE_EXTENSION" -F file=@"$SP_FILE_PATH/$SP_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN;
+      curl --fail -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$SP_FILE_NAME.$SP_FILE_EXTENSION" -F file=@"$SP_FILE_PATH/$SP_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_NEW_TOKEN;
     fi
 
 .remove-old-swarm-sp-configs: &remove-old-swarm-sp-configs
   - if [ ! -z "$SP_FILE_NAME" ];
     then
-      if curl --fail -o old_sp_configs.txt -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config ls  --format {{.Name}} | grep -e ${SERVICE_NAME}_${DEPLOY_ENV}_sp_config*" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
-      then 
-        old_sp_configs=$(awk '{printf "%s ", $0}' old_sp_configs.txt);          
-        curl -F jobid=$CI_JOB_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F command="docker config rm $old_sp_configs" $DEPLOYMENT_API/command?token=$DEPLOY_API_TOKEN;
-      fi;
+      curl -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F configName=${SERVICE_NAME}_${DEPLOY_ENV}_sp_config $DEPLOYMENT_API/removeSwarmConfigs?token=$DEPLOY_API_NEW_TOKEN;      
     fi
 
 .base_deploy_stack_swarm:

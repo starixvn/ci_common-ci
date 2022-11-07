@@ -11,7 +11,7 @@ include:
     ref: rocketor
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: rocketor
+    ref: verify-deploy
     file: 'docker/deploy-nexcel.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: verify-deploy
