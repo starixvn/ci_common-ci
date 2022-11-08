@@ -1,8 +1,8 @@
 .prepare-folder:
   script:
     - echo "$DEPLOYMENT_API"
-    - curl -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F registryUser=$DOCKER_REG_USERNAME -F registryPassword=$DOCKER_REG_PASSWORD -F registryUrl=$DOCKER_REG_URL $DEPLOYMENT_API/loginRegistry?token=$DEPLOY_API_NEW_TOKEN
-    - curl -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F workingDirectory=$WORKING_PATH $DEPLOYMENT_API/prepareFolderPermission?token=$DEPLOY_API_NEW_TOKEN
+    - curl -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F registryUser=$DOCKER_REG_USERNAME -F registryPassword=$DOCKER_REG_PASSWORD -F registryUrl=$DOCKER_REG_URL $DEPLOYMENT_API/loginRegistry?token=$DEPLOY_API_TOKEN
+    - curl -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F workingDirectory=$WORKING_PATH $DEPLOYMENT_API/prepareFolderPermission?token=$DEPLOY_API_TOKEN
 
 .transform-and-sync-docker-compose:
   script:
@@ -18,7 +18,7 @@
     - sed -i "s/@DOMAINS/$DOMAINS/g" $DOCKER_COMPOSE_FILE_PATH/$DOCKER_COMPOSE_FILE
     - echo "===== SYNC docker-compose.yml ... ====="
     - echo "Remote path --> $WORKING_PATH/$DEPLOY_ENV/docker-compose.yml"    
-    - curl --fail -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/docker-compose.yml" -F file=@"$DOCKER_COMPOSE_FILE_PATH/$DOCKER_COMPOSE_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_NEW_TOKEN
+    - curl --fail -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/docker-compose.yml" -F file=@"$DOCKER_COMPOSE_FILE_PATH/$DOCKER_COMPOSE_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN
 
 .sync-config:
   script:
@@ -28,7 +28,7 @@
     - if [ ! -z "$CONFIG_FILE_NAME" ];
       then
         echo "===== SYNC $CONFIG_FILE ... =====";
-        curl --fail -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$CONFIG_DEST_FILE" -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_NEW_TOKEN;      
+        curl --fail -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F remotePath="$WORKING_PATH/$DEPLOY_ENV/configs/$CONFIG_DEST_FILE" -F file=@"$CONFIG_FILE_PATH/$CONFIG_FILE" $DEPLOYMENT_API/scp?token=$DEPLOY_API_TOKEN;      
       fi
 
 .remove-old-swarm-configs:
@@ -36,13 +36,13 @@
     - echo "===== REMOVING OLD CONFIGS ... =====";   
     - if [ ! -z "$CONFIG_FILE_NAME" ];
       then 
-        curl -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F configName=${SERVICE_NAME}_${DEPLOY_ENV}_config $DEPLOYMENT_API/removeSwarmConfigs?token=$DEPLOY_API_NEW_TOKEN;        
+        curl -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F configName=${SERVICE_NAME}_${DEPLOY_ENV}_config $DEPLOYMENT_API/removeSwarmConfigs?token=$DEPLOY_API_TOKEN;        
       fi
 
 .deploy-swarm-service:
   script:
     - echo "===== DEPLOYING SERVICE ... =====";    
-    - curl --fail -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F workingDirectory=$WORKING_PATH -F stack=$STACK_NAME $DEPLOYMENT_API/deploySwarmService?token=$DEPLOY_API_NEW_TOKEN;   
+    - curl --fail -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F workingDirectory=$WORKING_PATH -F stack=$STACK_NAME $DEPLOYMENT_API/deploySwarmService?token=$DEPLOY_API_TOKEN;   
 
 cleanup:
   stage: .post

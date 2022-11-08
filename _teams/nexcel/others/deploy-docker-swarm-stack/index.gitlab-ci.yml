@@ -11,10 +11,10 @@ include:
     ref: rocketor
     file: 'docker/base/before-script-docker.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: verify-deploy
+    ref: rocketor
     file: 'docker/deploy-nexcel.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: verify-deploy
+    ref: rocketor
     file: '_teams/nexcel/others/variables.gitlab-ci.yml'
 
 .deploy:local:base:swarm:stack:
