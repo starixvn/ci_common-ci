@@ -16,7 +16,7 @@ unit-test-dotnet:
   tags:
     - docker
   before_script:
-    - dotnet tool install --global coverlet.console --version 3.1.0
+    - dotnet tool install --global coverlet.console --version 3.2.0
     - export PATH="$PATH:/root/.dotnet/tools"
     - dotnet nuget add source http://nuget.nexdev.net/api/v2
   script:
