@@ -21,9 +21,9 @@ scan-sonarqube-dotnet:
     - unit-test-dotnet
     - unit-test-js
   image:
-    name: registry.nexdev.net:5050/docker/dotnet/core/sdk:3.1-5-6-java11jre
+    name: hub.nexdev.net/base/dotnet/core/sdk:3.1-5-6-7-java11jre
   before_script:
-    - dotnet tool install --global dotnet-sonarscanner --version 5.5.3
+    - dotnet tool install --global dotnet-sonarscanner --version 5.8.0
     - export PATH="$PATH:/root/.dotnet/tools"
     - dotnet nuget add source http://nuget.nexdev.net/api/v2
     - echo "===========Start Sonar Scanner============="
