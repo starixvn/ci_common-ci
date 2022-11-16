@@ -17,7 +17,7 @@ variables:
 sonarqube-dotnet-check:
   stage: test
   image:
-    name: hub.nexdev.net/base/dotnet/core/sdk:3.1-5-6-7-java11jre
+    name: $DOCKER_REG_LOCAL_URL/base/dotnet/core/sdk:3.1-5-6-7-java11jre
   before_script:
     - dotnet tool install --global dotnet-sonarscanner --version 5.8.0
     - export PATH="$PATH:/root/.dotnet/tools"

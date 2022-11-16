@@ -12,7 +12,7 @@
 
 unit-test-dotnet:
   stage: test
-  image: hub.nexdev.net/base/dotnet/core/sdk:3.1-5-6-7
+  image: $DOCKER_REG_LOCAL_URL/base/dotnet/core/sdk:3.1-5-6-7
   tags:
     - docker
   before_script:
