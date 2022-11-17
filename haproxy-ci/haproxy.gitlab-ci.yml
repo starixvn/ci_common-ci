@@ -139,29 +139,6 @@ deploy:uat:
         - configs/uat/*
         - configs/uat/*/*
 
-test:sit:
-  extends: 
-    - .test:default:image
-  environment:
-    name: sit
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/sit/*
-        - configs/sit/*/*
-deploy:sit:
-  needs: ['test:sit']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: sit
-  only:
-    refs:
-      - main
-    changes:
-        - configs/sit/*
-        - configs/sit/*/*
 ###PROD-AWS
 test:prod:
   extends: 
