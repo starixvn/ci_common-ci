@@ -1,6 +1,6 @@
 publish_npm:
     stage: publish
-    image: hub.lumigame.com/docker-hub/library/node:slim
+    image: hub.lumigame.com/docker-hub/library/node:18.10-slim
     needs: ["sonarqube-check"]
     before_script:
         - apt-get update

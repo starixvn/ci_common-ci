@@ -12,7 +12,7 @@
 
 unit-test-js:
   stage: test
-  image: hub.lumigame.com/docker-hub/library/node:alpine
+  image: hub.lumigame.com/docker-hub/library/node:18.10-alpine
   tags:
     - docker
   before_script:
