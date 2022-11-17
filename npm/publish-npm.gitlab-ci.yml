@@ -1,6 +1,6 @@
 publish_npm:
     stage: publish
-    image: registry.nexdev.net:5050/docker/node:14.16
+    image: hub.lumigame.com/docker-hub/library/node:alpine
     needs: ["sonarqube-check"]
     before_script:
         - apt-get update
