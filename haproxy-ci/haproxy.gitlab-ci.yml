@@ -73,7 +73,7 @@ include:
             IS_DONE=true;
             echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is DONE!";
             break;
-          elif [[ $JOB_STATUS == '"failed"' || $JOB_STATUS == '"canceled"' ]]; then
+          elif [[ $JOB_STATUS == '"failed"' || $JOB_STATUS == '"canceled"' || $JOB_STATUS == '"error"' ]]; then
             IS_DONE=true;
             echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is FAILED!!!";
             exit 1;
