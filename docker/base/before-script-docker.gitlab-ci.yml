@@ -57,12 +57,6 @@ before_script:
     elif echo "$DEPLOY_ENV" | grep -q "NEXPROD"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_NEXPROD;
     export REGISTRY_IMAGE=$REGISTRY_NEXPROD;
-    elif echo "$DEPLOY_ENV" | grep -q "ALPHAPROD"; then
-    export DEPLOYMENT_API=$DEPLOYMENT_API_ALPHAPROD;
-    export REGISTRY_IMAGE=$REGISTRY_ALPHAPROD;
-    elif echo "$DEPLOY_ENV" | grep -q "FPSPROD"; then
-    export DEPLOYMENT_API=$DEPLOYMENT_API_FPSPROD;
-    export REGISTRY_IMAGE=$REGISTRY_FPSPROD;
     elif echo "$DEPLOY_ENV" | grep -q "PROD"; then
     export DEPLOYMENT_API=$DEPLOYMENT_API_PROD;
     export REGISTRY_IMAGE=$REGISTRY_PROD;
