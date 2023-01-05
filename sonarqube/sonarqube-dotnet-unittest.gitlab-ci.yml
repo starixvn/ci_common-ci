@@ -21,7 +21,9 @@ scan-sonarqube-dotnet:
     - unit-test-dotnet
   image:
     name: $DOCKER_REG_LOCAL_URL/base/dotnet/core/sdk:3.1-5-6-7-java11jre
-  before_script:
+  before_script:   
+    - update-locale LC_ALL="en_US.UTF-8"
+    - export LANG="en_US.UTF-8"
     - dotnet tool install --global dotnet-sonarscanner --version 5.9.2
     - export PATH="$PATH:/root/.dotnet/tools"
     - dotnet nuget add source http://nuget.nexdev.net/api/v2
