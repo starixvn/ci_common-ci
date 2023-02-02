@@ -17,7 +17,7 @@ unit-test-js:
     - docker
   before_script:
     - npm set registry http://npm.lumigame.com
-    - yarn global add jest
+    - yarn global add jest@28.1.3
     - cd "$SRC_PATH" 
     - yarn install
   script:
