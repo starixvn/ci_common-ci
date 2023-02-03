@@ -12,12 +12,13 @@
 
 unit-test-js:
   stage: test
-  image: registry.nexdev.net:5050/docker/node:14.15
+  image: $DOCKER_REG_LOCAL_URL/base/node:18.13
   tags:
     - docker
   before_script:
     - npm set registry http://npm.lumigame.com
-    - yarn global add jest@28.1.3
+    - yarn global add jest@24.5.0
+    - echo $SRC_PATH
     - cd "$SRC_PATH" 
     - yarn install
   script:
