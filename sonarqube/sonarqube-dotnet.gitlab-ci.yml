@@ -23,6 +23,7 @@ sonarqube-dotnet-check:
     - export LANG="en_US.UTF-8"
     - dotnet tool install --global dotnet-sonarscanner --version 5.8.0
     - export PATH="$PATH:/root/.dotnet/tools"
+    - export NUGET_PACKAGES=$CI_PROJECT_DIR/packages
     - dotnet nuget add source http://nuget.nexdev.net/api/v2
     - echo "===========Start Sonar Scanner============="
     - if [ "$SONAR_PROJECT_NAME" == "" ];
@@ -36,6 +37,10 @@ sonarqube-dotnet-check:
     - echo $SOLUTION_NAME
     - dotnet build $SOLUTION_NAME
     - dotnet sonarscanner end /d:sonar.login=$SONAR_TOKEN
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - packages/
   allow_failure: true
   rules:
     - <<: *if-deploy-local
