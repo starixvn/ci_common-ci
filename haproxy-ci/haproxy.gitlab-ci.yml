@@ -35,7 +35,8 @@ include:
     - echo "build - $CI_ENVIRONMENT_NAME [$ORG]"
     #- mkdir -p ~/.ssh
     #- echo "$SSH_PRIVATE_KEY_4" | base64 -d > "$SSH_KEY_FILE_4" && chmod 0600 "$SSH_KEY_FILE_4"
-    - mkdir -p ~/.ssh && echo "$SSH_PRIVATE_KEY_4" | base64 -d > ${SSH_KEY_FILE_4} && chmod 0600 ${SSH_KEY_FILE_4}
+    - mkdir -p ~/.ssh && echo ${SSH_PRIVATE_KEY_4} | base64 -d > ${SSH_KEY_FILE_4}
+    - chmod 0600 ${SSH_KEY_FILE_4}
     - eval "$(ssh-agent -s)"
     - ssh-add ${SSH_KEY_FILE_4}
     - ssh-keyscan -t rsa gitlab.nexdev.net >> ~/.ssh/known_hosts
