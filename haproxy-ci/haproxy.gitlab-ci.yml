@@ -37,6 +37,7 @@ include:
         then export REPOS="default nexops rome olympus nexus spu nex3";
       else
         then export REPOS="default sc1 vg2";
+      fi ;
     - echo "repo $REPOS";
     - mkdir -p /haproxy/configs && mkdir -p /haproxy/compiled/$CI_ENVIRONMENT_NAME/{configs,maps}
     - cd /srv/
