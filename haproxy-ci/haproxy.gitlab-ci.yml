@@ -30,6 +30,7 @@ include:
     - docker
 
 .build:default:image:
+  image: hub.nexdev.net/base/docker:20.10.7-bash
   stage: build
   script:
     - echo "build - $CI_ENVIRONMENT_NAME [$ORG]"
