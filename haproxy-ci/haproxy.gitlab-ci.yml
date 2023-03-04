@@ -37,7 +37,8 @@ include:
     #- mkdir -p /root/.ssh/
     #- cp dockerfiles/rsa/id_rsa /root/.ssh/
     #- chmod -R 600 /root/.ssh/
-    - mkdir -p /root/.ssh/ && echo "$SSH_PRIVATE_KEY" | base64 -d > ${SSH_KEY_FILE} && chmod 0600 ${SSH_KEY_FILE}
+    - mkdir -p ~/.ssh && echo "$SSH_PRIVATE_KEY" # | base64 -d > ${SSH_KEY_FILE} && chmod 0600 ${SSH_KEY_FILE}
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa && chmod 0600 ${SSH_KEY_FILE}
     - ssh-keyscan -t rsa gitlab.nexdev.net >> /root/.ssh/known_hosts
     - ssh-keyscan -t rsa gitlab.starixsoft.com >> /root/.ssh/known_hosts
     - if [ "$ORG" == "Nexcel" ];
