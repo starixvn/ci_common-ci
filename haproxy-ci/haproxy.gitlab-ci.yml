@@ -96,8 +96,8 @@ include:
     - cd /srv
     - git clone git@gitlab.starixsoft.com:compiled/haproxy.git
     #####@ Clean up
-    - if [ -e /srv/haproxy/$ORG/$ENV ] ; 
-        then rm -R /srv/haproxy/$ORG/$ENV ;
+    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME ] ; 
+        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME ;
         cd haproxy ;
         git add .;
         git commit -m "clean up - $ENV"  || echo "ignore commit failure, proceed";
