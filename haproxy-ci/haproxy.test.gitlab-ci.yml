@@ -12,7 +12,7 @@ test:local_test:
         - configs/local_test/*/*
 
 build:local_test:
-  needs: ['test:local_test']
+  #needs: ['test:local_test']
   extends: 
     - .build:default:image
   environment:
