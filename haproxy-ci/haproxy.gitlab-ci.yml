@@ -35,7 +35,7 @@ include:
     - echo "build - $CI_ENVIRONMENT_NAME [$ORG]"
     - pwd
     - mkdir -p /root/.ssh/
-    - cp rsa/id_rsa /root/.ssh/
+    - cp dockerfiles/rsa/id_rsa /root/.ssh/
     - chmod -R 600 /root/.ssh/
     - ssh-keyscan -t rsa gitlab.nexdev.net >> /root/.ssh/known_hosts
     - ssh-keyscan -t rsa gitlab.starixsoft.com >> /root/.ssh/known_hosts
