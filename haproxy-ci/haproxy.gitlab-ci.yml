@@ -9,8 +9,8 @@ include:
     file: 'haproxy-ci/deploy-vars.gitlab-ci.yml'
   - project: 'ci/common-ci'
     file: 'haproxy-ci/haproxy-rules.gitlab-ci.yml'
-  #- project: 'ci/common-ci'
-  #  file: 'haproxy-ci/before-script.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    file: 'haproxy-ci/haproxy.common.gitlab-ci.yml'
 ############
 .test:default:image:
   stage: test
@@ -38,33 +38,31 @@ include:
     - chmod 600 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - ssh-keyscan -t rsa gitlab.nexdev.net >> ~/.ssh/known_hosts
     - ssh-keyscan -t rsa gitlab.starixsoft.com >> ~/.ssh/known_hosts
     - if [ "$ORG" == "Nexcel" ];
       then
-        echo "$ORG";
+        ssh-keyscan -t rsa gitlab.nexdev.net >> ~/.ssh/known_hosts ;
         export REPOS="default nexops rome olympus nexus spu nex3" ;
+        export GIT_URL="gitlab.nexdev.net:NEXOPS/haproxy" ;
       else
-        echo "$ORG";
-        export REPOS="default sc1 vg2" ;
+        ssh-keyscan -t rsa git3.nexdev.net >> ~/.ssh/known_hosts ;
+        export REPOS="default nexops sc1 vg2" ;
+        export GIT_URL="git3.nexdev.net:haproxy"
       fi;
-    - echo "repo $REPOS";
+    - echo "$ORG - repo $REPOS - $GIT_URL";
     - mkdir -p /haproxy/configs && mkdir -p /haproxy/compiled/$CI_ENVIRONMENT_NAME/{configs,maps}
     - cd /srv/
     - |
       for REPO in $REPOS
         do
-          echo "git clone git@gitlab.nexdev.net:NEXOPS/haproxy/haproxy-${REPO}.git"
-          git clone git@gitlab.nexdev.net:NEXOPS/haproxy/haproxy-${REPO}.git
+          git clone git@${GIT_URL}/haproxy-${REPO}.git
       done
     - |
       for REPO in $REPOS
         do
-          echo "cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/"
           if [ -e /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME ] ; 
           then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/ ; 
           fi ;
-
       done
     - cat /haproxy/configs/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg
     - cat /haproxy/configs/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/hosts.map
@@ -176,101 +174,3 @@ include:
       fi;
   tags:
     - docker
-###LOCAL - NEXPROD
-test:local:
-  extends: 
-    - .test:default:image
-  environment:
-    name: local
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/local/*
-        - configs/local/*/*
-deploy:local:
-  needs: ['test:local']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: local
-  only:
-    refs:
-      - main
-    changes:
-        - configs/local/*
-        - configs/local/*/*
-
-###UAT-SIT
-test:uat:
-  extends: 
-    - .test:default:image
-  environment:
-    name: uat
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/uat/*
-        - configs/uat/*/*
-deploy:uat:
-  needs: ['test:uat']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: uat
-  only:
-    refs:
-      - main
-    changes:
-        - configs/uat/*
-        - configs/uat/*/*
-
-###PROD-AWS
-test:prod:
-  extends: 
-    - .test:default:image
-  environment:
-    name: prod
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/prod/*
-        - configs/prod/*/*
-deploy:prod:
-  needs: ['test:prod']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: prod
-  only:
-    refs:
-      - main
-    changes:
-        - configs/prod/*
-        - configs/prod/*/*
-
-test:aws:
-  extends: 
-    - .test:default:image
-  environment:
-    name: aws
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/aws/*
-        - configs/aws/*/*
-deploy:aws:
-  needs: ['test:aws']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: aws
-  only:
-    refs:
-      - main
-    changes:
-        - configs/aws/*
-        - configs/aws/*/*

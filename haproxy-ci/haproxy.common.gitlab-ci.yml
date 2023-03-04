@@ -1,0 +1,145 @@
+###LOCAL
+test:local:
+  extends: 
+    - .test:default:image
+  environment:
+    name: local
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/local/*
+        - configs/local/*/*
+build:local:
+  needs: ['test:local']
+  extends: 
+    - .build:default:image
+  environment:
+    name: local
+  only:
+    refs:
+      - main
+    changes:
+        - configs/local/*
+        - configs/local/*/*
+deploy:local:
+  needs: ['test:local']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: local
+  only:
+    refs:
+      - main
+    changes:
+        - configs/local/*
+        - configs/local/*/*
+
+###UAT
+test:uat:
+  extends: 
+    - .test:default:image
+  environment:
+    name: uat
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/uat/*
+        - configs/uat/*/*
+build:uat:
+  needs: ['test:uat']
+  extends: 
+    - .build:default:image
+  environment:
+    name: uat
+  only:
+    refs:
+      - main
+    changes:
+        - configs/uat/*
+        - configs/uat/*/*
+deploy:uat:
+  needs: ['test:uat']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: uat
+  only:
+    refs:
+      - main
+    changes:
+        - configs/uat/*
+        - configs/uat/*/*
+###PROD
+test:prod:
+  extends: 
+    - .test:default:image
+  environment:
+    name: prod
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/prod/*
+        - configs/prod/*/*
+build:prod:
+  needs: ['test:prod']
+  extends: 
+    - .build:default:image
+  environment:
+    name: prod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/prod/*
+        - configs/prod/*/*
+deploy:prod:
+  needs: ['test:prod']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: prod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/prod/*
+        - configs/prod/*/*
+#AWS
+test:aws:
+  extends: 
+    - .test:default:image
+  environment:
+    name: aws
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/aws/*
+        - configs/aws/*/*
+build:aws:
+  needs: ['test:aws']
+  extends: 
+    - .build:default:image
+  environment:
+    name: aws
+  only:
+    refs:
+      - main
+    changes:
+        - configs/aws/*
+        - configs/aws/*/*
+deploy:aws:
+  needs: ['test:aws']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: aws
+  only:
+    refs:
+      - main
+    changes:
+        - configs/aws/*
+        - configs/aws/*/*
