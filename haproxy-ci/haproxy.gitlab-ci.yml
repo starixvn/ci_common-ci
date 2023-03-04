@@ -41,9 +41,7 @@ include:
     - chmod 600 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    #- ssh-keyscan -t rsa gitlab.starixsoft.com >> ~/.ssh/known_hosts
-    #- ssh-keyscan -t rsa gitlab.nexdev.net >> ~/.ssh/known_hosts ;
-    - ssh-keyscan -t rsa git3.nexdev.net >> ~/.ssh/known_hosts ;
+    - ssh-keyscan -t rsa gitlab.starixsoft.com >> ~/.ssh/known_hosts
     - if [ "$ORG" == "Nexcel" ];
       then
         ssh-keyscan -t rsa gitlab.nexdev.net >> ~/.ssh/known_hosts ;
