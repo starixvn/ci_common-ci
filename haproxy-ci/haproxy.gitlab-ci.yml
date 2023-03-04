@@ -32,8 +32,9 @@ include:
 .build:default:image:
   stage: build
   script:
-    - echo "build - $CI_ENVIRONMENT_NAME"
-    - mkdir -p /haproxy/configs && mkdir -p /haproxy/compiled/$ENV/{configs,maps}
+    - echo "build - $CI_ENVIRONMENT_NAME [$ORG]"
+    - echo "repo $REPOS";
+    - mkdir -p /haproxy/configs && mkdir -p /haproxy/compiled/$CI_ENVIRONMENT_NAME/{configs,maps}
     - cd /srv/
     - |
       for REPO in $REPOS
@@ -44,20 +45,20 @@ include:
     - |
       for REPO in $REPOS
         do
-          echo "cp -R /srv/haproxy-${REPO}/configs/$ENV /haproxy/configs/"
-          if [ -e /srv/haproxy-${REPO}/configs/$ENV ] ; 
-          then cp -R /srv/haproxy-${REPO}/configs/$ENV /haproxy/configs/ ; 
+          echo "cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/"
+          if [ -e /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME ] ; 
+          then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/ ; 
           fi ;
 
       done
-    - cat /haproxy/configs/$ENV/*.cfg > /haproxy/compiled/$ENV/configs/haproxy.cfg
-    - cat /haproxy/configs/$ENV/maps/*.map > /haproxy/compiled/$ENV/maps/hosts.map
-    - if [ -e /haproxy/configs/$ENV/special-maps ] ; then cp /haproxy/configs/$ENV/special-maps/* /haproxy/compiled/$ENV/maps/ ; fi ;
+    - cat /haproxy/configs/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg
+    - cat /haproxy/configs/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/hosts.map
+    - if [ -e /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/ ; fi ;
     #- if [ "$ORG" == "Nexcel" ];
-    - if [[ "$ENV" == "local" || "$ENV" == "local_test" ]];
-        then cp -R /srv/haproxy-default/certs /haproxy/compiled/$ENV/ ;
+    - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "local_test" ]];
+        then cp -R /srv/haproxy-default/certs /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
       else
-        then cp /srv/haproxy-default/whitelisted.ips /haproxy/compiled/$ENV/ ;
+        then cp /srv/haproxy-default/whitelisted.ips /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
       fi ;
     ########### Testing
     # - cp /haproxy/compiled/$ENV/haproxy.cfg /builds/troy.vo/testing-ci/haproxy.cfg
@@ -89,12 +90,12 @@ include:
       fi ;
     ####
     - mkdir -p /srv/haproxy/$ORG
-    - cp -R /haproxy/compiled/$ENV /srv/haproxy/$ORG/
+    - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy/$ORG/
     - cd /srv/haproxy && git add .
-    - git commit -m "Change haproxy.cfg - $ENV"  || echo "ignore commit failure, proceed"
+    - git commit -m "Change haproxy.cfg - $CI_ENVIRONMENT_NAME"  || echo "ignore commit failure, proceed"
     - git push origin master
     ###############
-    - echo "[$ORG] [$ENV] - Build is DONE!";
+    - echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Build is DONE!";
   tags:
     - docker
 
