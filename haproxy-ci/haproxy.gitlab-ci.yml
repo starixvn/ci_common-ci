@@ -42,7 +42,7 @@ include:
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -t rsa gitlab.starixsoft.com >> ~/.ssh/known_hosts
-    - if [ "$ORG" == "Nexcel" ];
+    - if [ "$ORG" == "nexcel" ];
       then
         ssh-keyscan -t rsa gitlab.nexdev.net >> ~/.ssh/known_hosts ;
         export REPOS="default nexops rome olympus nexus spu nex3" ;
@@ -118,7 +118,7 @@ include:
   stage: deploy
   script:
     - echo "deploy - $CI_ENVIRONMENT_NAME"
-    - if [ "$ORG" == "Nexcel" ];
+    - if [ "$ORG" == "nexcel" ];
       then
         if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=898;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=480;
@@ -134,7 +134,7 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "aws-nex3"; then export ANSIBLE_JOB=651;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=693;
         fi;
-      elif [ "$ORG" == "Lumi" ];
+      elif [ "$ORG" == "luminet" ];
       then
         if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1018;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=474;
