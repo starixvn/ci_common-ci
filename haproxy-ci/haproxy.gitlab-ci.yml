@@ -1,6 +1,7 @@
 image: $DOCKER_REG_LOCAL_URL/base/docker:20.10.7-bash-jq
 stages:
   - test
+  - build
   - deploy
 ############
 include:
@@ -25,6 +26,75 @@ include:
           exit 1;
       fi;
     - echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Testing is DONE!";
+  tags:
+    - docker
+
+.build:default:image:
+  stage: build
+  script:
+    - echo "build - $CI_ENVIRONMENT_NAME"
+    - mkdir -p /haproxy/configs && mkdir -p /haproxy/compiled/$ENV/{configs,maps}
+    - cd /srv/
+    - |
+      for REPO in $REPOS
+        do
+          echo "git clone git@gitlab.nexdev.net:NEXOPS/haproxy/haproxy-${REPO}.git"
+          git clone git@gitlab.nexdev.net:NEXOPS/haproxy/haproxy-${REPO}.git
+      done
+    - |
+      for REPO in $REPOS
+        do
+          echo "cp -R /srv/haproxy-${REPO}/configs/$ENV /haproxy/configs/"
+          if [ -e /srv/haproxy-${REPO}/configs/$ENV ] ; 
+          then cp -R /srv/haproxy-${REPO}/configs/$ENV /haproxy/configs/ ; 
+          fi ;
+
+      done
+    - cat /haproxy/configs/$ENV/*.cfg > /haproxy/compiled/$ENV/configs/haproxy.cfg
+    - cat /haproxy/configs/$ENV/maps/*.map > /haproxy/compiled/$ENV/maps/hosts.map
+    - if [ -e /haproxy/configs/$ENV/special-maps ] ; then cp /haproxy/configs/$ENV/special-maps/* /haproxy/compiled/$ENV/maps/ ; fi ;
+    #- if [ "$ORG" == "Nexcel" ];
+    - if [[ "$ENV" == "local" || "$ENV" == "local_test" ]];
+        then cp -R /srv/haproxy-default/certs /haproxy/compiled/$ENV/ ;
+      else
+        then cp /srv/haproxy-default/whitelisted.ips /haproxy/compiled/$ENV/ ;
+      fi ;
+    ########### Testing
+    # - cp /haproxy/compiled/$ENV/haproxy.cfg /builds/troy.vo/testing-ci/haproxy.cfg
+    # - cat /haproxy/compiled/$ENV/haproxy.cfg
+    # - cp -R /haproxy/compiled/$ENV/maps /builds/troy.vo/testing-ci/
+    # - cat /haproxy/compiled/$ENV/maps/hosts.map
+    # - docker login -u $docker_reg_user -p $docker_reg_pass $docker_reg_url
+    # - cd /builds/troy.vo/testing-ci && docker build --no-cache --build-arg ENV="$ENV" -f dockerfiles/Dockerfile -t haproxy-check-config .
+    # - if docker run --rm haproxy-check-config haproxy -c -V -f /etc/haproxy/haproxy.cfg; then
+    #       docker image rm -f haproxy-check-config;
+    #   else
+    #       echo "Fatal errors found in configuration.";
+    #       docker image rm -f haproxy-check-config;
+    #       exit 1;
+    #   fi;
+    ############ Testing
+    ############### Compiled
+    - git config --global user.email "ansible@nexdev.net"
+    - git config --global user.name "ansible"
+    - cd /srv
+    - git clone git@gitlab.starixsoft.com:compiled/haproxy.git
+    #####@ Clean up
+    - if [ -e /srv/haproxy/$ORG/$ENV ] ; 
+        then rm -R /srv/haproxy/$ORG/$ENV ;
+        cd haproxy ;
+        git add .;
+        it commit -m "clean up - $ENV"  || echo "ignore commit failure, proceed";
+        git push origin master;
+      fi ;
+    ####
+    - mkdir -p /srv/haproxy/$ORG
+    - cp -R /haproxy/compiled/$ENV /srv/haproxy/$ORG/
+    - cd /srv/haproxy && git add .
+    - git commit -m "Change haproxy.cfg - $ENV"  || echo "ignore commit failure, proceed"
+    - git push origin master
+    ###############
+    - echo "[$ORG] [$ENV] - Build is DONE!";
   tags:
     - docker
 
