@@ -33,6 +33,7 @@ include:
   stage: build
   script:
     - echo "build - $CI_ENVIRONMENT_NAME [$ORG]"
+    - pwd
     - mkdir -p /root/.ssh/
     - cp rsa/id_rsa /root/.ssh/
     - chmod -R 600 /root/.ssh/
