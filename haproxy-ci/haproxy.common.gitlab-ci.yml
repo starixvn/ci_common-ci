@@ -23,7 +23,7 @@ build:local:
         - configs/local/*
         - configs/local/*/*
 deploy:local:
-  needs: ['test:local']
+  needs: ['build:local']
   extends: 
     - .deploy:default:image
   environment:
@@ -60,7 +60,7 @@ build:uat:
         - configs/uat/*
         - configs/uat/*/*
 deploy:uat:
-  needs: ['test:uat']
+  needs: ['build:uat']
   extends: 
     - .deploy:default:image
   environment:
@@ -96,7 +96,7 @@ build:prod:
         - configs/prod/*
         - configs/prod/*/*
 deploy:prod:
-  needs: ['test:prod']
+  needs: ['build:prod']
   extends: 
     - .deploy:default:image
   environment:
@@ -132,7 +132,7 @@ build:aws:
         - configs/aws/*
         - configs/aws/*/*
 deploy:aws:
-  needs: ['test:aws']
+  needs: ['build:aws']
   extends: 
     - .deploy:default:image
   environment:
