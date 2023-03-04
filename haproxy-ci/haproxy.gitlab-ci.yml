@@ -6,10 +6,10 @@ stages:
 ############
 include:
   - project: 'ci/common-ci'
-    ref: main
+    ref: master
     file: 'haproxy-ci/deploy-vars.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: main
+    ref: master
     file: 'haproxy-ci/haproxy-rules.gitlab-ci.yml'
   - project: 'ci/common-ci'
     ref: haproxy-gitcompiled
