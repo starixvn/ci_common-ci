@@ -33,19 +33,11 @@ include:
   stage: build
   script:
     - echo "build - $CI_ENVIRONMENT_NAME [$ORG]"
-    - pwd
-    #- mkdir -p /root/.ssh/
-    #- cp dockerfiles/rsa/id_rsa /root/.ssh/
-    #- chmod -R 600 /root/.ssh/
-    #- mkdir -p ~/.ssh && echo "$SSH_PRIVATE_KEY" 
     - mkdir -p ~/.ssh
-    - echo "$SSH_PRIVATE_KEY_4" | base64 -d > ~/.ssh/id_rsa && chmod 0600 ~/.ssh/id_rsa
-    # Paste the PRIVATE key into a gitlab variable. Pay attention to the linebreak at the end when pasting
-    #- echo "$DEPLOY_SERVER_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
+    - echo "$SSH_PRIVATE_KEY_4" | base64 -d > $SSH_PRIVATE_KEY_4 && chmod 0600 $SSH_PRIVATE_KEY_4
+    - chmod 600 $SSH_PRIVATE_KEY_4
     - eval "$(ssh-agent -s)"
-    - ssh-add ~/.ssh/id_rsa
-    #- ssh-keyscan -H 'your.server.hostname' >> ~/.ssh/known_hosts
+    - ssh-add $SSH_PRIVATE_KEY_4
     - ssh-keyscan -t rsa gitlab.nexdev.net >> ~/.ssh/known_hosts
     - ssh-keyscan -t rsa gitlab.starixsoft.com >> ~/.ssh/known_hosts
     - if [ "$ORG" == "Nexcel" ];
@@ -108,7 +100,7 @@ include:
         then rm -R /srv/haproxy/$ORG/$ENV ;
         cd haproxy ;
         git add .;
-        it commit -m "clean up - $ENV"  || echo "ignore commit failure, proceed";
+        git commit -m "clean up - $ENV"  || echo "ignore commit failure, proceed";
         git push origin master;
       fi ;
     ####
