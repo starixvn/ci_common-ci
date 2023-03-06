@@ -45,7 +45,7 @@ include:
     - if [ "$ORG" == "nexcel" ];
       then
         ssh-keyscan -t rsa gitlab.nexdev.net >> ~/.ssh/known_hosts ;
-        export REPOS="default nexops rome olympus nexus spu nex3" ;
+        export REPOS="default nexops legion rome olympus nexus spu nex3" ;
         export GIT_URL="gitlab.nexdev.net:NEXOPS/haproxy" ;
       else
         ssh-keyscan -t rsa git3.nexdev.net >> ~/.ssh/known_hosts ;
