@@ -10,5 +10,5 @@ workflow:
     - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632" || $CI_PROJECT_ID == "689")'
       variables:
         ORG: "luminet"
-        REPOS: "default nexops sc1 vg2" ;
-        GIT_URL: "git3.nexdev.net:haproxy" ;
+        REPOS: "default nexops sc1 vg2"
+        GIT_URL: "git3.nexdev.net:haproxy"
