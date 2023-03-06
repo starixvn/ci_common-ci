@@ -121,7 +121,7 @@ include:
     - if [ "$ORG" == "nexcel" ];
       then
         if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=898;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=480;
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=1693;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "nexprod"; then export ANSIBLE_JOB=1162;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=494;
         elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=606;
