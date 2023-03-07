@@ -9,8 +9,20 @@ test:fpsprod:
     - changes:
         - configs/fpsprod/*
         - configs/fpsprod/*/*
-deploy:fpsprod:
+build:fpsprod:
   needs: ['test:fpsprod']
+  extends: 
+    - .build:default:image
+  environment:
+    name: fpsprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/fpsprod/*
+        - configs/fpsprod/*/*
+deploy:fpsprod:
+  needs: ['build:fpsprod']
   extends: 
     - .deploy:default:image
   environment:

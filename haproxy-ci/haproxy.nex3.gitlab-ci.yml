@@ -9,8 +9,20 @@ test:prod-nex3:
     - changes:
         - configs/prod-nex3/*
         - configs/prod-nex3/*/*
-deploy:prod-nex3:
+build:prod-nex3:
   needs: ['test:prod-nex3']
+  extends: 
+    - .build:default:image
+  environment:
+    name: prod-nex3
+  only:
+    refs:
+      - main
+    changes:
+        - configs/prod-nex3/*
+        - configs/prod-nex3/*/*
+deploy:prod-nex3:
+  needs: ['build:prod-nex3']
   extends: 
     - .deploy:default:image
   environment:
@@ -33,8 +45,20 @@ test:aws-nex3:
     - changes:
         - configs/aws-nex3/*
         - configs/aws-nex3/*/*
-deploy:aws-nex3:
+build:aws-nex3:
   needs: ['test:aws-nex3']
+  extends: 
+    - .build:default:image
+  environment:
+    name: aws-nex3
+  only:
+    refs:
+      - main
+    changes:
+        - configs/aws-nex3/*
+        - configs/aws-nex3/*/*
+deploy:aws-nex3:
+  needs: ['build:aws-nex3']
   extends: 
     - .deploy:default:image
   environment:

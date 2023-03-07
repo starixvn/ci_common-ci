@@ -9,8 +9,20 @@ test:gc:
     - changes:
         - configs/gc/*
         - configs/gc/*/*
-deploy:gc:
+build:gc:
   needs: ['test:gc']
+  extends: 
+    - .build:default:image
+  environment:
+    name: gc
+  only:
+    refs:
+      - main
+    changes:
+        - configs/gc/*
+        - configs/gc/*/*
+deploy:gc:
+  needs: ['build:gc']
   extends: 
     - .deploy:default:image
   environment:
