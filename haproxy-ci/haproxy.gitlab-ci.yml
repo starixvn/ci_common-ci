@@ -132,12 +132,12 @@ include:
         fi;
       elif [ "$ORG" == "luminet" ];
       then
-        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1018;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=474;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=472;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=472;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=473;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=650;
+        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1018;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=474;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=492;export ANSIBLE_HOST="ansible.starixplay.com";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=492;export ANSIBLE_HOST="ansible.starixplay.com";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=473;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=650;export ANSIBLE_HOST="ansible.nexdev.net";
         fi;
       fi;
     - if [ "$ANSIBLE_JOB" == "" ];
