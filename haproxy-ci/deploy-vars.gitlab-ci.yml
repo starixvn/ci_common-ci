@@ -1,7 +1,7 @@
 variables:
   haproxy_version: "2.4-test"
-  ansible_user: "ansible"
-  ansible_pass: "ansible"
+  ansible_user: "VNAnsible"
+  ansible_pass: "ansibleH5nF5ywy"
   docker_reg_user: "gitlab-ci"
   docker_reg_pass: "H5nF5ywy262wt881ZWpq"
   docker_reg_url: "$DOCKER_REG_LOCAL_URL"
