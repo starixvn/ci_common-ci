@@ -9,8 +9,20 @@ test:sit:
     - changes:
         - configs/sit/*
         - configs/sit/*/*
-deploy:sit:
+build:sit:
   needs: ['test:sit']
+  extends: 
+    - .build:default:image
+  environment:
+    name: sit
+  only:
+    refs:
+      - main
+    changes:
+        - configs/sit/*
+        - configs/sit/*/*
+deploy:sit:
+  needs: ['build:sit']
   extends: 
     - .deploy:default:image
   environment:
