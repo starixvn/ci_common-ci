@@ -9,8 +9,20 @@ test:alphaprod:
     - changes:
         - configs/alphaprod/*
         - configs/alphaprod/*/*
-deploy:alphaprod:
+build:alphaprod:
   needs: ['test:alphaprod']
+  extends: 
+    - .build:default:image
+  environment:
+    name: alphaprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/alphaprod/*
+        - configs/alphaprod/*/*
+deploy:alphaprod:
+  needs: ['build:alphaprod']
   extends: 
     - .deploy:default:image
   environment:

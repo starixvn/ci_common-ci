@@ -9,8 +9,20 @@ test:nexprod:
     - changes:
         - configs/nexprod/*
         - configs/nexprod/*/*
-deploy:nexprod:
+build:nexprod:
   needs: ['test:nexprod']
+  extends: 
+    - .build:default:image
+  environment:
+    name: nexprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/nexprod/*
+        - configs/nexprod/*/*
+deploy:nexprod:
+  needs: ['build:nexprod']
   extends: 
     - .deploy:default:image
   environment:

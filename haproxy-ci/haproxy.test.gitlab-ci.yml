@@ -10,8 +10,22 @@ test:local_test:
     - changes:
         - configs/local_test/*
         - configs/local_test/*/*
+
+build:local_test:
+  #needs: ['test:local_test']
+  extends: 
+    - .build:default:image
+  environment:
+    name: local_test
+  only:
+    refs:
+      - main
+    changes:
+        - configs/local_test/*
+        - configs/local_test/*/*
+
 deploy:local_test:
-  needs: ['test:local_test']
+  needs: ['build:local_test']
   extends: 
     - .deploy:default:image
   environment:

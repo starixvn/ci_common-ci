@@ -1,15 +1,19 @@
 image: $DOCKER_REG_LOCAL_URL/base/docker:20.10.7-bash-jq
 stages:
   - test
+  - build
   - deploy
 ############
 include:
   - project: 'ci/common-ci'
+    ref: master
     file: 'haproxy-ci/deploy-vars.gitlab-ci.yml'
   - project: 'ci/common-ci'
+    ref: master
     file: 'haproxy-ci/haproxy-rules.gitlab-ci.yml'
-  #- project: 'ci/common-ci'
-  #  file: 'haproxy-ci/before-script.gitlab-ci.yml'
+  - project: 'ci/common-ci'
+    ref: master
+    file: 'haproxy-ci/haproxy.common.gitlab-ci.yml'
 ############
 .test:default:image:
   stage: test
@@ -28,34 +32,112 @@ include:
   tags:
     - docker
 
+.build:default:image:
+  stage: build
+  script:
+    - echo "build - $CI_ENVIRONMENT_NAME [$ORG]"
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY_4" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -t rsa gitlab.starixsoft.com >> ~/.ssh/known_hosts
+    - if [ "$ORG" == "nexcel" ];
+      then
+        ssh-keyscan -t rsa gitlab.nexdev.net >> ~/.ssh/known_hosts ;
+      else
+        ssh-keyscan -t rsa git3.nexdev.net >> ~/.ssh/known_hosts ;
+      fi;
+    - echo "$ORG - repo $REPOS - $GIT_URL";
+    - mkdir -p /haproxy/configs && mkdir -p /haproxy/compiled/$CI_ENVIRONMENT_NAME/{configs,maps}
+    - cd /srv/
+    - |
+      for REPO in $REPOS
+        do
+          git clone git@${GIT_URL}/haproxy-${REPO}.git
+      done
+    - |
+      for REPO in $REPOS
+        do
+          if [ -e /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME ] ; 
+          then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/ ; 
+          fi ;
+      done
+    - cat /haproxy/configs/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg
+    - cat /haproxy/configs/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/hosts.map
+    - if [ -e /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/ ; fi ;
+    - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "local_test" ]];
+        then cp -R /srv/haproxy-default/certs /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
+      else
+        cp /srv/haproxy-default/whitelisted.ips /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
+      fi ;
+    ########### Testing
+    # - cp /haproxy/compiled/$ENV/haproxy.cfg /builds/troy.vo/testing-ci/haproxy.cfg
+    # - cat /haproxy/compiled/$ENV/haproxy.cfg
+    # - cp -R /haproxy/compiled/$ENV/maps /builds/troy.vo/testing-ci/
+    # - cat /haproxy/compiled/$ENV/maps/hosts.map
+    # - docker login -u $docker_reg_user -p $docker_reg_pass $docker_reg_url
+    # - cd /builds/troy.vo/testing-ci && docker build --no-cache --build-arg ENV="$ENV" -f dockerfiles/Dockerfile -t haproxy-check-config .
+    # - if docker run --rm haproxy-check-config haproxy -c -V -f /etc/haproxy/haproxy.cfg; then
+    #       docker image rm -f haproxy-check-config;
+    #   else
+    #       echo "Fatal errors found in configuration.";
+    #       docker image rm -f haproxy-check-config;
+    #       exit 1;
+    #   fi;
+    ############ Testing
+    ############### Compiled
+    - git config --global user.email "ansible@nexdev.net"
+    - git config --global user.name "ansible"
+    - cd /srv
+    - git clone git@gitlab.starixsoft.com:compiled/haproxy.git
+    #####@ Clean up
+    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME ] ; 
+        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME ;
+        cd haproxy ;
+        git add .;
+        git commit -m "clean up - $ENV"  || echo "ignore commit failure, proceed";
+        git push origin master;
+      fi ;
+    ####
+    - mkdir -p /srv/haproxy/$ORG
+    - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy/$ORG/
+    - cd /srv/haproxy && git add .
+    - git commit -m "Change haproxy.cfg - $CI_ENVIRONMENT_NAME"  || echo "ignore commit failure, proceed"
+    - git push origin master
+    ###############
+    - echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Build is DONE!";
+  tags:
+    - docker
+
 .deploy:default:image:
   stage: deploy
   script:
     - echo "deploy - $CI_ENVIRONMENT_NAME"
-    - if [ "$ORG" == "Nexcel" ];
+    - if [ "$ORG" == "nexcel" ];
       then
-        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=898;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=480;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexprod"; then export ANSIBLE_JOB=1162;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=494;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=606;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod-nex3"; then export ANSIBLE_JOB=496;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "alphaprod"; then export ANSIBLE_JOB=1433;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "gc"; then export ANSIBLE_JOB=1410;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexaws"; then export ANSIBLE_JOB=1365;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "fpsprod"; then export ANSIBLE_JOB=1421;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=528;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws-nex3"; then export ANSIBLE_JOB=651;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=693;
+        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=898;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=1693;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexprod"; then export ANSIBLE_JOB=1162;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=487;export ANSIBLE_HOST="ansible.starixplay.com";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=606;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod-nex3"; then export ANSIBLE_JOB=496;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "alphaprod"; then export ANSIBLE_JOB=1433;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "gc"; then export ANSIBLE_JOB=1410;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexaws"; then export ANSIBLE_JOB=1365;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "fpsprod"; then export ANSIBLE_JOB=1421;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=528;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws-nex3"; then export ANSIBLE_JOB=651;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=1694;export ANSIBLE_HOST="ansible.nexdev.net";
         fi;
-      elif [ "$ORG" == "Lumi" ];
+      elif [ "$ORG" == "luminet" ];
       then
-        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1018;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=474;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=472;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=472;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=473;
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=650;
+        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1018;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=474;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=492;export ANSIBLE_HOST="ansible.starixplay.com";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=492;export ANSIBLE_HOST="ansible.starixplay.com";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=473;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=650;export ANSIBLE_HOST="ansible.nexdev.net";
         fi;
       fi;
     - if [ "$ANSIBLE_JOB" == "" ];
@@ -63,12 +145,12 @@ include:
         echo "$ORG - Currently, env $CI_ENVIRONMENT_NAME is not available to deploy!";
         exit 1;
       else
-        echo $ANSIBLE_JOB;
+        echo "$ANSIBLE_JOB - $ANSIBLE_HOST";
         echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deploying HAProxy configs...";
-        RUNJOBID=$(curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://ansible.nexdev.net/api/v2/job_templates/$ANSIBLE_JOB/launch/" | jq .job);
-        echo "Job link https://ansible.nexdev.net/#/jobs/playbook/$RUNJOBID";
+        RUNJOBID=$(curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://$ANSIBLE_HOST/api/v2/job_templates/$ANSIBLE_JOB/launch/" | jq .job);
+        echo "Job link https://$ANSIBLE_HOST/#/jobs/playbook/$RUNJOBID";
         for i in {1..60}; do
-          JOB_STATUS=$(curl -k -s --user $ansible_user:$ansible_pass "https://ansible.nexdev.net/api/v2/jobs/$RUNJOBID/" | jq .status);
+          JOB_STATUS=$(curl -k -s --user $ansible_user:$ansible_pass "https://$ANSIBLE_HOST/api/v2/jobs/$RUNJOBID/" | jq .status);
           echo "Ansible Job Status is $JOB_STATUS";
           if [[ $JOB_STATUS == '"successful"' ]]; then
             IS_DONE=true;
@@ -90,101 +172,3 @@ include:
       fi;
   tags:
     - docker
-###LOCAL - NEXPROD
-test:local:
-  extends: 
-    - .test:default:image
-  environment:
-    name: local
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/local/*
-        - configs/local/*/*
-deploy:local:
-  needs: ['test:local']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: local
-  only:
-    refs:
-      - main
-    changes:
-        - configs/local/*
-        - configs/local/*/*
-
-###UAT-SIT
-test:uat:
-  extends: 
-    - .test:default:image
-  environment:
-    name: uat
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/uat/*
-        - configs/uat/*/*
-deploy:uat:
-  needs: ['test:uat']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: uat
-  only:
-    refs:
-      - main
-    changes:
-        - configs/uat/*
-        - configs/uat/*/*
-
-###PROD-AWS
-test:prod:
-  extends: 
-    - .test:default:image
-  environment:
-    name: prod
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/prod/*
-        - configs/prod/*/*
-deploy:prod:
-  needs: ['test:prod']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: prod
-  only:
-    refs:
-      - main
-    changes:
-        - configs/prod/*
-        - configs/prod/*/*
-
-test:aws:
-  extends: 
-    - .test:default:image
-  environment:
-    name: aws
-  rules:
-    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
-      when: never
-    - changes:
-        - configs/aws/*
-        - configs/aws/*/*
-deploy:aws:
-  needs: ['test:aws']
-  extends: 
-    - .deploy:default:image
-  environment:
-    name: aws
-  only:
-    refs:
-      - main
-    changes:
-        - configs/aws/*
-        - configs/aws/*/*

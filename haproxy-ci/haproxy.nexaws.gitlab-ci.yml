@@ -9,8 +9,20 @@ test:nexaws:
     - changes:
         - configs/nexaws/*
         - configs/nexaws/*/*
-deploy:nexaws:
+build:nexaws:
   needs: ['test:nexaws']
+  extends: 
+    - .build:default:image
+  environment:
+    name: nexaws
+  only:
+    refs:
+      - main
+    changes:
+        - configs/nexaws/*
+        - configs/nexaws/*/*
+deploy:nexaws:
+  needs: ['build:nexaws']
   extends: 
     - .deploy:default:image
   environment:
