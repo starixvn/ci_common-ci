@@ -97,7 +97,7 @@ include:
         cd haproxy ;
         git add .;
         git commit -m "clean up - $ENV"  || echo "ignore commit failure, proceed";
-        git pull origin master;
+        git fetch origin && git pull origin master;
         git push origin master;
       fi ;
     ####
@@ -105,7 +105,7 @@ include:
     - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy/$ORG/
     - cd /srv/haproxy && git add .
     - git commit -m "Change haproxy.cfg - $CI_ENVIRONMENT_NAME"  || echo "ignore commit failure, proceed"
-    - git pull origin master
+    - git fetch origin && git pull origin master;
     - git push origin master
     ###############
     - echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Build is DONE!";
