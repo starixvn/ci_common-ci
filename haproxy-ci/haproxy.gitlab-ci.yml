@@ -93,6 +93,7 @@ include:
     - cd /srv
     - git clone git@gitlab.starixsoft.com:compiled/haproxy.git
     #####@ Clean up
+    - rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME  || echo "ignore failure, proceed"
     - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ] ; 
         then rm /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ;
       fi ;
