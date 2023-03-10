@@ -55,7 +55,7 @@ include:
       for REPO in $REPOS
         do
           git clone git@${GIT_URL}/haproxy-${REPO}.git
-          mkdir -p /haproxy/configs/$REPO
+          mkdir -p /haproxy/configs/{$REPO,temp}
       done
     - |
       for REPO in $REPOS
@@ -63,8 +63,9 @@ include:
           if [ -e /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME ] ; 
           then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/$REPO/ ;
           cat /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ;
-          cat /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/hosts.map ;
-          if [ -e /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/ ;fi ;
+          cp /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/configs/temp/$REPO.map ;
+          cat /haproxy/configs/temp/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/hosts.map ;
+          if [ -e /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/ ;fi ;
           fi ;
       done
     - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "local_test" ]];
