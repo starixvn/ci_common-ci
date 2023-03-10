@@ -60,12 +60,14 @@ include:
       for REPO in $REPOS
         do
           if [ -e /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME ] ; 
-          then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/$CI_PROJECT_NAME/ ; 
+          then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/$CI_PROJECT_NAME/ ;
+          - cat /haproxy/configs/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/$CI_PROJECT_NAME.cfg ;
+          - cat /haproxy/configs/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/hosts.map ;
+          - if [ -e /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps ] ; 
+            then cp /haproxy/configs/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/ ; 
+            fi ;
           fi ;
       done
-    - cat /haproxy/configs/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/$CI_PROJECT_NAME.cfg
-    - cat /haproxy/configs/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/hosts.map
-    - if [ -e /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/ ; fi ;
     - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "local_test" ]];
         then cp -R /srv/haproxy-default/certs /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
       else
@@ -92,17 +94,17 @@ include:
     - cd /srv
     - git clone git@gitlab.starixsoft.com:compiled/haproxy.git
     #####@ Clean up
-    - if [ -e /srv/haproxy/$ORG/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME ] ; 
-        then rm -R /srv/haproxy/$ORG/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME ;
-        cd haproxy ;
-        git add .;
-        git commit -m "clean up - $ENV"  || echo "ignore commit failure, proceed";
-        git fetch origin && git pull origin master;
-        git push origin master;
+    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/$CI_PROJECT_NAME.cfg ] ; 
+        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/$CI_PROJECT_NAME.cfg ;
+        # cd haproxy ;
+        # git add .;
+        # git commit -m "clean up - $ENV"  || echo "ignore commit failure, proceed";
+        # git fetch origin && git pull origin master;
+        # git push origin master;
       fi ;
     ####
-    - mkdir -p /srv/haproxy/$ORG/$CI_PROJECT_NAME
-    - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy/$ORG/$CI_PROJECT_NAME/
+    - mkdir -p /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME
+    - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy/$ORG
     - cd /srv/haproxy && git add .
     - git commit -m "Change cfg - $CI_PROJECT_NAME - $CI_ENVIRONMENT_NAME"  || echo "ignore commit failure, proceed"
     - git fetch origin && git pull origin master;
