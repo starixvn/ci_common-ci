@@ -63,9 +63,7 @@ include:
           then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/$CI_PROJECT_NAME/ ;
           - cat /haproxy/configs/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/$CI_PROJECT_NAME.cfg ;
           - cat /haproxy/configs/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/hosts.map ;
-          - if [ -e /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps ] ; 
-            then cp /haproxy/configs/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/ ; 
-            fi ;
+          - if [ -e /haproxy/configs/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/ ;fi ;
           fi ;
       done
     - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "local_test" ]];
