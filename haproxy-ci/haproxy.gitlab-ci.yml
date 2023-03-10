@@ -94,11 +94,11 @@ include:
     - cd /srv
     - git clone git@gitlab.starixsoft.com:compiled/haproxy.git
     #####@ Clean up
-    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/haproxy.cfg ] ; 
-        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/haproxy.cfg ;
+    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ] ; 
+        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ;
       fi ;
-    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/$REPO.cfg ] ; 
-        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/$REPO.cfg ;
+    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ] ; 
+        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ;
       fi ;
     ####
     - mkdir -p /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME
