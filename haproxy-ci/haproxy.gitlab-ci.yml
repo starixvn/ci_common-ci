@@ -94,11 +94,6 @@ include:
     #####@ Clean up
     - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/$CI_PROJECT_NAME.cfg ] ; 
         then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/$CI_PROJECT_NAME.cfg ;
-        # cd haproxy ;
-        # git add .;
-        # git commit -m "clean up - $ENV"  || echo "ignore commit failure, proceed";
-        # git fetch origin && git pull origin master;
-        # git push origin master;
       fi ;
     ####
     - mkdir -p /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME
