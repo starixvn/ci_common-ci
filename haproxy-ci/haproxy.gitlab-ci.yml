@@ -49,7 +49,7 @@ include:
         ssh-keyscan -t rsa git3.nexdev.net >> ~/.ssh/known_hosts ;
       fi;
     - echo "$CI_PROJECT_NAME - $REPOS - $ORG - $CI_PROJECT_PATH - $GIT_URL";
-    - mkdir -p /haproxy/configs && mkdir -p /haproxy/compiled/$CI_ENVIRONMENT_NAME/{configs,maps}
+    - mkdir -p /haproxy/configs && mkdir -p /haproxy/compiled/$CI_ENVIRONMENT_NAME/{configs,maps,special-maps}
     - cd /srv/
     - |
       for REPO in $REPOS
@@ -63,9 +63,8 @@ include:
           if [ -e /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME ] ; 
           then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/$REPO/ ;
           cat /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ;
-          cat /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/configs/temp/$REPO.map ;
-          cat /haproxy/configs/temp/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/hosts.map ;
-          if [ -e /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/ ;fi ;
+          cat /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/$REPO.map ;
+          if [ -e /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/special-maps/ ;fi ;
           fi ;
       done
     - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "local_test" ]];
@@ -95,11 +94,17 @@ include:
     - git clone git@gitlab.starixsoft.com:compiled/haproxy.git
     #####@ Clean up
     - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ] ; 
-        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ;
+        then rm /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ;
       fi ;
-    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ] ; 
-        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ;
+    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/maps/hosts.map ] ; 
+        then rm /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/maps/hosts.map ;
       fi ;
+    # - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ] ; 
+    #     then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ;
+    #   fi ;
+    # - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/maps/$REPO.map ] ; 
+    #     then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/maps/$REPO.map ;
+    #   fi ;
     ####
     - mkdir -p /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME
     - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy/$ORG
