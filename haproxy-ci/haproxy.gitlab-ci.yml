@@ -100,12 +100,6 @@ include:
     - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/maps/hosts.map ] ; 
         then rm /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/maps/hosts.map ;
       fi ;
-    # - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ] ; 
-    #     then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ;
-    #   fi ;
-    # - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/maps/$REPO.map ] ; 
-    #     then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/maps/$REPO.map ;
-    #   fi ;
     ####
     - mkdir -p /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME
     - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy/$ORG
