@@ -94,6 +94,9 @@ include:
     - cd /srv
     - git clone git@gitlab.starixsoft.com:compiled/haproxy.git
     #####@ Clean up
+    - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/haproxy.cfg ] ; 
+        then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/haproxy.cfg ;
+      fi ;
     - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/$REPO.cfg ] ; 
         then rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/$REPO.cfg ;
       fi ;
@@ -101,7 +104,7 @@ include:
     - mkdir -p /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME
     - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy/$ORG
     - cd /srv/haproxy && git add .
-    - git commit -m "Change cfg - $REPO - $CI_ENVIRONMENT_NAME"  || echo "ignore commit failure, proceed"
+    - git commit -m "Change cfg - $CI_PROJECT_NAME - $CI_ENVIRONMENT_NAME"  || echo "ignore commit failure, proceed"
     - git fetch origin && git pull origin master;
     - git push origin master
     ###############
