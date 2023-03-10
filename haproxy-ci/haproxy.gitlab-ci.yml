@@ -62,8 +62,8 @@ include:
         do
           if [ -e /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME ] ; 
           then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/$REPO/ || echo "ignore failure, proceed" ;
-          cat /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg ;
-          cat /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/$REPO.map ;
+          cat /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/*.cfg > /haproxy/compiled/$CI_ENVIRONMENT_NAME/configs/$REPO.cfg  || echo "ignore failure, proceed" ;
+          cat /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/maps/*.map > /haproxy/compiled/$CI_ENVIRONMENT_NAME/maps/$REPO.map  || echo "ignore failure, proceed" ;
           if [ -e /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/special-maps/ ;fi ;
           fi ;
       done
