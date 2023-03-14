@@ -25,7 +25,7 @@ sonarqube-check:
   stage: post-test
   needs: ['unit-test-js']
   image:
-    name: registry.nexdev.net:5050/docker/sonarsource/sonar-scanner-cli:latest
+    name: $DOCKER_REG_LOCAL_URL/base/sonarsource/sonar-scanner-cli
   before_script:
     - echo "===========Start Sonar Scanner============="
     - if [ "$PROJECT_NAME" == "" ];
