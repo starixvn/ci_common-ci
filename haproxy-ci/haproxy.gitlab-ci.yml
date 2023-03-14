@@ -125,7 +125,7 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=487;export ANSIBLE_HOST="ansible.starixplay.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=10;export ANSIBLE_HOST="ansible.playthefun.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "prod-nex3"; then export ANSIBLE_JOB=507;export ANSIBLE_HOST="ansible.starixplay.com";
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "alphaprod"; then export ANSIBLE_JOB=1433;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "alphaprod"; then export ANSIBLE_JOB=489;export ANSIBLE_HOST="ansible.starixplay.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "gc"; then export ANSIBLE_JOB=1410;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "nexaws"; then export ANSIBLE_JOB=1365;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "fpsprod"; then export ANSIBLE_JOB=490;export ANSIBLE_HOST="ansible.starixplay.com";
