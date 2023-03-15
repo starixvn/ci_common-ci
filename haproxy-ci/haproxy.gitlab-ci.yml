@@ -73,28 +73,13 @@ include:
       else
         cp /srv/haproxy-default/whitelisted.ips /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
       fi ;
-    ########### Testing
-    # - cp /haproxy/compiled/$ENV/haproxy.cfg /builds/troy.vo/testing-ci/haproxy.cfg
-    # - cat /haproxy/compiled/$ENV/haproxy.cfg
-    # - cp -R /haproxy/compiled/$ENV/maps /builds/troy.vo/testing-ci/
-    # - cat /haproxy/compiled/$ENV/maps/hosts.map
-    # - docker login -u $docker_reg_user -p $docker_reg_pass $docker_reg_url
-    # - cd /builds/troy.vo/testing-ci && docker build --no-cache --build-arg ENV="$ENV" -f dockerfiles/Dockerfile -t haproxy-check-config .
-    # - if docker run --rm haproxy-check-config haproxy -c -V -f /etc/haproxy/haproxy.cfg; then
-    #       docker image rm -f haproxy-check-config;
-    #   else
-    #       echo "Fatal errors found in configuration.";
-    #       docker image rm -f haproxy-check-config;
-    #       exit 1;
-    #   fi;
-    ############ Testing
     ############### Compiled
     - git config --global user.email "ansible@nexdev.net"
     - git config --global user.name "ansible"
     - cd /srv
     - git clone git@gitlab.starixsoft.com:compiled/haproxy.git
     #####@ Clean up
-    - rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME  || echo "ignore failure, proceed"
+    #- rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME  || echo "ignore failure, proceed"
     - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ] ; 
         then rm /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ;
       fi ;
