@@ -3,8 +3,8 @@
   script:
     - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
-    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
-    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    - wget https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivyignore?inline=false
+    - wget --no-verbose https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
@@ -17,8 +17,8 @@
   script:
     - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
-    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
-    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    - wget https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivyignore?inline=false
+    - wget --no-verbose https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
@@ -32,8 +32,8 @@
     - echo $DOCKER_FILE_PATH
     - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
-    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
-    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    - wget https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivyignore?inline=false
+    - wget --no-verbose https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION    
@@ -47,8 +47,8 @@
     - echo $DOCKER_FILE_PATH
     - docker pull $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
-    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
-    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    - wget https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivyignore?inline=false
+    - wget --no-verbose https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$CI_REGISTRY_IMAGE_VERSION
@@ -62,8 +62,8 @@
     - echo $DOCKER_FILE_PATH 
     - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION || true
     # Trivy Scan
-    - wget https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/.trivyignore
-    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    - wget https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivyignore?inline=false
+    - wget --no-verbose https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
     # Fail on severe vulnerabilities
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 0 --severity HIGH --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
     - ./trivy -d client --remote $TRIVY_SERVER --ignore-unfixed --exit-code 1 --severity CRITICAL --token $TRIVY_TOKEN $CI_REGISTRY_IMAGE:$DEPLOY_ENV-$CI_REGISTRY_IMAGE_VERSION
@@ -75,7 +75,7 @@
 .scan_config:
   stage: scan-config
   script:
-    - wget --no-verbose https://registry.nexdev.net/docker/docker-engine/docker/-/raw/master/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
+    - wget --no-verbose https://gitlab.nexdev.net/NEXOPS/tools/trivy-scan/-/raw/main/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz?inline=false -O - | tar -zxvf -
     # Image report HIGH,CRITICAL
     - cat $DOCKER_FILE_PATH/$DOCKER_FILE_NAME
     - ls -l 
