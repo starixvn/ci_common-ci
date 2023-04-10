@@ -1,6 +1,6 @@
 
 prepare-variables:
-  stage: ".pre"      
+  stage: post-deploy
   script:
     - apk add jq
     - GAME_ID_FROM_ROCKETOR=$(echo $VARS_DATA | jq '.["services"][0]["game_id"]' | tr -d '"')
@@ -14,6 +14,7 @@ prepare-variables:
 
 smoke-test:
   stage: post-deploy
+  needs: ["prepare-variables"]
   variables:
     PRODUCT: $SMOKE_GAME_ID
     ENV: $ENV_NAME    
