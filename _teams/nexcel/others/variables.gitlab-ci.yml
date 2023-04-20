@@ -34,7 +34,7 @@ variables:
   NEXCEL_SWARM_LEADER_UAT_SSH_PORT: 22
   NEXCEL_SWARM_LEADER_UAT_SSH_USER: vndeployer
   NEXCEL_SWARM_NETWORK_UAT: swarm_nexcel_uat
-  DEPLOYMENT_API_UAT: https://stdeployapi.starixplay.com
+  DEPLOYMENT_API_UAT: https://stdeployapi2.starixplay.com
   REGISTRY_UAT: nexhub.starixplay.com
 
   NEXCEL_SWARM_LEADER_PROD: 10.2.27.8
