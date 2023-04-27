@@ -1,6 +1,9 @@
 
 prepare-variables:
   stage: post-deploy    
+  allow_failure: true
+  rules:
+    - if: '$CI_COMMIT_TAG =~ /^deploy-.*-prod\d*-.*/ && $DEPLOY_BY == "rocketor"'
   script:
     - apk add jq
     - GAME_ID_FROM_ROCKETOR=$(echo $VARS_DATA | jq '.["services"][0]["game_id"]' | tr -d '"')
@@ -20,6 +23,7 @@ smoke-test:
     ENV: $ENV_NAME    
     TRIGGERED_BY_DEPLOYMENT: 'true'
     MODE: 'SMOKE'
+    STACK_NAME: $STACK_NAME
   allow_failure: true
   rules:
     - if: '$CI_COMMIT_TAG =~ /^deploy-.*-prod\d*-.*/ && $DEPLOY_BY == "rocketor"'
