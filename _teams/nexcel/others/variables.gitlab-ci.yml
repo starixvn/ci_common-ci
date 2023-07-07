@@ -9,9 +9,9 @@ variables:
   SIT_PROXY_USER: vndeployer
   SIT_PROXY_SERVER: deployment.playthefun.com
 
-  NEXCEL_SWARM_LEADER_LOCAL: 10.18.200.131
+  NEXCEL_SWARM_LEADER_LOCAL: 10.18.200.204 #10.18.200.131
   NEXCEL_SWARM_LEADER_LOCAL_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_LOCAL_SSH_USER: vndeployer
+  NEXCEL_SWARM_LEADER_LOCAL_SSH_USER: spvn\rocketor.vn
   NEXCEL_SWARM_NETWORK_LOCAL: swarm_nexcel_local
   DEPLOYMENT_API_LOCAL: https://deploymentapi.nexdev.net
   REGISTRY_LOCAL: hub.nexdev.net
@@ -30,30 +30,30 @@ variables:
   DEPLOYMENT_API_SIT: https://deploymentapi.playthefun.com
   REGISTRY_SIT: nexhub.starixplay.com
 
-  NEXCEL_SWARM_LEADER_UAT: 10.2.190.41
+  NEXCEL_SWARM_LEADER_UAT: 10.2.190.79 #10.2.190.41
   NEXCEL_SWARM_LEADER_UAT_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_UAT_SSH_USER: vndeployer
+  NEXCEL_SWARM_LEADER_UAT_SSH_USER: lucky777\webdeployer.vn
   NEXCEL_SWARM_NETWORK_UAT: swarm_nexcel_uat
   DEPLOYMENT_API_UAT: https://stdeployapi2.starixplay.com
   REGISTRY_UAT: nexhub.starixplay.com
 
-  NEXCEL_SWARM_LEADER_PROD: 10.2.27.8
+  NEXCEL_SWARM_LEADER_PROD: 10.2.27.130 #10.2.27.8
   NEXCEL_SWARM_LEADER_PROD_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_PROD_SSH_USER: vndeployer
+  NEXCEL_SWARM_LEADER_PROD_SSH_USER: lucky777\webdeployer.vn #vndeployer
   NEXCEL_SWARM_NETWORK_PROD: swarm_nexcel_prod
   DEPLOYMENT_API_PROD: https://stdeployapi2.starixplay.com
   REGISTRY_PROD: nexhub.starixplay.com
 
   NEXCEL_SWARM_LEADER_FPSPROD: 10.2.23.140
   NEXCEL_SWARM_LEADER_FPSPROD_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_FPSPROD_SSH_USER: vndeployer
+  NEXCEL_SWARM_LEADER_FPSPROD_SSH_USER: lucky777\webdeployer.vn #vndeployer
   NEXCEL_SWARM_NETWORK_FPSPROD: swarm_nexcel_fpsprod
   DEPLOYMENT_API_FPSPROD: https://stdeployapi2.starixplay.com
   REGISTRY_FPSPROD: nexhub.starixplay.com
 
-  NEXCEL_SWARM_LEADER_ALPHAPROD: 10.2.27.140
+  NEXCEL_SWARM_LEADER_ALPHAPROD: 10.2.27.147
   NEXCEL_SWARM_LEADER_ALPHAPROD_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_ALPHAPROD_SSH_USER: vndeployer
+  NEXCEL_SWARM_LEADER_ALPHAPROD_SSH_USER: lucky777\webdeployer.vn #vndeployer
   NEXCEL_SWARM_NETWORK_ALPHAPROD: swarm_nexcel_alphaprod
   DEPLOYMENT_API_ALPHAPROD: https://stdeployapi.starixplay.com
   REGISTRY_ALPHAPROD: nexhub.starixplay.com
