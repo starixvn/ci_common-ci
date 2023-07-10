@@ -2,7 +2,6 @@
   script:
     - echo "$DEPLOYMENT_API"
     - curl -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F registryUser=$DOCKER_REG_USERNAME -F registryPassword=$DOCKER_REG_PASSWORD -F registryUrl=$DOCKER_REG_URL $DEPLOYMENT_API/loginRegistry?token=$DEPLOY_API_TOKEN
-    - curl -F pipelineId=$CI_PIPELINE_ID -F env=$DEPLOY_ENV -F host=$SERVER_IP -F port=$SERVER_PORT -F user=$SERVER_USER -F workingDirectory=$WORKING_PATH $DEPLOYMENT_API/prepareFolderPermission?token=$DEPLOY_API_TOKEN
 
 .transform-and-sync-docker-compose:
   script:
