@@ -10,11 +10,11 @@ variables:
   SIT_PROXY_SERVER: l1deploy.starixplay.com
 
   SC_SWARM_CLUSTER_LOCAL: 10.10.50.14 10.10.50.19 10.10.50.20
-  SC_SWARM_LEADER_LOCAL: 10.10.50.69
+  SC_SWARM_LEADER_LOCAL: 10.10.50.19
   SC_SWARM_LEADER_LOCAL_SSH_PORT: 22
-  SC_SWARM_LEADER_LOCAL_SSH_USER: vndeployer
+  SC_SWARM_LEADER_LOCAL_SSH_USER: luminet\rocketor.vn
   SC_SWARM_NETWORK_LOCAL: swarm_luminet_local
-  DEPLOYMENT_API_LOCAL: https://deploymentapi.lumigame.com
+  DEPLOYMENT_API_LOCAL: https://deploymentapi-new.lumigame.com
   REGISTRY_LOCAL: hub.lumigame.com
 
   SC_SWARM_CLUSTER_SIT: 10.2.189.65 10.2.189.69
