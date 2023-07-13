@@ -18,19 +18,19 @@ variables:
   REGISTRY_LOCAL: hub.lumigame.com
 
   SC_SWARM_CLUSTER_SIT: 10.2.189.65 10.2.189.69
-  SC_SWARM_LEADER_SIT: 10.2.190.78 #10.2.190.51
+  SC_SWARM_LEADER_SIT: 10.2.190.83 #10.2.190.51
   SC_SWARM_LEADER_SIT_SSH_PORT: 22 #8837
   SC_SWARM_LEADER_SIT_SSH_USER: lucky777\webdeployer.vn
   SC_SWARM_NETWORK_SIT: swarm_luminet_sit
-  DEPLOYMENT_API_SIT: https://scdeployapi.starixplay.com
+  DEPLOYMENT_API_SIT: https://scdeployapi-uat.starixplay.com
   REGISTRY_SIT: lumhub.starixplay.com
 
   SC_SWARM_CLUSTER_UAT: 10.2.189.65 10.2.189.69
-  SC_SWARM_LEADER_UAT: 10.2.190.78 #10.2.190.51
+  SC_SWARM_LEADER_UAT: 10.2.190.83 #10.2.190.51
   SC_SWARM_LEADER_UAT_SSH_PORT: 22 #8837
   SC_SWARM_LEADER_UAT_SSH_USER: lucky777\webdeployer.vn
   SC_SWARM_NETWORK_UAT: swarm_luminet_sit
-  DEPLOYMENT_API_UAT: https://scdeployapi2.starixplay.com
+  DEPLOYMENT_API_UAT: https://scdeployapi-uat.starixplay.com
   REGISTRY_UAT: lumhub.starixplay.com
 
   SC_SWARM_CLUSTER_PROD: 10.2.189.61 10.2.189.62 10.2.189.63 10.2.189.64 10.2.189.70
