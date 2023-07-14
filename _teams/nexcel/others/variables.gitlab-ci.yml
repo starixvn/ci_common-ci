@@ -44,7 +44,7 @@ variables:
   DEPLOYMENT_API_PROD: https://stdeployapi-uat.starixplay.com
   REGISTRY_PROD: nexhub.starixplay.com
 
-  NEXCEL_SWARM_LEADER_FPSPROD: 10.2.23.8
+  NEXCEL_SWARM_LEADER_FPSPROD: 10.2.23.20 #10.2.23.8
   NEXCEL_SWARM_LEADER_FPSPROD_SSH_PORT: 22
   NEXCEL_SWARM_LEADER_FPSPROD_SSH_USER: lucky777\webdeployer.vn #vndeployer
   NEXCEL_SWARM_NETWORK_FPSPROD: swarm_nexcel_fpsprod
