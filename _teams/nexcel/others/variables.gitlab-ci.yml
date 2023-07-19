@@ -32,28 +32,28 @@ variables:
 
   NEXCEL_SWARM_LEADER_UAT: 10.99.27.79 #41
   NEXCEL_SWARM_LEADER_UAT_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_UAT_SSH_USER: lucky777\ken.nguyen
+  NEXCEL_SWARM_LEADER_UAT_SSH_USER: lucky777\webdeployer.vn
   NEXCEL_SWARM_NETWORK_UAT: swarm_nexcel_uat
   DEPLOYMENT_API_UAT: https://stdeployapi-uat.starixplay.com
   REGISTRY_UAT: nexhub.starixplay.com
 
   NEXCEL_SWARM_LEADER_PROD: 10.99.27.220 #10.2.27.130
   NEXCEL_SWARM_LEADER_PROD_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_PROD_SSH_USER: lucky777\ken.nguyen #vndeployer
+  NEXCEL_SWARM_LEADER_PROD_SSH_USER: lucky777\webdeployer.vn #vndeployer
   NEXCEL_SWARM_NETWORK_PROD: swarm_nexcel_prod
   DEPLOYMENT_API_PROD: https://stdeployapi-uat.starixplay.com
   REGISTRY_PROD: nexhub.starixplay.com
 
   NEXCEL_SWARM_LEADER_FPSPROD: 10.2.23.20 #10.2.23.8
   NEXCEL_SWARM_LEADER_FPSPROD_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_FPSPROD_SSH_USER: lucky777\ken.nguyen #vndeployer
+  NEXCEL_SWARM_LEADER_FPSPROD_SSH_USER: lucky777\webdeployer.vn #vndeployer
   NEXCEL_SWARM_NETWORK_FPSPROD: swarm_nexcel_fpsprod
   DEPLOYMENT_API_FPSPROD: https://stdeployapi-uat.starixplay.com
   REGISTRY_FPSPROD: nexhub.starixplay.com
 
   NEXCEL_SWARM_LEADER_ALPHAPROD: 10.2.27.147 #10.2.27.146
   NEXCEL_SWARM_LEADER_ALPHAPROD_SSH_PORT: 22
-  NEXCEL_SWARM_LEADER_ALPHAPROD_SSH_USER: lucky777\ken.nguyen #vndeployer
+  NEXCEL_SWARM_LEADER_ALPHAPROD_SSH_USER: lucky777\webdeployer.vn #vndeployer
   NEXCEL_SWARM_NETWORK_ALPHAPROD: swarm_nexcel_alphaprod
   DEPLOYMENT_API_ALPHAPROD: https://stdeployapi-uat.starixplay.com
   REGISTRY_ALPHAPROD: nexhub.starixplay.com
