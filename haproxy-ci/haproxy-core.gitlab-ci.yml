@@ -77,7 +77,7 @@ include:
     - git config --global user.email "ansible@nexdev.net"
     - git config --global user.name "ansible"
     - cd /srv
-    - git clone git@gitlab.starixsoft.com:compiled/haproxy-core.git
+    - git clone git@gitlab.starixsoft.com:compiled/haproxy-core-compiled.git
     #####@ Clean up
     #- rm -R /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME  || echo "ignore failure, proceed"
     - if [ -e /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME/configs/haproxy.cfg ] ; 
