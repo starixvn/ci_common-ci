@@ -88,8 +88,8 @@ include:
       fi ;
     ####
     - mkdir -p /srv/haproxy/$ORG/$CI_ENVIRONMENT_NAME
-    - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy/$ORG
-    - cd /srv/haproxy && git add .
+    - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy-core-compiled/$ORG
+    - cd /srv/haproxy-core-compiled && git add .
     - git commit -m "Change cfg - $CI_PROJECT_NAME - $CI_ENVIRONMENT_NAME"  || echo "ignore commit failure, proceed"
     - git fetch origin && git pull origin master;
     - git push origin master
