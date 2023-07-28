@@ -48,17 +48,17 @@ include:
       else
         ssh-keyscan -t rsa git3.nexdev.net >> ~/.ssh/known_hosts ;
       fi;
-    - echo "$CI_PROJECT_NAME - $REPOS - $ORG - $CI_PROJECT_PATH - $GIT_URL";
+    - echo "$CI_PROJECT_NAME - $ORG - $CI_PROJECT_PATH - $GIT_URL";
     - mkdir -p /haproxy/configs && mkdir -p /haproxy/compiled/$CI_ENVIRONMENT_NAME/{configs,maps,special-maps}
     - cd /srv/
     - |
-      for REPO in $REPOS
+      for REPO in $REPOS_CORE
         do
           git clone git@${GIT_URL}/haproxy-${REPO}.git
           mkdir -p /haproxy/configs/{$REPO,temp}
       done
     - |
-      for REPO in $REPOS
+      for REPO in $REPOS_CORE
         do
           if [ -e /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME ] ; 
           then cp -R /srv/haproxy-${REPO}/configs/$CI_ENVIRONMENT_NAME /haproxy/configs/$REPO/ || echo "ignore failure, proceed" ;
