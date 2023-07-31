@@ -86,7 +86,7 @@ include:
     #####@ Clean up
     ####
     - mkdir -p /srv/haproxy-core-compiled/$ORG/$CI_ENVIRONMENT_NAME
-    - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy-core-compiled/$ORG/$CI_ENVIRONMENT_NAME
+    - cp -R /haproxy/compiled/$CI_ENVIRONMENT_NAME /srv/haproxy-core-compiled/$ORG/
     - cd /srv/haproxy-core-compiled && git add .
     - git commit -m "Change cfg - $CI_PROJECT_NAME - $CI_ENVIRONMENT_NAME"  || echo "ignore commit failure, proceed"
     - git fetch origin && git pull origin master;
