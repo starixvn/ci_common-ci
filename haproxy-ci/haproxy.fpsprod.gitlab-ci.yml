@@ -10,7 +10,7 @@ test:fpsprod:
         - configs/fpsprod/*
         - configs/fpsprod/*/*
 build:fpsprod:
-  needs: ['test:fpsprod']
+  stage: build_fpsprod
   extends: 
     - .build:default:image
   environment:

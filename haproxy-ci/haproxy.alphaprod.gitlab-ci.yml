@@ -10,7 +10,7 @@ test:alphaprod:
         - configs/alphaprod/*
         - configs/alphaprod/*/*
 build:alphaprod:
-  needs: ['test:alphaprod']
+  stage: build_alphaprod
   extends: 
     - .build:default:image
   environment:

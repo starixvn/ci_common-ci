@@ -2,6 +2,17 @@ image: $DOCKER_REG_LOCAL_URL/base/docker:20.10.7-bash-jq
 stages:
   - test
   - build
+  - build_local
+  - build_sglocal
+  - build_nexprod
+  - build_sit
+  - build_uat
+  - build_prod
+  - build_alphaprod
+  - build_fpsprod
+  - build_gc
+  - build_aws
+  - build_nexaws
   - deploy
 ############
 include:

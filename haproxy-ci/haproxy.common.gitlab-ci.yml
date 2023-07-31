@@ -11,7 +11,7 @@ test:local:
         - configs/local/*
         - configs/local/*/*
 build:local:
-  needs: ['test:local']
+  stage: build_local
   extends: 
     - .build:default:image
   environment:
@@ -48,7 +48,7 @@ test:uat:
         - configs/uat/*
         - configs/uat/*/*
 build:uat:
-  needs: ['test:uat']
+  stage: build_uat
   extends: 
     - .build:default:image
   environment:
@@ -84,7 +84,7 @@ test:prod:
         - configs/prod/*
         - configs/prod/*/*
 build:prod:
-  needs: ['test:prod']
+  stage: build_prod
   extends: 
     - .build:default:image
   environment:
@@ -120,7 +120,7 @@ test:aws:
         - configs/aws/*
         - configs/aws/*/*
 build:aws:
-  needs: ['test:aws']
+  stage: build_aws
   extends: 
     - .build:default:image
   environment:

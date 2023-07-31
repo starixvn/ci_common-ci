@@ -10,7 +10,7 @@ test:nexprod:
         - configs/nexprod/*
         - configs/nexprod/*/*
 build:nexprod:
-  needs: ['test:nexprod']
+  stage: build_nexprod
   extends: 
     - .build:default:image
   environment:

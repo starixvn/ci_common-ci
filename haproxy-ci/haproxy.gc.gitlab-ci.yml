@@ -10,7 +10,7 @@ test:gc:
         - configs/gc/*
         - configs/gc/*/*
 build:gc:
-  needs: ['test:gc']
+  stage: build_gc
   extends: 
     - .build:default:image
   environment:

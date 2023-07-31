@@ -10,7 +10,7 @@ test:nexaws:
         - configs/nexaws/*
         - configs/nexaws/*/*
 build:nexaws:
-  needs: ['test:nexaws']
+  stage: build_nexaws
   extends: 
     - .build:default:image
   environment:

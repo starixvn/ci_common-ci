@@ -10,7 +10,7 @@ test:sit:
         - configs/sit/*
         - configs/sit/*/*
 build:sit:
-  needs: ['test:sit']
+  stage: build_sit
   extends: 
     - .build:default:image
   environment:

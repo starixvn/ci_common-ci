@@ -10,7 +10,7 @@ test:sglocal:
         - configs/sglocal/*
         - configs/sglocal/*/*
 build:sglocal:
-  needs: ['test:sglocal']
+  stage: build_sglocal
   extends: 
     - .build:default:image
   environment:
