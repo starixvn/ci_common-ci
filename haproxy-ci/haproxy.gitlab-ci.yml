@@ -4,6 +4,7 @@ stages:
   - build
   - build_local
   - build_sglocal
+  - build_awslocal
   - build_nexprod
   - build_sit
   - build_uat
@@ -132,6 +133,7 @@ include:
       elif [ "$ORG" == "luminet" ];
       then
         if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1018;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "awslocal"; then export ANSIBLE_JOB=97550;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "sglocal"; then export ANSIBLE_JOB=1777;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=474;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=492;export ANSIBLE_HOST="ansible.starixplay.com";

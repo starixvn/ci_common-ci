@@ -1,0 +1,35 @@
+test:awslocal:
+  extends: 
+    - .test:default:image
+  environment:
+    name: awslocal
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/awslocal/*
+        - configs/awslocal/*/*
+build:awslocal:
+  stage: build_awslocal
+  extends: 
+    - .build:default:image
+  environment:
+    name: awslocal
+  only:
+    refs:
+      - main
+    changes:
+        - configs/awslocal/*
+        - configs/awslocal/*/*
+deploy:awslocal:
+  needs: ['build:awslocal']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: awslocal
+  only:
+    refs:
+      - main
+    changes:
+        - configs/awslocal/*
+        - configs/awslocal/*/*
