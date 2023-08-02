@@ -79,7 +79,7 @@ include:
           if [ -e /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/special-maps/ ;fi ;
           fi ;
       done
-    - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "local_test" ]];
+    - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "local_test" || "$CI_ENVIRONMENT_NAME" == "awslocal" ]];
         then cp -R /srv/haproxy-default/certs /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
         cp /srv/haproxy-default/whitelisted.ips /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
       else
