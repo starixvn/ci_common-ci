@@ -110,6 +110,7 @@ include:
         if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1354;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=1354;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=1797;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=1808;export ANSIBLE_HOST="ansible.nexdev.net";
         fi;
       fi;
     - if [ "$ANSIBLE_JOB" == "" ];
