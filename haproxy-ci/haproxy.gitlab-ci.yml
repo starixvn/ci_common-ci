@@ -6,6 +6,7 @@ stages:
   - build_sglocal
   - build_awslocal
   - build_awsuat
+  - build_awprod
   - build_nexprod
   - build_sit
   - build_uat
