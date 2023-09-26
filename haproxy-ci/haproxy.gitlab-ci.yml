@@ -140,17 +140,25 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "awsprod"; then export ANSIBLE_JOB=1811;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "sglocal"; then export ANSIBLE_JOB=1777;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then 
-          export ANSIBLE_JOB=474;ANSIBLE_JOB2=1786;
-          export ANSIBLE_HOST="ansible.nexdev.net";ANSIBLE_HOST2="ansible.nexdev.net";
+          export ANSIBLE_JOB=474;
+          export ANSIBLE_JOB2=1786;
+          export ANSIBLE_HOST="ansible.nexdev.net";
+          export ANSIBLE_HOST2="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then 
-          export ANSIBLE_JOB=492;ANSIBLE_JOB2=1798;
-          export ANSIBLE_HOST="ansible.starixplay.com";ANSIBLE_HOST2="ansible.nexdev.net";
+          export ANSIBLE_JOB=492;
+          export ANSIBLE_JOB2=1798;
+          export ANSIBLE_HOST="ansible.starixplay.com";
+          export ANSIBLE_HOST2="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then 
-          export ANSIBLE_JOB=492;ANSIBLE_JOB2=1798;
-          export ANSIBLE_HOST="ansible.starixplay.com";ANSIBLE_HOST2="ansible.nexdev.net";
+          export ANSIBLE_JOB=492;
+          export ANSIBLE_JOB2=1798;
+          export ANSIBLE_HOST="ansible.starixplay.com";
+          export ANSIBLE_HOST2="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then 
-          export ANSIBLE_JOB=491;ANSIBLE_JOB2=1811;
-          export ANSIBLE_HOST="ansible.starixplay.com";ANSIBLE_HOST2="ansible.nexdev.net";
+          export ANSIBLE_JOB=491;
+          export ANSIBLE_JOB2=1811;
+          export ANSIBLE_HOST="ansible.starixplay.com";
+          export ANSIBLE_HOST2="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=494;export ANSIBLE_HOST="ansible.sportsfun.app";
         fi;
       fi;
