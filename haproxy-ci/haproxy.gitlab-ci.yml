@@ -146,34 +146,66 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=494;export ANSIBLE_HOST="ansible.sportsfun.app";
         fi;
       fi;
-    - if [ "$ANSIBLE_JOB" == "" ];
+    - if [ "$ORG" == "nexcel" ];
       then
-        echo "$ORG - Currently, env $CI_ENVIRONMENT_NAME is not available to deploy!";
-        exit 1;
-      else
-        echo "$ANSIBLE_JOB - $ANSIBLE_HOST";
-        echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deploying HAProxy configs...";
-        RUNJOBID=$(curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://$ANSIBLE_HOST/api/v2/job_templates/$ANSIBLE_JOB/launch/" | jq .job);
-        echo "Job link https://$ANSIBLE_HOST/#/jobs/playbook/$RUNJOBID";
-        for i in {1..60}; do
-          JOB_STATUS=$(curl -k -s --user $ansible_user:$ansible_pass "https://$ANSIBLE_HOST/api/v2/jobs/$RUNJOBID/" | jq .status);
-          echo "Ansible Job Status is $JOB_STATUS";
-          if [[ $JOB_STATUS == '"successful"' ]]; then
-            IS_DONE=true;
-            echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is DONE!";
-            break;
-          elif [[ $JOB_STATUS == '"failed"' || $JOB_STATUS == '"canceled"' || $JOB_STATUS == '"error"' ]]; then
-            IS_DONE=true;
-            echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is FAILED!!!";
+        if [ "$ANSIBLE_JOB" == "" ];
+          then
+            echo "$ORG - Currently, env $CI_ENVIRONMENT_NAME is not available to deploy!";
             exit 1;
-            break;
+        else
+          echo "$ANSIBLE_JOB - $ANSIBLE_HOST";
+          echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deploying HAProxy configs...";
+          RUNJOBID=$(curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://$ANSIBLE_HOST/api/v2/job_templates/$ANSIBLE_JOB/launch/" | jq .job);
+          echo "Job link https://$ANSIBLE_HOST/#/jobs/playbook/$RUNJOBID";
+          for i in {1..60}; do
+            JOB_STATUS=$(curl -k -s --user $ansible_user:$ansible_pass "https://$ANSIBLE_HOST/api/v2/jobs/$RUNJOBID/" | jq .status);
+            echo "Ansible Job Status is $JOB_STATUS";
+            if [[ $JOB_STATUS == '"successful"' ]]; then
+              IS_DONE=true;
+              echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is DONE!";
+              break;
+            elif [[ $JOB_STATUS == '"failed"' || $JOB_STATUS == '"canceled"' || $JOB_STATUS == '"error"' ]]; then
+              IS_DONE=true;
+              echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is FAILED!!!";
+              exit 1;
+              break;
+            fi;
+            echo "waiting 10s...";
+            sleep 10;
+          done;
+          if [ "$IS_DONE" != "true" ]; then
+            echo "Timeout of 10 minutes was reached.";
+            exit 1;
           fi;
-          echo "waiting 10s...";
-          sleep 10;
-        done;
-        if [ "$IS_DONE" != "true" ]; then
-          echo "Timeout of 10 minutes was reached.";
-          exit 1;
+        fi;
+      elif [ "$ORG" == "luminet" ];
+        then
+          for ANSIBLE in $ANSIBLE_HOST;
+            do
+                echo "$ANSIBLE";
+                RUNJOBID=$(curl --fail -k -s --user VNAnsible:ansibleH5nF5ywy -X POST "$ANSIBLE" | jq .job);
+                echo "Job link https://ansible.nexdev.net/#/jobs/playbook/$RUNJOBID";
+                  for i in {1..60}; do
+                    JOB_STATUS=$(curl -k -s --user $ansible_user:$ansible_pass "https://ansible.nexdev.net/api/v2/jobs/$RUNJOBID/" | jq .status);
+                    echo "Ansible Job Status is $JOB_STATUS";
+                    if [[ $JOB_STATUS == '"successful"' ]]; then
+                      IS_DONE=true;
+                      echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is DONE!";
+                      break;
+                    elif [[ $JOB_STATUS == '"failed"' || $JOB_STATUS == '"canceled"' || $JOB_STATUS == '"error"' ]]; then
+                      IS_DONE=true;
+                      echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is FAILED!!!";
+                      exit 1;
+                      break;
+                    fi;
+                    echo "waiting 10s...";
+                    sleep 10;
+                  done;
+                  if [ "$IS_DONE" != "true" ]; then
+                    echo "Timeout of 10 minutes was reached.";
+                    exit 1;
+                  fi;
+            done;
         fi;
       fi;
   tags:
