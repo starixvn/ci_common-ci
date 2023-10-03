@@ -135,7 +135,6 @@ include:
       elif [ "$ORG" == "luminet" ];
       then
         if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1018;export ANSIBLE_HOST="ansible.nexdev.net";
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "awsuat"; then export ANSIBLE_JOB=1798;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "awsprod"; then export ANSIBLE_JOB=1811;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then 
           export ANSIBLE_JOB=474;
@@ -145,9 +144,13 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then 
           export ANSIBLE_JOB=492;
           export ANSIBLE_HOST="ansible.starixplay.com";
+          export ANSIBLE_JOB2=1798;
+          export ANSIBLE_HOST2="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then 
           export ANSIBLE_JOB=492;
           export ANSIBLE_HOST="ansible.starixplay.com";
+          export ANSIBLE_JOB2=1798;
+          export ANSIBLE_HOST2="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then 
           export ANSIBLE_JOB=491;
           export ANSIBLE_HOST="ansible.starixplay.com";
