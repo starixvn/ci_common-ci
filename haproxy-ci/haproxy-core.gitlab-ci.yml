@@ -3,8 +3,10 @@ stages:
   - test
   - build
   - build_local
+  - build_sit
   - build_uat
   - build_prod
+  - build_aws
   - deploy
 ############
 include:
@@ -143,3 +145,7 @@ include:
       fi;
   tags:
     - docker
+
+test:aws:
+  rules:
+    - when: never
