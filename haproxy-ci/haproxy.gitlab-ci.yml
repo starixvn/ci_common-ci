@@ -139,8 +139,6 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then 
           export ANSIBLE_JOB=474;
           export ANSIBLE_HOST="ansible.nexdev.net";
-          export ANSIBLE_JOB2=1827;
-          export ANSIBLE_HOST2="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then 
           export ANSIBLE_JOB=492;
           export ANSIBLE_HOST="ansible.starixplay.com";
