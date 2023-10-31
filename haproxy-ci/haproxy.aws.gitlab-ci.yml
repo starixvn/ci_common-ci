@@ -1,0 +1,35 @@
+test:aws:
+  extends: 
+    - .test:default:image
+  environment:
+    name: aws
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/aws/*
+        - configs/aws/*/*
+build:aws:
+  stage: build_aws
+  extends: 
+    - .build:default:image
+  environment:
+    name: aws
+  only:
+    refs:
+      - main
+    changes:
+        - configs/aws/*
+        - configs/aws/*/*
+deploy:aws:
+  needs: ['build:aws']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: aws
+  only:
+    refs:
+      - main
+    changes:
+        - configs/aws/*
+        - configs/aws/*/*
