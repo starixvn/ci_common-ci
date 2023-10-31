@@ -14,7 +14,7 @@ stages:
   - build_alphaprod
   - build_fpsprod
   - build_gc
-  - build_aws
+  - build_awsdr
   - build_nexaws
   - deploy
 ############

@@ -1,0 +1,35 @@
+test:awsdr:
+  extends: 
+    - .test:default:image
+  environment:
+    name: awsdr
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/awsdr/*
+        - configs/awsdr/*/*
+build:awsdr:
+  stage: build_awsdr
+  extends: 
+    - .build:default:image
+  environment:
+    name: awsdr
+  only:
+    refs:
+      - main
+    changes:
+        - configs/awsdr/*
+        - configs/awsdr/*/*
+deploy:awsdr:
+  needs: ['build:awsdr']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: awsdr
+  only:
+    refs:
+      - main
+    changes:
+        - configs/awsdr/*
+        - configs/awsdr/*/*
