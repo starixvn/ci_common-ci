@@ -154,7 +154,7 @@ include:
           export ANSIBLE_HOST="ansible.starixplay.com";
           export ANSIBLE_JOB2=15;
           export ANSIBLE_HOST2="vn-ansible.sportsfun.app";
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "aws"; then export ANSIBLE_JOB=494;export ANSIBLE_HOST="ansible.sportsfun.app";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "awsdr"; then export ANSIBLE_JOB=21;export ANSIBLE_HOST="vn-ansible.sportsfun.app";
         fi;
       fi;
     - if [ "$ANSIBLE_JOB" == "" ];
