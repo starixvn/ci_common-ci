@@ -18,7 +18,6 @@ build:kldr:
   only:
     refs:
       - main
-      - kldr
     changes:
         - configs/kldr/*
         - configs/kldr/*/*
@@ -31,7 +30,6 @@ deploy:kldr:
   only:
     refs:
       - main
-      - kldr
     changes:
         - configs/kldr/*
         - configs/kldr/*/*

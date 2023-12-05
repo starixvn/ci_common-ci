@@ -18,7 +18,6 @@ build:alphakldr:
   only:
     refs:
       - main
-      - kldr
     changes:
         - configs/alphakldr/*
         - configs/alphakldr/*/*
@@ -31,7 +30,6 @@ deploy:alphakldr:
   only:
     refs:
       - main
-      - kldr
     changes:
         - configs/alphakldr/*
         - configs/alphakldr/*/*

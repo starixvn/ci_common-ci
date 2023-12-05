@@ -18,7 +18,6 @@ build:sglocal:
   only:
     refs:
       - main
-      - kldr
     changes:
         - configs/sglocal/*
         - configs/sglocal/*/*
@@ -31,7 +30,6 @@ deploy:sglocal:
   only:
     refs:
       - main
-      - kldr
     changes:
         - configs/sglocal/*
         - configs/sglocal/*/*

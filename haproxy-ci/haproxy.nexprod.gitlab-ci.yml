@@ -18,7 +18,6 @@ build:nexprod:
   only:
     refs:
       - main
-      - kldr
     changes:
         - configs/nexprod/*
         - configs/nexprod/*/*
@@ -31,7 +30,6 @@ deploy:nexprod:
   only:
     refs:
       - main
-      - kldr
     changes:
         - configs/nexprod/*
         - configs/nexprod/*/*
