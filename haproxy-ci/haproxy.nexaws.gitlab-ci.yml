@@ -18,6 +18,7 @@ build:nexaws:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/nexaws/*
         - configs/nexaws/*/*
@@ -30,6 +31,7 @@ deploy:nexaws:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/nexaws/*
         - configs/nexaws/*/*

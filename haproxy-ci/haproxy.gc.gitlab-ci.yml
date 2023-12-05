@@ -18,6 +18,7 @@ build:gc:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/gc/*
         - configs/gc/*/*
@@ -30,6 +31,7 @@ deploy:gc:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/gc/*
         - configs/gc/*/*

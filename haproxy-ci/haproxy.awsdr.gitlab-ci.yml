@@ -18,6 +18,7 @@ build:awsdr:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/awsdr/*
         - configs/awsdr/*/*
@@ -30,6 +31,7 @@ deploy:awsdr:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/awsdr/*
         - configs/awsdr/*/*

@@ -18,6 +18,7 @@ build:alphaprod:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/alphaprod/*
         - configs/alphaprod/*/*
@@ -30,6 +31,7 @@ deploy:alphaprod:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/alphaprod/*
         - configs/alphaprod/*/*

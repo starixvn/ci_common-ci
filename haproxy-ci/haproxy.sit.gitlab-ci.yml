@@ -18,6 +18,7 @@ build:sit:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/sit/*
         - configs/sit/*/*
@@ -30,6 +31,7 @@ deploy:sit:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/sit/*
         - configs/sit/*/*

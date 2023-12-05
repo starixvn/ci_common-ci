@@ -18,6 +18,7 @@ build:fpsprod:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/fpsprod/*
         - configs/fpsprod/*/*
@@ -30,6 +31,7 @@ deploy:fpsprod:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/fpsprod/*
         - configs/fpsprod/*/*
