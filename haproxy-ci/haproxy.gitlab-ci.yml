@@ -4,15 +4,14 @@ stages:
   - build
   - build_local
   - build_sglocal
-  - build_awslocal
-  - build_awsuat
-  - build_awsprod
   - build_awsdr
   - build_nexprod
   - build_sit
   - build_uat
   - build_prod
+  - build_kldr
   - build_alphaprod
+  - build_alphakldr
   - build_fpsprod
   - build_gc
   - build_aws

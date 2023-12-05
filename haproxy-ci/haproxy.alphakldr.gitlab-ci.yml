@@ -1,35 +1,35 @@
-test:awsuat:
+test:alphaprod:
   extends: 
     - .test:default:image
   environment:
-    name: awsuat
+    name: alphaprod
   rules:
     - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
       when: never
     - changes:
-        - configs/awsuat/*
-        - configs/awsuat/*/*
-build:awsuat:
-  stage: build_awsuat
+        - configs/alphaprod/*
+        - configs/alphaprod/*/*
+build:alphaprod:
+  stage: build_alphaprod
   extends: 
     - .build:default:image
   environment:
-    name: awsuat
+    name: alphaprod
   only:
     refs:
       - main
     changes:
-        - configs/awsuat/*
-        - configs/awsuat/*/*
-deploy:awsuat:
-  needs: ['build:awsuat']
+        - configs/alphaprod/*
+        - configs/alphaprod/*/*
+deploy:alphaprod:
+  needs: ['build:alphaprod']
   extends: 
     - .deploy:default:image
   environment:
-    name: awsuat
+    name: alphaprod
   only:
     refs:
       - main
     changes:
-        - configs/awsuat/*
-        - configs/awsuat/*/*
+        - configs/alphaprod/*
+        - configs/alphaprod/*/*

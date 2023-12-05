@@ -4,7 +4,7 @@ workflow:
     - if: '($CI_PROJECT_ID == "1945" || $CI_PROJECT_ID == "1939" || $CI_PROJECT_ID == "1937" || $CI_PROJECT_ID == "1938" || $CI_PROJECT_ID == "1940" || $CI_PROJECT_ID == "1936" || $CI_PROJECT_ID == "1941")'
       variables:
         ORG: "nexcel"
-        REPOS: "default nexops legion rome olympus nexus spu nex3"
+        REPOS: "default nexops legion rome olympus nexus spu"
         REPOS_CORE: "core"
         GIT_URL: "gitlab.nexdev.net:NEXOPS/haproxy"
 ###LUMI
