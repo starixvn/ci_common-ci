@@ -19,6 +19,7 @@ build:local:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/local/*
         - configs/local/*/*
@@ -31,6 +32,7 @@ deploy:local:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/local/*
         - configs/local/*/*
@@ -56,6 +58,7 @@ build:uat:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/uat/*
         - configs/uat/*/*
@@ -68,6 +71,7 @@ deploy:uat:
   only:
     refs:
       - main
+      - kldr
     changes:
         - configs/uat/*
         - configs/uat/*/*
