@@ -1,37 +1,37 @@
-test:alphaprod:
+test:alphakldr:
   extends: 
     - .test:default:image
   environment:
-    name: alphaprod
+    name: alphakldr
   rules:
     - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
       when: never
     - changes:
-        - configs/alphaprod/*
-        - configs/alphaprod/*/*
-build:alphaprod:
-  stage: build_alphaprod
+        - configs/alphakldr/*
+        - configs/alphakldr/*/*
+build:alphakldr:
+  stage: build_alphakldr
   extends: 
     - .build:default:image
   environment:
-    name: alphaprod
+    name: alphakldr
   only:
     refs:
       - main
       - kldr
     changes:
-        - configs/alphaprod/*
-        - configs/alphaprod/*/*
-deploy:alphaprod:
-  needs: ['build:alphaprod']
+        - configs/alphakldr/*
+        - configs/alphakldr/*/*
+deploy:alphakldr:
+  needs: ['build:alphakldr']
   extends: 
     - .deploy:default:image
   environment:
-    name: alphaprod
+    name: alphakldr
   only:
     refs:
       - main
       - kldr
     changes:
-        - configs/alphaprod/*
-        - configs/alphaprod/*/*
+        - configs/alphakldr/*
+        - configs/alphakldr/*/*
