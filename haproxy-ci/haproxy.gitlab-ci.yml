@@ -19,13 +19,13 @@ stages:
 ############
 include:
   - project: 'ci/common-ci'
-    ref: kldr
+    ref: main
     file: 'haproxy-ci/deploy-vars.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: kldr
+    ref: main
     file: 'haproxy-ci/haproxy-rules.gitlab-ci.yml'
   - project: 'ci/common-ci'
-    ref: kldr
+    ref: main
     file: 'haproxy-ci/haproxy.common.gitlab-ci.yml'
 ############
 .test:default:image:
