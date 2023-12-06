@@ -1,35 +1,35 @@
-test:aws:
+test:kldr:
   extends: 
     - .test:default:image
   environment:
-    name: aws
+    name: kldr
   rules:
     - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
       when: never
     - changes:
-        - configs/aws/*
-        - configs/aws/*/*
-build:aws:
-  stage: build_aws
+        - configs/kldr/*
+        - configs/kldr/*/*
+build:kldr:
+  stage: build_kldr
   extends: 
     - .build:default:image
   environment:
-    name: aws
+    name: kldr
   only:
     refs:
       - main
     changes:
-        - configs/aws/*
-        - configs/aws/*/*
-deploy:aws:
-  needs: ['build:aws']
+        - configs/kldr/*
+        - configs/kldr/*/*
+deploy:kldr:
+  needs: ['build:kldr']
   extends: 
     - .deploy:default:image
   environment:
-    name: aws
+    name: kldr
   only:
     refs:
       - main
     changes:
-        - configs/aws/*
-        - configs/aws/*/*
+        - configs/kldr/*
+        - configs/kldr/*/*

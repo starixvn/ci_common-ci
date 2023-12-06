@@ -1,35 +1,35 @@
-test:awsuat:
+test:alphakldr:
   extends: 
     - .test:default:image
   environment:
-    name: awsuat
+    name: alphakldr
   rules:
     - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
       when: never
     - changes:
-        - configs/awsuat/*
-        - configs/awsuat/*/*
-build:awsuat:
-  stage: build_awsuat
+        - configs/alphakldr/*
+        - configs/alphakldr/*/*
+build:alphakldr:
+  stage: build_alphakldr
   extends: 
     - .build:default:image
   environment:
-    name: awsuat
+    name: alphakldr
   only:
     refs:
       - main
     changes:
-        - configs/awsuat/*
-        - configs/awsuat/*/*
-deploy:awsuat:
-  needs: ['build:awsuat']
+        - configs/alphakldr/*
+        - configs/alphakldr/*/*
+deploy:alphakldr:
+  needs: ['build:alphakldr']
   extends: 
     - .deploy:default:image
   environment:
-    name: awsuat
+    name: alphakldr
   only:
     refs:
       - main
     changes:
-        - configs/awsuat/*
-        - configs/awsuat/*/*
+        - configs/alphakldr/*
+        - configs/alphakldr/*/*
