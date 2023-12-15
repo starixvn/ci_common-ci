@@ -127,7 +127,7 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "nexaws"; then export ANSIBLE_JOB=1365;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "fpsprod"; then export ANSIBLE_JOB=490;export ANSIBLE_HOST="ansible.starixplay.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=488;export ANSIBLE_HOST="ansible.starixplay.com";
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "alphadkldr"; then export ANSIBLE_JOB=489;export ANSIBLE_HOST="vn-ansible.byb6181.com";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "alphakldr"; then export ANSIBLE_JOB=489;export ANSIBLE_HOST="vn-ansible.byb6181.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "kldr"; then export ANSIBLE_JOB=488;export ANSIBLE_HOST="vn-ansible.byb6181.com";
         fi;
       elif [ "$ORG" == "luminet" ];
