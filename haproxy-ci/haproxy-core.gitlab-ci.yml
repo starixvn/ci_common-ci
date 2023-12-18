@@ -144,7 +144,3 @@ include:
       fi;
   tags:
     - haproxy
-
-test:aws:
-  rules:
-    - when: never
