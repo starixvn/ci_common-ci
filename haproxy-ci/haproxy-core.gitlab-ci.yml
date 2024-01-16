@@ -107,7 +107,9 @@ include:
       elif [ "$ORG" == "luminet" ];
       then
         if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1354;export ANSIBLE_HOST="ansible.nexdev.net";
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=1354;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then 
+          export ANSIBLE_JOB=1354;export ANSIBLE_HOST="ansible.nexdev.net";
+          export ANSIBLE_JOB2=1843;export ANSIBLE_HOST2="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=26;export ANSIBLE_HOST="vn-ansible.sportsfun.app";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=28;export ANSIBLE_HOST="vn-ansible.sportsfun.app";
         fi;
@@ -123,6 +125,35 @@ include:
         echo "Job link https://$ANSIBLE_HOST/#/jobs/playbook/$RUNJOBID";
         for i in {1..60}; do
           JOB_STATUS=$(curl -k -s --user $ansible_user:$ansible_pass "https://$ANSIBLE_HOST/api/v2/jobs/$RUNJOBID/" | jq .status);
+          echo "Ansible Job Status is $JOB_STATUS";
+          if [[ $JOB_STATUS == '"successful"' ]]; then
+            IS_DONE=true;
+            echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is DONE!";
+            break;
+          elif [[ $JOB_STATUS == '"failed"' || $JOB_STATUS == '"canceled"' || $JOB_STATUS == '"error"' ]]; then
+            IS_DONE=true;
+            echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deployment is FAILED!!!";
+            exit 1;
+            break;
+          fi;
+          echo "waiting 10s...";
+          sleep 10;
+        done;
+        if [ "$IS_DONE" != "true" ]; then
+          echo "Timeout of 10 minutes was reached.";
+          exit 1;
+        fi;
+      fi;
+    - if [ "$ANSIBLE_JOB2" == "" ];
+      then
+        echo "ANSIBLE_JOB2 is not available!";
+      else
+        echo "$ANSIBLE_JOB2 - $ANSIBLE_HOST2";
+        echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Deploying HAProxy configs...";
+        RUNJOBID=$(curl --fail -k -s --user $ansible_user:$ansible_pass -X POST "https://$ANSIBLE_HOST2/api/v2/job_templates/$ANSIBLE_JOB2/launch/" | jq .job);
+        echo "Job link https://$ANSIBLE_HOST2/#/jobs/playbook/$RUNJOBID";
+        for i in {1..60}; do
+          JOB_STATUS=$(curl -k -s --user $ansible_user:$ansible_pass "https://$ANSIBLE_HOST2/api/v2/jobs/$RUNJOBID/" | jq .status);
           echo "Ansible Job Status is $JOB_STATUS";
           if [[ $JOB_STATUS == '"successful"' ]]; then
             IS_DONE=true;
