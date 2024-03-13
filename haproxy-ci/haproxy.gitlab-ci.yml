@@ -43,7 +43,7 @@ include:
       fi;
     - echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Testing is DONE!";
   tags:
-    - docker
+    - haproxy
 
 .build:default:image:
   stage: build
@@ -109,7 +109,7 @@ include:
     ###############
     - echo "[$ORG] [$CI_ENVIRONMENT_NAME] - Build is DONE!";
   tags:
-    - docker
+    - haproxy
 
 .deploy:default:image:
   stage: deploy
@@ -209,4 +209,4 @@ include:
         fi;
       fi;
   tags:
-    - docker
+    - haproxy
