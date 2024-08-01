@@ -6,7 +6,7 @@ workflow:
         ORG: "nexcel"
         REPOS: "default nexops legion rome olympus nexus spu nexent"
         REPOS_CORE: "core"
-        GIT_URL: "gitlab.nexdev.net:NEXOPS/haproxy"
+        GIT_URL: "gitlab.nexdev.net:iac/haproxy"
 ###LUMI
     - if: '($CI_PROJECT_ID == "630" || $CI_PROJECT_ID == "633" || $CI_PROJECT_ID == "632" || $CI_PROJECT_ID == "689" || $CI_PROJECT_ID == "985" || $CI_PROJECT_ID == "1030" )'
       variables:
