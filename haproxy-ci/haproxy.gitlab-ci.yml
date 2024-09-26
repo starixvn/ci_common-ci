@@ -80,7 +80,7 @@ include:
           if [ -e /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps ] ; then cp /haproxy/configs/$REPO/$CI_ENVIRONMENT_NAME/special-maps/* /haproxy/compiled/$CI_ENVIRONMENT_NAME/special-maps/ || echo "ignore copying special map, proceed" ;fi ;
           fi ;
       done
-    - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "nexaws" || "$CI_ENVIRONMENT_NAME" == "local_test" ]];
+    - if [[ "$CI_ENVIRONMENT_NAME" == "local" || "$CI_ENVIRONMENT_NAME" == "nexaws" || "$CI_ENVIRONMENT_NAME" == "nexprod" || "$CI_ENVIRONMENT_NAME" == "local_test" ]];
         then cp -R /srv/haproxy-default/certs /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
         cp /srv/haproxy-default/*.ips /haproxy/compiled/$CI_ENVIRONMENT_NAME/ ;
       else
@@ -119,12 +119,12 @@ include:
       then
         if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=898;export ANSIBLE_HOST="ansible.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then export ANSIBLE_JOB=212;export ANSIBLE_HOST="awx.nexdev.net";
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexprod"; then export ANSIBLE_JOB=1162;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexprod"; then export ANSIBLE_JOB=215;export ANSIBLE_HOST="awx.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=487;export ANSIBLE_HOST="ansible.starixplay.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "sit"; then export ANSIBLE_JOB=10;export ANSIBLE_HOST="awx.playonesit.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "alphaprod"; then export ANSIBLE_JOB=489;export ANSIBLE_HOST="ansible.starixplay.com";
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "gc"; then export ANSIBLE_JOB=1410;export ANSIBLE_HOST="ansible.nexdev.net";
-        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexaws"; then export ANSIBLE_JOB=1365;export ANSIBLE_HOST="ansible.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "gc"; then export ANSIBLE_JOB=213;export ANSIBLE_HOST="awx.nexdev.net";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "nexaws"; then export ANSIBLE_JOB=214;export ANSIBLE_HOST="awx.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "fpsprod"; then export ANSIBLE_JOB=490;export ANSIBLE_HOST="ansible.starixplay.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=488;export ANSIBLE_HOST="ansible.starixplay.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "alphakldr"; then export ANSIBLE_JOB=489;export ANSIBLE_HOST="vn-ansible.byb6181.com";
