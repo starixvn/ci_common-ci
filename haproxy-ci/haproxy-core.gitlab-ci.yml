@@ -106,9 +106,9 @@ include:
         fi;
       elif [ "$ORG" == "luminet" ];
       then
-        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1354;export ANSIBLE_HOST="ansible.nexdev.net";
+        if echo $CI_ENVIRONMENT_NAME | grep -q "local_test"; then export ANSIBLE_JOB=1354;export ANSIBLE_HOST="awx.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "local"; then 
-          export ANSIBLE_JOB=1843;export ANSIBLE_HOST="ansible.nexdev.net";
+          export ANSIBLE_JOB=280;export ANSIBLE_HOST="awx.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "uat"; then export ANSIBLE_JOB=26;export ANSIBLE_HOST="vn-ansible.sportsfun.app";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "prod"; then export ANSIBLE_JOB=28;export ANSIBLE_HOST="vn-ansible.sportsfun.app";
         fi;
