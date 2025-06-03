@@ -13,6 +13,9 @@ stages:
   - build_alphaprod
   - build_alphakldr
   - build_fpsprod
+  - build_klprod
+  - build_alphaklprod
+  - build_fpsklprod
   - build_gc
   - build_nexaws
   - deploy
