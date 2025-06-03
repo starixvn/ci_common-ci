@@ -1,0 +1,35 @@
+test:fpsklprod:
+  extends: 
+    - .test:default:image
+  environment:
+    name: fpsklprod
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/fpsklprod/*
+        - configs/fpsklprod/*/*
+build:fpsklprod:
+  stage: build_fpsklprod
+  extends: 
+    - .build:default:image
+  environment:
+    name: fpsklprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/fpsklprod/*
+        - configs/fpsklprod/*/*
+deploy:fpsklprod:
+  needs: ['build:fpsklprod']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: fpsklprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/fpsklprod/*
+        - configs/fpsklprod/*/*

@@ -1,0 +1,35 @@
+test:alphaklprod:
+  extends: 
+    - .test:default:image
+  environment:
+    name: alphaklprod
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/alphaklprod/*
+        - configs/alphaklprod/*/*
+build:alphaklprod:
+  stage: build_alphaklprod
+  extends: 
+    - .build:default:image
+  environment:
+    name: alphaklprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/alphaklprod/*
+        - configs/alphaklprod/*/*
+deploy:alphaklprod:
+  needs: ['build:alphaklprod']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: alphaklprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/alphaklprod/*
+        - configs/alphaklprod/*/*
