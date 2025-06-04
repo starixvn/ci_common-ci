@@ -1,0 +1,35 @@
+test:klprod:
+  extends: 
+    - .test:default:image
+  environment:
+    name: klprod
+  rules:
+    - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+      when: never
+    - changes:
+        - configs/klprod/*
+        - configs/klprod/*/*
+build:klprod:
+  stage: build_klprod
+  extends: 
+    - .build:default:image
+  environment:
+    name: klprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/klprod/*
+        - configs/klprod/*/*
+deploy:klprod:
+  needs: ['build:klprod']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: klprod
+  only:
+    refs:
+      - main
+    changes:
+        - configs/klprod/*
+        - configs/klprod/*/*
