@@ -8,6 +8,7 @@ stages:
   - build_nexprod
   - build_sit
   - build_uat
+  - build_kluat
   - build_prod
   - build_kldr
   - build_alphaprod
@@ -129,6 +130,7 @@ include:
         elif echo $CI_ENVIRONMENT_NAME | grep -q "alphaklprod"; then export ANSIBLE_JOB=65;export ANSIBLE_HOST="vn-awx.byb6181.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "fpsklprod"; then export ANSIBLE_JOB=73;export ANSIBLE_HOST="vn-awx.byb6181.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "klprod"; then export ANSIBLE_JOB=79;export ANSIBLE_HOST="vn-awx.byb6181.com";
+        elif echo $CI_ENVIRONMENT_NAME | grep -q "kluat"; then export ANSIBLE_JOB=790;export ANSIBLE_HOST="vn-awx.byb6181.com";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "gc"; then export ANSIBLE_JOB=213;export ANSIBLE_HOST="awx.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "nexaws"; then export ANSIBLE_JOB=214;export ANSIBLE_HOST="awx.nexdev.net";
         elif echo $CI_ENVIRONMENT_NAME | grep -q "fpsprod"; then export ANSIBLE_JOB=490;export ANSIBLE_HOST="ansible.starixplay.com";

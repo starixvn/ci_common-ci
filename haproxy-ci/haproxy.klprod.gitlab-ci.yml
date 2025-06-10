@@ -33,3 +33,39 @@ deploy:klprod:
     changes:
         - configs/klprod/*
         - configs/klprod/*/*
+#####UAT
+test:kluat:
+    extends: 
+      - .test:default:image
+    environment:
+      name: kluat
+    rules:
+      - if: '$CI_MERGE_REQUEST_EVENT_TYPE == "detached"' # Avoid spawning of additional pipelines
+        when: never
+      - changes:
+          - configs/kluat/*
+          - configs/kluat/*/*
+build:kluat:
+  stage: build_kluat
+  extends: 
+    - .build:default:image
+  environment:
+    name: kluat
+  only:
+    refs:
+      - main
+    changes:
+        - configs/kluat/*
+        - configs/kluat/*/*
+deploy:kluat:
+  needs: ['build:kluat']
+  extends: 
+    - .deploy:default:image
+  environment:
+    name: kluat
+  only:
+    refs:
+      - main
+    changes:
+        - configs/kluat/*
+        - configs/kluat/*/*
