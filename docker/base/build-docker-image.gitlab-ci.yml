@@ -3,7 +3,7 @@ build_image:
     - .build:image:rules
   stage: build
   script:
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker pull $CI_REGISTRY_IMAGE:latest || true
     - docker build
       --pull
@@ -21,7 +21,7 @@ build_image:
   script:
     - echo $DOCKER_FILE_PATH
     - ls -a
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker pull $CI_REGISTRY_IMAGE:$DEPLOY_ENV-latest || true
     - docker build
       --cache-from $CI_REGISTRY_IMAGE:latest
@@ -38,7 +38,7 @@ build_image:
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker pull $CI_REGISTRY_IMAGE:latest || true
     - docker build
       --pull
@@ -55,7 +55,7 @@ build_image:
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker pull $CI_REGISTRY_IMAGE:builder || true
     - docker build
       --target builder
@@ -79,7 +79,7 @@ build_image:
   stage: build
   script:
     - echo $DOCKER_FILE_PATH
-    - docker login -u $DOCKER_REG_USERNAME -p $DOCKER_REG_PASSWORD $DOCKER_REG_URL
+    - docker login -u $DOCKER_REG_LOCAL_USERNAME -p $DOCKER_REG_LOCAL_PASSWORD $DOCKER_REG_LOCAL_URL
     - docker pull $CI_REGISTRY_IMAGE:builder || true
     - docker build
       --target builder
